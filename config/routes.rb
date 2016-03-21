@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
-  resources :items
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  root 'items#index'
+  get "items/new" => "items#new", as: "new_item"
+  get "items/:id/edit" => "items#edit", as: "edit_item"
+  get "items(/:parent_id)" => "items#index", as: "items"
+  post "items" => "items#create"
+  patch "items/:id" => "items#update", as: "item"
+  delete "items/:id" => "items#destroy"
+
+  root "items#index"
 
   # Serve websocket cable requests in-process
   # mount ActionCable.server => '/cable'
