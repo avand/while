@@ -46,7 +46,7 @@ private
 
   def set_item
     if params[:id].present?
-      @item = current.users.find params[:id]
+      @item = current_user.items.find params[:id]
     else
       @item = current_user.items.new item_params
     end
