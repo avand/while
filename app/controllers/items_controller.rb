@@ -9,7 +9,7 @@ class ItemsController < ApplicationController
       @parent = Item.find params[:parent_id]
       @items = @parent.children
     else
-      @items = Item.roots
+      @items = current_user.items.roots
     end
   end
 
