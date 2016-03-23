@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
 
+  before_action :require_current_user
   before_action :set_item, only: [:new, :edit, :create, :update, :destroy]
   before_action :set_parent_items, only: [:new, :create, :edit, :update]
 

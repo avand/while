@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get "/auth/:provider/callback", to: "sessions#create"
   delete "/bye" => "sessions#destroy", as: "sessions"
 
-  root "items#index"
+  root "users#new"
 
   # Serve websocket cable requests in-process
   # mount ActionCable.server => '/cable'

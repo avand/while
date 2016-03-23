@@ -10,4 +10,10 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
 
+  def require_current_user
+    if current_user.blank?
+      redirect_to root_path, alert: "Sorry, you must be signed in to do that!"
+    end
+  end
+
 end

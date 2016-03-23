@@ -13,9 +13,7 @@
     <header>
       <% if current_user.present? %>
         <%= current_user.name %> &middot;
-        <%= link_to 'Log out', sessions_path, method: :delete %>
-      <% else %>
-        <a href="/auth/google_oauth2" data-no-turbolinks>Auth with Google</a>
+        <%= link_to 'Log out', sessions_path, method: :delete, data: { 'no-turbolinks' => true } %>
       <% end %>
     </header>
 
