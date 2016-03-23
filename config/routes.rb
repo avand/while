@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   patch "items/:id" => "items#update", as: "item"
   delete "items/:id" => "items#destroy"
 
+  get "/auth/:provider/callback", to: "sessions#create"
+
   root "items#index"
 
   # Serve websocket cable requests in-process
