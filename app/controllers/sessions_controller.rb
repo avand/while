@@ -1,14 +1,14 @@
 class SessionsController < ApplicationController
 
   def create
-    info = request.env["omniauth.auth"]["info"]
+    auth = request.env["omniauth.auth"]
 
-    user = User.find_or_create_by uid: info["uid"]
+    user = User.find_or_create_by uid: auth["uid"]
 
     user.update({
-      name: info["name"],
-      email: info["email"],
-      image: info["image"]
+      name: auth["info"]["name"],
+      email: auth["info"]["email"],
+      image: auth["info"]["image"]
     })
 
     session[:current_user_id] = user.id
