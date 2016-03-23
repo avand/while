@@ -2,7 +2,13 @@
 
 <h1><%= @parent.try(:name) || "Items" %></h1>
 
-<%= render @items %>
+<% if @items.present? %>
+  <%= render @items %>
+<% else %>
+  <p>
+    Create an item&hellip;
+  </p>
+<% end %>
 
 <br>
 
