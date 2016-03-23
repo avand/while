@@ -46,14 +46,14 @@ private
 
   def set_item
     if params[:id].present?
-      @item = Item.find params[:id]
+      @item = current.users.find params[:id]
     else
       @item = current_user.items.new item_params
     end
   end
 
   def set_parent_items
-    @parent_items = Item.order(:name)
+    @parent_items = current_user.items.order(:name)
 
     if @item.present? && @item.persisted?
       @parent_items = @parent_items.where("id <> ?", @item.id)
