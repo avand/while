@@ -47,7 +47,7 @@ private
     if params[:id].present?
       @item = Item.find params[:id]
     else
-      @item = Item.new item_params
+      @item = current_user.items.new item_params
     end
   end
 
