@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   delete "items/:id" => "items#destroy"
 
   get "/auth/:provider/callback", to: "sessions#create"
+  delete "/bye" => "sessions#destroy", as: "sessions"
 
   root "items#index"
 

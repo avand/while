@@ -16,4 +16,10 @@ class SessionsController < ApplicationController
     redirect_to items_path, notice: "Welcome, #{user.name}."
   end
 
+  def destroy
+    session.delete :current_user_id
+
+    redirect_to root_path
+  end
+
 end
