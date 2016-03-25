@@ -11,6 +11,8 @@ class ItemsController < ApplicationController
     else
       @items = current_user.items.roots
     end
+
+    @items = @items.order(:created_at)
   end
 
   def new
