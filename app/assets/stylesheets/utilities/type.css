@@ -1,1 +1,4 @@
-.light-weight { font-weight: 400; }
+.light-weight { font-weight: 300; }
+.medium-weight { font-weight: 500; }
+
+.strikethrough { text-decoration: line-through !important; }

@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
 
   before_action :require_current_user
-  before_action :set_item, only: [:new, :edit, :create, :update, :destroy]
+  before_action :set_item, only: [:new, :edit, :create, :update, :destroy, :check]
   before_action :set_parent_items, only: [:new, :create, :edit, :update]
 
   def index
@@ -40,6 +40,12 @@ class ItemsController < ApplicationController
     @item.destroy
 
     redirect_to items_url(parent_item), notice: "Item was successfully destroyed."
+  end
+
+  def check
+    @item.update completed: !@item.completed?
+
+    redirect_to items_url(@item.parent)
   end
 
 private

@@ -1,16 +1,27 @@
 <div class="item" data-item-id="<%= item.id -%>">
-  <span class="item-checkbox">
-    <%= check_box_tag "item[completed]", "1", item.completed?, disabled: true %>
+  <span class="item-checkbox left">
+    <% if item.descendants.present? %>
+      <i class="item-checkbox-disabled unclickable fa fa-square-o"></i>
+    <% else %>
+      <%= link_to check_item_path(item), method: :patch do %>
+        <% if item.completed? %>
+          <i class="item-checkbox-checked clickable fa fa-check-square-o"></i>
+        <% else %>
+          <i class="item-checkbox-active clickable fa fa-square-o"></i>
+        <% end %>
+      <% end %>
+    <% end %>
   </span>
 
-  <%= link_to item.name, items_path(item) %>
-
-  <% if item.descendants.present? %>
-    (<%= item.descendants.completed.count %>/<%= item.descendants.count %>)
-  <% end %>
-
-  <small class="right">
+  <small class="item-controls right">
     <%= link_to "Edit", edit_item_path(item) %> &middot;
     <%= link_to "Delete", item, method: :delete, data: { confirm: "Are you sure?" } %>
   </small>
+
+  <span class="item-name block <%= 'strikethrough' if item.completed? -%>">
+    <%= link_to item.name, items_path(item), class: "medium-weight" %>
+    <% if item.descendants.present? %>
+      (<%= item.descendants.completed.count %>/<%= item.descendants.count %>)
+    <% end %>
+  </span>
 </div>

@@ -1,11 +1,39 @@
 .item {
   background-color: rgba(255, 255, 255, 0.7);
-  border-radius: .2em;
+  border-radius: .6em;
   margin-bottom: 2px;
-  padding: 1em;
+  overflow: auto;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.075);
 }
 
 .item-checkbox {
-  margin-right: .8em;
-  display: inline-block;
+  float: left;
+  display: block;
+}
+
+.item-checkbox a {
+  border: none;
+  opacity: 0.5;
+}
+
+.item-checkbox a:hover {
+  opacity: 1;
+}
+
+.item-checkbox i {
+  padding: .8em;
+  font-size: 1.5em;
+}
+
+.item-checkbox-disabled {
+  opacity: 0.1;
+}
+
+.item-name {
+  margin: 1.2em 6em 1.2em 3em;
+  display: block;
+}
+
+.item-controls {
+  padding: 1em;
 }

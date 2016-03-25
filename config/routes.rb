@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get "items(/:parent_id)" => "items#index", as: "items"
   post "items" => "items#create"
   patch "items/:id" => "items#update", as: "item"
+  patch "items/:id/check" => "items#check", as: "check_item"
   delete "items/:id" => "items#destroy"
 
   get "/auth/:provider/callback", to: "sessions#create"
