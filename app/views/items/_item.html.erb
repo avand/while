@@ -30,10 +30,15 @@
     <% end %>
   </small>
 
-  <span class="item-name block <%= 'strikethrough' if item.completed? -%>">
+  <div class="item-name <%= 'strikethrough' if item.completed? -%>">
     <%= link_to item.name, items_path(item), class: "medium-weight" %>
+
     <% if item.descendants.present? %>
-      (<%= item.descendants.completed.count %>/<%= item.descendants.count %>)
+      <% total = item.descendants.count %>
+      <% completed = item.descendants.completed.count %>
+      <div class="item-progress" style="width: <%= total * 5 -%>%">
+        <div class="item-progress-bar" style="width: <%= (completed / total.to_f) * 100 %>%"></div>
+      </div>
     <% end %>
-  </span>
+  </div>
 </div>
