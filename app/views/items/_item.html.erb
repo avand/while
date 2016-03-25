@@ -14,8 +14,16 @@
   </span>
 
   <small class="item-controls right">
-    <%= link_to "Edit", edit_item_path(item) %> &middot;
-    <%= link_to "Delete", item, method: :delete, data: { confirm: "Are you sure?" } %>
+    <%= link_to edit_item_path(item), class: "no-underline" do %>
+      <i class="fa fa-fw fa-pencil"></i>
+    <% end %>
+
+    <%= link_to item_path(item),
+                method: :delete,
+                class: "no-underline",
+                data: { confirm: "Are you sure?" } do %>
+      <i class="fa fa-fw fa-trash"></i>
+    <% end %>
   </small>
 
   <span class="item-name block <%= 'strikethrough' if item.completed? -%>">

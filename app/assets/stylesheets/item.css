@@ -37,3 +37,13 @@
 .item-controls {
   padding: 1em;
 }
+
+.item-controls a {
+  border-bottom: none;
+  opacity: 0.4;
+  padding: .2em;
+}
+
+.item-controls a:hover {
+  opacity: 0.8;
+}
