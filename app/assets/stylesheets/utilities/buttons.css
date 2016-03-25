@@ -1,9 +1,27 @@
 .button {
   display: inline-block;
-  color: white;
-  background-color: rgb(60, 166, 80);
   border: none;
   padding: .5em 1em;
   border-radius: .3em;
   font-weight: 500;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.075);
+}
+
+.button:hover {
+  text-decoration: underline;
+}
+
+.button-primary {
+  color: white;
+  background-color: rgb(60, 166, 80);
+}
+
+.button-link {
+  text-decoration: underline;
+  border-bottom: none;
+  background-color: transparent;
+}
+
+.button-link:hover {
+  text-decoration: none;
 }

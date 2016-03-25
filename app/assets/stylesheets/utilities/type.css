@@ -2,3 +2,9 @@
 .medium-weight { font-weight: 500; }
 
 .strikethrough { text-decoration: line-through !important; }
+
+.underline,
+.underline-on-hover:hover { text-decoration: underline; }
+
+.underline:hover,
+.underline-on-hover { text-decoration: none; }

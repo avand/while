@@ -22,12 +22,12 @@
   </div>
 
   <div class="actions">
-    <button type="submit" class="button">
+    <button type="submit" class="button button-primary">
       <%= item.new_record? ? "Create" : "Update" %>
+    </button>
+
+    <button type="submit" class="button button-link">
+      <%= link_to "Cancel", items_path(@item.parent) %>
     </button>
   </div>
 <% end %>
-
-<script>
-$("input:visible:first")[0].focus();
-</script>

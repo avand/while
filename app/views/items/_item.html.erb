@@ -31,7 +31,7 @@
   </small>
 
   <div class="item-name <%= 'strikethrough' if item.completed? -%>">
-    <%= link_to item.name, items_path(item), class: "medium-weight" %>
+    <%= link_to item.name, items_path(item), class: "medium-weight underline-on-hover" %>
 
     <% if item.descendants.present? %>
       <% total = item.descendants.count %>

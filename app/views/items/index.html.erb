@@ -3,7 +3,7 @@
 <% if @parent.present? %>
   <nav>
     <i class="fa fa-level-up fa-flip-horizontal"></i>
-    <%= link_to @parent.parent.try(:name) || "Items", items_path(@parent.parent) %>
+    <%= link_to @parent.parent.try(:name) || "Items", items_path(@parent.parent), class: "underline" %>
   </nav>
 <% end %>
 
@@ -18,5 +18,5 @@
 <% end %>
 
 <p>
-  <%= link_to 'Add item...', new_item_path(item: { parent_id: @parent.try(:id) }) %>
+  <%= link_to 'Add item...', new_item_path(item: { parent_id: @parent.try(:id) }), class: "button button-primary" %>
 </p>

@@ -30,7 +30,7 @@
 }
 
 .item-name {
-  margin: 1.2em 6em 1.2em 3em;
+  margin: 1.2em 6em 1.2em 3.5em;
   display: block;
 }
 
@@ -39,8 +39,7 @@
 }
 
 .item-controls a {
-  border-bottom: none;
-  opacity: 0.4;
+  opacity: 0.2;
   padding: .2em;
 }
 
