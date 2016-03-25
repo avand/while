@@ -1,13 +1,17 @@
 <div class="item" data-item-id="<%= item.id -%>">
   <span class="item-checkbox left">
     <% if item.descendants.present? %>
-      <i class="item-checkbox-disabled unclickable fa fa-square-o"></i>
+      <% if item.descendants.all?(&:completed?) %>
+        <i class="item-checkbox-disabled unclickable fa fa-fw fa-check-square-o"></i>
+      <% else %>
+        <i class="item-checkbox-disabled unclickable fa fa-fw fa-square-o"></i>
+      <% end %>
     <% else %>
       <%= link_to check_item_path(item), method: :patch do %>
         <% if item.completed? %>
-          <i class="item-checkbox-checked clickable fa fa-check-square-o"></i>
+          <i class="item-checkbox-checked clickable fa fa-fw fa-check-square-o"></i>
         <% else %>
-          <i class="item-checkbox-active clickable fa fa-square-o"></i>
+          <i class="item-checkbox-active clickable fa fa-fw fa-square-o"></i>
         <% end %>
       <% end %>
     <% end %>
