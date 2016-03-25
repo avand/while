@@ -1,0 +1,21 @@
+input {
+  display: block;
+  padding: .5em;
+  width: 100%;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+input:focus {
+  outline: 0;
+  border-color: rgb(60, 166, 80);
+}
+
+label {
+  font-size: 0.8em;
+  margin-bottom: .6em;
+}
+
+.field {
+  margin-bottom: 2em;
+}

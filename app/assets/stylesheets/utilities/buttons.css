@@ -1,0 +1,9 @@
+.button {
+  display: inline-block;
+  color: white;
+  background-color: rgb(60, 166, 80);
+  border: none;
+  padding: .5em 1em;
+  border-radius: .3em;
+  font-weight: 500;
+}
