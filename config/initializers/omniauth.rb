@@ -5,3 +5,5 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     Rails.application.secrets.google_client_secret,
     prompt: :select_account
 end
+
+OmniAuth.config.logger = Rails.logger

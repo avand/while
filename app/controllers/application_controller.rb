@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
+
   protect_from_forgery with: :exception
+
+  after_action :track_current_user
 
   def current_user
     if session[:current_user_id].present?
@@ -14,6 +15,12 @@ class ApplicationController < ActionController::Base
     if current_user.blank?
       redirect_to root_path, alert: "Sorry, you must be signed in to do that!"
     end
+  end
+
+private
+
+  def track_current_user
+    current_user.try :update, last_visited_at: Time.now
   end
 
 end
