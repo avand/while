@@ -25,4 +25,15 @@ class CurrentUserTrackingTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "request_count increments on each authenticated request" do
+    users(:avand).update request_count: nil
+
+    get "/auth/google_oauth2"
+    follow_redirect!
+    assert_equal 1, users(:avand).reload.request_count
+
+    post "/items", params: { item: { name: "Do something" } }
+    assert_equal 2, users(:avand).reload.request_count
+  end
+
 end
