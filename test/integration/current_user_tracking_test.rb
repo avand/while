@@ -10,6 +10,8 @@ class CurrentUserTrackingTest < ActionDispatch::IntegrationTest
   test "last_visited_at timestamp is updated on each authenticated request" do
     users(:avand).update last_visited_at: nil
 
+    original_updated_at = users(:avand).updated_at
+
     now = Time.now
     two_weeks_from_now = now + 2.weeks
 
@@ -17,11 +19,13 @@ class CurrentUserTrackingTest < ActionDispatch::IntegrationTest
       get "/auth/google_oauth2"
       follow_redirect!
       assert_equal now.to_i, users(:avand).reload.last_visited_at.to_i
+      assert_equal original_updated_at.to_i, users(:avand).updated_at.to_i
     end
 
     Timecop.freeze(two_weeks_from_now) do
       get "/items"
       assert_equal two_weeks_from_now.to_i, users(:avand).reload.last_visited_at.to_i
+      assert_equal original_updated_at.to_i, users(:avand).updated_at.to_i
     end
   end
 

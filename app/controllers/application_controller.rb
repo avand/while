@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 private
 
   def track_current_user
-    current_user.try :update, last_visited_at: Time.now
+    current_user.try :update_column, :last_visited_at, Time.now
     current_user.try :increment!, :request_count
   end
 
