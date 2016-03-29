@@ -3,7 +3,7 @@
      data-item-completed="<%= item.completed? -%>"
      data-item-descendants-count="<%= item.descendants.not_cleared.count -%>"
      data-item-descendants-completed-count="<%= item.descendants.not_cleared.completed.count -%>">
-  <span class="item-checkbox left">
+  <div class="item-checkbox left">
     <% if item.descendants.not_cleared.present? %>
       <% if item.completed? %>
         <i class="item-checkbox-disabled unclickable fa fa-fw fa-check-square-o"></i>
@@ -19,9 +19,9 @@
         <% end %>
       <% end %>
     <% end %>
-  </span>
+  </div>
 
-  <small class="item-controls right">
+  <div class="item-controls right">
     <%= link_to edit_item_path(item), class: "no-underline" do %>
       <i class="fa fa-fw fa-pencil"></i>
     <% end %>
@@ -32,10 +32,12 @@
                 data: { confirm: "Are you sure you want to delete this item?" } do %>
       <i class="fa fa-fw fa-trash"></i>
     <% end %>
-  </small>
+  </div>
 
-  <div class="item-name <%= 'strikethrough' if item.completed? -%>">
-    <%= link_to item.name, items_path(item), class: "medium-weight underline-on-hover" %>
+  <%= link_to items_path(item), class: "item-content underline-on-hover" do %>
+    <div class="item-name <%= "strikethrough" if item.completed? -%>">
+      <%= item.name %>
+    </div>
 
     <% if item.descendants.not_cleared.present? %>
       <% total = item.descendants.not_cleared.count %>
@@ -43,8 +45,10 @@
       <div class="item-progress"
            data-cleared-width="<%= progress_bar_width total - completed -%>%"
            style="width: <%= progress_bar_width total -%>%">
-        <div class="item-progress-bar" style="width: <%= ((completed / total.to_f) * 100).round %>%"></div>
+        <div class="item-progress-bar"
+             style="width: <%= ((completed / total.to_f) * 100).round %>%">
+        </div>
       </div>
     <% end %>
-  </div>
+  <% end %>
 </div>

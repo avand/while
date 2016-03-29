@@ -1,47 +1,58 @@
+$checkbox-size: 26px;
+$checkbox-padding: 18px;
+
 .item {
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: .6em;
-  margin-bottom: 2px;
+  margin-bottom: 5px;
   overflow: auto;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.075);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   transform-origin: 2em 2em;
 }
 
-.item-checkbox {
-  float: left;
-  display: block;
-}
-
 .item-checkbox a {
+  display: block;
   border: none;
   opacity: 0.5;
+
+  &:hover {
+    opacity: 1;
+  }
 }
 
-.item-checkbox a:hover {
-  opacity: 1;
-}
 
-.item-checkbox i {
-  padding: .8em;
-  font-size: 1.5em;
+.item-checkbox .fa {
+  box-sizing: content-box;
+  font-size: $checkbox-size;
+  height: $checkbox-size;
+  width: $checkbox-size;
+  line-height: $checkbox-size;
+  padding: $checkbox-padding;
+  display: block;
 }
 
 .item-checkbox-disabled {
   opacity: 0.1;
 }
 
+.item-content {
+  display: block;
+  margin-left: $checkbox-size + ($checkbox-padding * 2);
+  margin-right: 5em;
+  padding: ($checkbox-padding + 2px) 0 ($checkbox-padding + 6px);
+}
+
 .item-name {
-  margin: 1.2em 6em 1.2em 3.5em;
+  font-weight: 500;
   display: block;
 }
 
 .item-controls {
-  padding: 1em;
+  padding: $checkbox-padding;
 }
 
 .item-controls a {
   opacity: 0.2;
-  padding: .2em;
 }
 
 .item-controls a:hover {
