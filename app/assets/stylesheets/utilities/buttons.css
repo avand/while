@@ -4,7 +4,7 @@
   padding: .5em 1em;
   border-radius: .3em;
   font-weight: 500;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.075);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 }
 
 .button:hover {
