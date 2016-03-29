@@ -25,7 +25,7 @@ class ItemsController < ApplicationController
 
   def create
     if @item.save
-      redirect_to items_path(@item.parent), notice: "Item was successfully created."
+      redirect_to items_path(@item.parent, anchor: "item-#{@item.id}")
     else
       render :new
     end
@@ -33,7 +33,7 @@ class ItemsController < ApplicationController
 
   def update
     if @item.update(item_params)
-      redirect_to items_path(@item.parent), notice: "Item was successfully updated."
+      redirect_to items_path(@item.parent, anchor: "item-#{@item.id}")
     else
       render :edit
     end
@@ -43,13 +43,13 @@ class ItemsController < ApplicationController
     parent_item = @item.parent
     @item.destroy
 
-    redirect_to items_url(parent_item), notice: "Item was successfully destroyed."
+    redirect_to items_url(parent_item)
   end
 
   def check
     @item.update completed: !@item.completed?
 
-    redirect_to items_url(@item.parent)
+    redirect_to items_url(@item.parent, anchor: "item-#{@item.id}")
   end
 
   def clear

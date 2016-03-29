@@ -1,4 +1,5 @@
-<div class="item <%= "item-clearable" if item.completed? || item.descendants.completed.count > 0 -%>"
+<div id="item-<%= item.id -%>"
+     class="item <%= "item-clearable" if item.completed? || item.descendants.completed.count > 0 -%>"
      data-item-id="<%= item.id -%>"
      data-item-completed="<%= item.completed? -%>"
      data-item-descendants-count="<%= item.descendants.not_cleared.count -%>"
