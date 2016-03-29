@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   post "items" => "items#create"
   patch "items(/:id)/clear" => "items#clear", as: "clear_items"
   patch "items/:id" => "items#update", as: "item"
-  patch "items/:id/check" => "items#check", as: "check_item"
+  patch "items/:id/complete" => "items#complete", as: "complete_item"
   delete "items/:id" => "items#destroy"
 
   get "/auth/:provider/callback", to: "sessions#create"

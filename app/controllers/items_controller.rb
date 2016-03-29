@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
 
   before_action :require_current_user
-  before_action :set_item, only: [:new, :edit, :create, :update, :destroy, :check, :clear]
+  before_action :set_item, only: [:new, :edit, :create, :update, :destroy, :complete, :clear]
   before_action :set_parent_items, only: [:new, :create, :edit, :update]
 
   def index
@@ -46,7 +46,7 @@ class ItemsController < ApplicationController
     redirect_to items_url(parent_item)
   end
 
-  def check
+  def complete
     @item.update completed: !@item.completed?
 
     redirect_to items_url(@item.parent, anchor: "item-#{@item.id}")
