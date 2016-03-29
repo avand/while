@@ -1,15 +1,17 @@
 class ItemsController < ApplicationController
 
   before_action :require_current_user
-  before_action :set_item, only: [:new, :edit, :create, :update, :destroy, :check]
+  before_action :set_item, only: [:new, :edit, :create, :update, :destroy, :check, :clear]
   before_action :set_parent_items, only: [:new, :create, :edit, :update]
 
   def index
-    if params[:parent_id].present?
-      @parent = Item.find params[:parent_id]
-      @items = @parent.children
+    if params[:id].present?
+      @parent = Item.find params[:id]
+      @items = @parent.children.not_cleared
+      @clearable_items_count = @parent.descendants.completed.not_cleared.count
     else
-      @items = current_user.items.roots
+      @items = current_user.items.roots.not_cleared
+      @clearable_items_count = current_user.items.completed.not_cleared.count
     end
 
     @items = @items.order(:created_at)
@@ -50,12 +52,22 @@ class ItemsController < ApplicationController
     redirect_to items_url(@item.parent)
   end
 
+  def clear
+    result = if @item.present?
+      @item.descendants.completed.update_all cleared: true
+    else
+      current_user.items.completed.update_all cleared: true
+    end
+
+    render text: "#{result} item(s) cleared."
+  end
+
 private
 
   def set_item
     if params[:id].present?
       @item = current_user.items.find params[:id]
-    else
+    elsif params[:item].present?
       @item = current_user.items.new item_params
     end
   end

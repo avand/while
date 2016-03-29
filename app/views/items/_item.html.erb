@@ -1,6 +1,10 @@
-<div class="item" data-item-id="<%= item.id -%>">
+<div class="item <%= "item-clearable" if item.completed? || item.descendants.completed.count > 0 -%>"
+     data-item-id="<%= item.id -%>"
+     data-item-completed="<%= item.completed? -%>"
+     data-item-descendants-count="<%= item.descendants.not_cleared.count -%>"
+     data-item-descendants-completed-count="<%= item.descendants.not_cleared.completed.count -%>">
   <span class="item-checkbox left">
-    <% if item.descendants.present? %>
+    <% if item.descendants.not_cleared.present? %>
       <% if item.completed? %>
         <i class="item-checkbox-disabled unclickable fa fa-fw fa-check-square-o"></i>
       <% else %>
@@ -33,11 +37,13 @@
   <div class="item-name <%= 'strikethrough' if item.completed? -%>">
     <%= link_to item.name, items_path(item), class: "medium-weight underline-on-hover" %>
 
-    <% if item.descendants.present? %>
-      <% total = item.descendants.count %>
-      <% completed = item.descendants.completed.count %>
-      <div class="item-progress" style="width: <%= total * 5 -%>%">
-        <div class="item-progress-bar" style="width: <%= (completed / total.to_f) * 100 %>%"></div>
+    <% if item.descendants.not_cleared.present? %>
+      <% total = item.descendants.not_cleared.count %>
+      <% completed = item.descendants.completed.not_cleared.count %>
+      <div class="item-progress"
+           data-cleared-width="<%= progress_bar_width total - completed -%>%"
+           style="width: <%= progress_bar_width total -%>%">
+        <div class="item-progress-bar" style="width: <%= ((completed / total.to_f) * 100).round %>%"></div>
       </div>
     <% end %>
   </div>

@@ -7,7 +7,19 @@
   </nav>
 <% end %>
 
-<h1><%= @parent.try(:name) || "Items" %></h1>
+<h1>
+  <%= @parent.try(:name) || "Items" %>
+
+  <% if @clearable_items_count > 0 %>
+    <span class="right" style="font-size: .4em;">
+      <%= link_to "Clear completed items", clear_items_path(@parent), {
+        class: "clear-completed-control underline-on-hover light-weight right",
+        remote: true,
+        method: :patch
+      } %>
+    </span>
+  <% end %>
+</h1>
 
 <% if @items.present? %>
   <%= render @items %>
