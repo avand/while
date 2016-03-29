@@ -35,6 +35,14 @@
     </header>
 
     <main>
+      <% [:notice, :alert].each do |notification_type| %>
+        <% if flash[notification_type].present? %>
+          <div class="notification notification-<%= notification_type -%>">
+            <%= flash[notification_type] %>
+          </div>
+        <% end %>
+      <% end %>
+
       <%= yield %>
     </main>
   </body>
