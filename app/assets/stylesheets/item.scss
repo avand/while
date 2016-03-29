@@ -2,11 +2,13 @@ $checkbox-size: 26px;
 $checkbox-padding: 18px;
 
 .item {
-  background-color: rgba(255, 255, 255, 0.7);
-  border-radius: .6em;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: .4em;
   margin-bottom: 5px;
   overflow: auto;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.075) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.125);
+  border-width: 1px 1px 2px;
   transform-origin: 2em 2em;
 }
 
