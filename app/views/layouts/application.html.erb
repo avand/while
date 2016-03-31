@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>While</title>
+    <title><%= @parent.try(:name) || "While" -%></title>
     <%= csrf_meta_tags %>
     <%= action_cable_meta_tag %>
 
