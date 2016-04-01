@@ -35,7 +35,7 @@
     <% end %>
   </div>
 
-  <%= link_to items_path(item), class: "item-content underline-on-hover" do %>
+  <%= link_to items_path(item), class: "item-content" do %>
     <div class="item-name <%= "strikethrough" if item.completed? -%>">
       <%= item.name %>
     </div>

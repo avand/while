@@ -1,0 +1,38 @@
+// When re-ordering the drop points are represented as lines in between other
+// items. However, the element representing that line is actually an div.item.
+// When the drag event is fired, adding the .shadow-line strips the item down to
+// the line style. The child selector prevents these styles from affecting the
+// "mirror" since Dragula creates it by copying div.item.
+.items > .shadow-line {
+  height: 0;
+  background-color: rgb(60, 166, 80);
+  border: none;
+  box-shadow: none;
+}
+
+.shadow-outline {
+  padding: 0 !important;
+  border-width: 2px !important;
+  border-color: rgb(60, 166, 80) !important;
+}
+
+// When dragging an item into another item, always hide the sub-item.
+.item .item {
+  display: none !important;
+}
+
+// Represents the element attached to the mouse cursor when dragging. In this
+// case, an item. This selector is required by Dragula but since the
+// declarations have been customized significantly these rules live here rather
+// than in vendor/assets like one might expect.
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  height: inherit !important;
+  transform: scale(.95) rotate(-1deg) !important;
+  box-shadow: 0 0 1em rgba(0, 0, 0, 0.1) !important;
+}
+
+.gu-hide { display: none !important; }
+.gu-unselectable { user-select: none !important; }

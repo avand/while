@@ -1,15 +1,31 @@
 $checkbox-size: 26px;
 $checkbox-padding: 18px;
 
-.item {
-  background-color: rgba(255, 255, 255, 0.8);
+.item,
+.item-placeholder {
   border-radius: .4em;
-  margin-bottom: 5px;
-  overflow: auto;
+  border-width: 1px;
   border-style: solid;
-  border-color: rgba(0, 0, 0, 0.075) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.125);
-  border-width: 1px 1px 2px;
-  transform-origin: 2em 2em;
+  padding: 1px;
+  margin-bottom: 5px;
+}
+
+.item {
+  overflow: auto;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.125) rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.8);
+
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.175) rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+}
+
+.item-placeholder {
+  border-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.05);
+  box-sizing: content-box;
 }
 
 .item-checkbox a {
@@ -21,7 +37,6 @@ $checkbox-padding: 18px;
     opacity: 1;
   }
 }
-
 
 .item-checkbox .fa {
   box-sizing: content-box;
