@@ -1,10 +1,4 @@
 @keyframes disappear {
-  from {
-    transform: scale(1);
-    opacity: 1;
-
-  }
-
   to {
     transform: scale(0.8);
     opacity: 0;
