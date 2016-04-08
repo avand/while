@@ -40,16 +40,6 @@
       <%= item.name %>
     </div>
 
-    <% if item.descendants.not_cleared.present? %>
-      <% total = item.descendants.not_cleared.count %>
-      <% completed = item.descendants.completed.not_cleared.count %>
-      <div class="item-progress"
-           data-cleared-width="<%= progress_bar_width total - completed -%>%"
-           style="width: <%= progress_bar_width total -%>%">
-        <div class="item-progress-bar"
-             style="width: <%= ((completed / total.to_f) * 100).round %>%">
-        </div>
-      </div>
-    <% end %>
+    <%= render "progress_bar",  item: item %>
   <% end %>
 </div>

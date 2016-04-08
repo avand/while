@@ -79,6 +79,8 @@ document.addEventListener "turbolinks:load", ->
         item.remove()
         placeholder.remove()
       ), parseFloat(item.css("transition-duration")) * 1000
+
+      submitMove(item, dropTarget)
     else
       item
         .css
@@ -145,6 +147,22 @@ document.addEventListener "turbolinks:load", ->
         item.addClass("item-wait")
       success: ->
         item.removeClass("item-wait")
+
+  submitMove = (item, newParentItem) ->
+    $.ajax
+      url: "/items/#{newParentItem.data("item-id")}/adopt"
+      data: "child_id=#{item.data("item-id")}"
+      method: "PATCH"
+      beforeSend: ->
+        newParentItem.addClass("item-wait")
+      success: (data) ->
+        newParentItem
+          .removeClass("item-wait")
+          .find(".item-progress")
+            .removeClass("hidden")
+            .css("width", "#{data["progress_width"]}%")
+            .find(".item-progress-bar")
+              .css("width", "#{data["progress_bar_width"]}%")
 
   $(".item").each ->
     item = $(this)
