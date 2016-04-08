@@ -1,9 +1,8 @@
-/*
- *= require normalize
- *= require font-awesome
- *= require_tree .
- *= require_self
- */
+@import "normalize";
+@import "font-awesome";
+@import "mixins/*";
+@import "components/*";
+@import "utilities/*";
 
 * {
   box-sizing: border-box;
