@@ -24,6 +24,7 @@ document.addEventListener "turbolinks:load", ->
         transformOrigin:
           "#{pointerOffset.top - boundaries.top}px" +
           "#{pointerOffset.left - boundaries.left}px"
+      .data "original-index", item.index()
       .addClass("item-drag")
       .find("a").on "click.drag-drop", (event) -> event.preventDefault()
 
@@ -61,6 +62,8 @@ document.addEventListener "turbolinks:load", ->
           calculateDropTargetBoundaries(item)
 
   finishDrag = (item) ->
+    return unless item.hasClass("item-drag")
+
     pointerOffset =
       top: parseFloat(item.css("top")),
       left: parseFloat(item.css("left"))
@@ -85,12 +88,11 @@ document.addEventListener "turbolinks:load", ->
           marginTop: ""
           marginLeft: ""
           transformOrigin: ""
-        .addClass("item-wait")
         .removeClass("item-drag")
 
       placeholder.replaceWith(item)
 
-      submitReorder(item)
+      submitReorder(item) if item.data("original-index") != item.index()
 
     setTimeout ( -> item.find("a").off "click.drag-drop" ), 10
 
@@ -139,6 +141,8 @@ document.addEventListener "turbolinks:load", ->
       url: "/items/reorder"
       data: { ids: ordered_ids.get().join() }
       method: "PATCH"
+      beforeSend: ->
+        item.addClass("item-wait")
       success: ->
         item.removeClass("item-wait")
 
