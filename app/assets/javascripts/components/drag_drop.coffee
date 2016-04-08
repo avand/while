@@ -85,9 +85,12 @@ document.addEventListener "turbolinks:load", ->
           marginTop: ""
           marginLeft: ""
           transformOrigin: ""
+        .addClass("item-wait")
         .removeClass("item-drag")
 
       placeholder.replaceWith(item)
+
+      submitReorder(item)
 
     setTimeout ( -> item.find("a").off "click.drag-drop" ), 10
 
@@ -127,6 +130,17 @@ document.addEventListener "turbolinks:load", ->
          pointerOffset.top <= (boundaries.bottom - pageYOffset) &&
          pointerOffset.left >= (boundaries.left - pageXOffset)
         return dropTarget
+
+  submitReorder = (item) ->
+    ordered_ids = $(".item").map ->
+      $(this).data("item-id")
+
+    $.ajax
+      url: "/items/reorder"
+      data: { ids: ordered_ids.get().join() }
+      method: "PATCH"
+      success: ->
+        item.removeClass("item-wait")
 
   $(".item").each ->
     item = $(this)

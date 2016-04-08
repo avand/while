@@ -14,7 +14,7 @@ class ItemsController < ApplicationController
       @clearable_items_count = current_user.items.completed.not_cleared.count
     end
 
-    @items = @items.order(:created_at)
+    @items = @items.order(:order, :created_at)
   end
 
   def new
@@ -60,6 +60,12 @@ class ItemsController < ApplicationController
     end
 
     render text: "#{result} item(s) cleared."
+  end
+
+  def reorder
+    params[:ids].split(",").each_with_index do |id, i|
+      Item.find(id).update order: i
+    end
   end
 
 private
