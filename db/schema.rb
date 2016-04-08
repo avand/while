@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160328213754) do
+ActiveRecord::Schema.define(version: 20160408210955) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20160328213754) do
     t.string   "ancestry"
     t.integer  "user_id"
     t.boolean  "cleared"
+    t.integer  "order"
   end
 
   add_index "items", ["ancestry"], name: "index_items_on_ancestry", using: :btree

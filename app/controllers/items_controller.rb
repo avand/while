@@ -1,8 +1,10 @@
 class ItemsController < ApplicationController
 
+  include ItemsHelper
+
   before_action :require_current_user
   before_action :set_item, only: [:new, :edit, :create, :update, :destroy, :complete, :clear]
-  before_action :set_parent_items, only: [:new, :create, :edit, :update]
+  before_action :set_parent_items, only: [:new, :edit, :create, :update]
 
   def index
     if params[:id].present?
@@ -14,7 +16,7 @@ class ItemsController < ApplicationController
       @clearable_items_count = current_user.items.completed.not_cleared.count
     end
 
-    @items = @items.order(:created_at)
+    @items = @items.order(:order, :created_at)
   end
 
   def new
@@ -62,6 +64,27 @@ class ItemsController < ApplicationController
     render text: "#{result} item(s) cleared."
   end
 
+  def reorder
+    params[:ids].split(",").each_with_index do |id, i|
+      Item.find(id).update order: i
+    end
+  end
+
+  def adopt
+    parent_item = Item.find(params[:id])
+    child_item = Item.find(params[:child_id])
+
+    child_item.update parent: parent_item
+
+    total = parent_item.descendants.not_cleared.count
+    completed = parent_item.descendants.completed.not_cleared.count
+
+    render json: {
+      progress_width: progress_bar_width(total),
+      progress_bar_width: ((completed / total.to_f) * 100).round
+    }
+  end
+
 private
 
   def set_item
@@ -73,10 +96,8 @@ private
   end
 
   def set_parent_items
-    @parent_items = current_user.items.order(:name)
-
-    if @item.present? && @item.persisted?
-      @parent_items = @parent_items.where("id <> ?", @item.id)
+    if @item.present? && @item.persisted? && !@item.root?
+      @parent_items = @item.ancestors.not_cleared.order(:ancestry)
     end
   end
 

@@ -20,7 +20,9 @@
 </h1>
 
 <% if @items.present? %>
-  <%= render @items %>
+  <div class="items">
+    <%= render @items %>
+  </div>
 <% else %>
   <p>
     No items.
