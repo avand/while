@@ -2,7 +2,7 @@ class ItemsController < ApplicationController
 
   before_action :require_current_user
   before_action :set_item, only: [:new, :edit, :create, :update, :destroy, :complete, :clear]
-  before_action :set_parent_items, only: [:new, :create, :edit, :update]
+  before_action :set_parent_items, only: [:new, :edit, :create, :update]
 
   def index
     if params[:id].present?
@@ -79,10 +79,8 @@ private
   end
 
   def set_parent_items
-    @parent_items = current_user.items.order(:name)
-
-    if @item.present? && @item.persisted?
-      @parent_items = @parent_items.where("id <> ?", @item.id)
+    if @item.present? && @item.persisted? && !@item.root?
+      @parent_items = @item.ancestors.not_cleared.order(:ancestry)
     end
   end
 
