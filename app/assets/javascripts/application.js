@@ -13,5 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require dragula
+//= require fastclick
 //= require_tree .
+
+document.addEventListener("turbolinks:load", function() {
+  FastClick.attach(document.body);
+})
