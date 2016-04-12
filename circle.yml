@@ -5,6 +5,6 @@ deployment:
   production:
     branch: master
     commands:
-      - git push git@heroku.com:while.git $CIRCLE_SHA1:master
+      - git push https://git.heroku.com/while.git $CIRCLE_SHA1:master
       - heroku run rake db:migrate --app while
       - heroku restart --app while
