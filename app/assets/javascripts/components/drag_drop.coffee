@@ -1,20 +1,23 @@
 document.addEventListener "turbolinks:load", ->
 
+  dragItem = null
   dragDelay = 400
-  dragDelayTimer = null
   dropTargets = []
+  dragDelayTimer = null
 
   startDrag = (item, pointerOffset) ->
-    calculateDropTargetBoundaries(item)
+    dragItem = item
+
+    calculateDropTargetBoundaries(dragItem)
 
     placeholder = $("<div>")
-      .css "height", item.height()
+      .css "height", dragItem.height()
       .addClass("item-placeholder")
-      .insertAfter item
+      .insertAfter dragItem
 
-    boundaries = item[0].getBoundingClientRect()
+    boundaries = dragItem[0].getBoundingClientRect()
 
-    item
+    dragItem
       .css
         top: "#{pointerOffset.top}px"
         left: "#{pointerOffset.left}px"
@@ -24,20 +27,22 @@ document.addEventListener "turbolinks:load", ->
         transformOrigin:
           "#{pointerOffset.top - boundaries.top}px" +
           "#{pointerOffset.left - boundaries.left}px"
-      .data "original-index", item.index()
+      .data "original-index", dragItem.index()
       .addClass("item-drag")
       .find("a").on "click.drag-drop", (event) -> event.preventDefault()
 
-  drag = (item, pointerOffset, event) ->
-    startingPointerOffset = item.data("pointerOffset")
+  drag = (pointerOffset, event) ->
+    return unless dragItem
 
-    return clearTimeout(dragDelayTimer) if !item.hasClass("item-drag") &&
+    startingPointerOffset = dragItem.data("pointerOffset")
+
+    return clearTimeout(dragDelayTimer) if !dragItem.hasClass("item-drag") &&
       pointerStrayedFromStartingPoint(startingPointerOffset, pointerOffset)
-    return unless item.hasClass("item-drag")
+    return unless dragItem.hasClass("item-drag")
 
     event.preventDefault()
 
-    item.css pointerOffset
+    dragItem.css pointerOffset
 
     if dropTarget = getDropTargetAtPointer(pointerOffset)
       return unless dropTarget.hasClass("item")
@@ -45,44 +50,48 @@ document.addEventListener "turbolinks:load", ->
       boundaries = dropTarget.data "boundaries"
       tolerance = boundaries.height / 4
 
+      $(".drop-target-active").removeClass "drop-target-active"
+
       if pointerOffset.top >= (boundaries.top - pageYOffset) + tolerance &&
          pointerOffset.top <= (boundaries.bottom - pageYOffset) - tolerance
-        item.addClass("item-drop")
+        dragItem.addClass("item-drop")
         dropTarget.addClass("drop-target-active")
       else
-        item.removeClass("item-drop")
-        dropTarget.removeClass("drop-target-active")
+        dragItem.removeClass("item-drop")
 
         if pointerOffset.top > (boundaries.bottom - pageYOffset) - tolerance
           $(".item-placeholder").insertAfter(dropTarget)
-          calculateDropTargetBoundaries(item)
+          calculateDropTargetBoundaries(dragItem)
 
         if pointerOffset.top < (boundaries.top - pageYOffset) + tolerance
           $(".item-placeholder").insertBefore(dropTarget)
-          calculateDropTargetBoundaries(item)
+          calculateDropTargetBoundaries(dragItem)
 
-  finishDrag = (item) ->
-    return unless item.hasClass("item-drag")
+  finishDrag = ->
+    return unless dragItem
+    return unless dragItem.hasClass("item-drag")
 
     pointerOffset =
-      top: parseFloat(item.css("top")),
-      left: parseFloat(item.css("left"))
+      top: parseFloat(dragItem.css("top")),
+      left: parseFloat(dragItem.css("left"))
 
     placeholder = $(".item-placeholder")
 
     if dropTarget = getDropTargetAtPointer(pointerOffset)
-      item.addClass("item-vanish")
+      dragItem.addClass("item-vanish")
       placeholder.addClass("item-placeholder-vanish").css "height", ""
       $(".drop-target-active").removeClass "drop-target-active"
 
       setTimeout ( ->
-        item.remove()
+        dragItem.remove()
         placeholder.remove()
-      ), parseFloat(item.css("transition-duration")) * 1000
+        dragItem.find("a").off "click.drag-drop"
+        dragItem = null
+      ), parseFloat(dragItem.css("transition-duration")) * 1000
 
-      submitMove(item, dropTarget)
+      adoptItem(dragItem, dropTarget)
     else
-      item
+      dragItem
         .css
           top: ""
           left: ""
@@ -92,11 +101,15 @@ document.addEventListener "turbolinks:load", ->
           transformOrigin: ""
         .removeClass("item-drag")
 
-      placeholder.replaceWith(item)
+      placeholder.replaceWith(dragItem)
 
-      submitReorder(item) if item.data("original-index") != item.index()
+      if dragItem.data("original-index") != dragItem.index()
+        reorderItem(dragItem)
 
-    setTimeout ( -> item.find("a").off "click.drag-drop" ), 10
+      setTimeout ( ->
+        dragItem.find("a").off "click.drag-drop"
+        dragItem = null
+      ), 5
 
   pointerStrayedFromStartingPoint = (startingPointerOffset, pointerOffset) ->
     tolerance = 3 # px
@@ -111,13 +124,13 @@ document.addEventListener "turbolinks:load", ->
 
     dragDelayTimer = setTimeout ( -> startDrag item, pointerOffset ), dragDelay
 
-  calculateDropTargetBoundaries = (excludedItem) ->
+  calculateDropTargetBoundaries = ->
     dropTargets = []
 
     $(".item").each ->
       item = $(this)
 
-      if item.attr("id") != excludedItem.attr("id")
+      if item.attr("id") != dragItem.attr("id")
         boundaries = item.offset()
         boundaries.width = parseFloat item.css "width"
         boundaries.height = parseFloat item.css "height"
@@ -135,28 +148,25 @@ document.addEventListener "turbolinks:load", ->
          pointerOffset.left >= (boundaries.left - pageXOffset)
         return dropTarget
 
-  submitReorder = (item) ->
-    ordered_ids = $(".item").map ->
+  reorderItem = (item) ->
+    orderedItemIDs = $(".item").map ->
       $(this).data("item-id")
 
     $.ajax
       url: "/items/reorder"
-      data: { ids: ordered_ids.get().join() }
+      data: { ids: orderedItemIDs.get().join() }
       method: "PATCH"
-      beforeSend: ->
-        item.addClass("item-wait")
-      success: ->
-        item.removeClass("item-wait")
+      beforeSend: -> item.addClass("item-wait")
+      success: -> item.removeClass("item-wait")
 
-  submitMove = (item, newParentItem) ->
+  adoptItem = (child, parent) ->
     $.ajax
-      url: "/items/#{newParentItem.data("item-id")}/adopt"
-      data: "child_id=#{item.data("item-id")}"
+      url: "/items/#{parent.data("item-id")}/adopt"
+      data: "child_id=#{child.data("item-id")}"
       method: "PATCH"
-      beforeSend: ->
-        newParentItem.addClass("item-wait")
+      beforeSend: -> parent.addClass("item-wait")
       success: (data) ->
-        newParentItem
+        parent
           .removeClass("item-wait")
           .find(".item-progress")
             .removeClass("hidden")
@@ -176,10 +186,11 @@ document.addEventListener "turbolinks:load", ->
 
       .on "touchend.drag-drop mouseup.drag-drop", (event) ->
         clearTimeout(dragDelayTimer)
-        finishDrag(item)
+        finishDrag()
 
-      .on "touchmove.drag-drop", (event) ->
-        touch = event.originalEvent.touches[0]
-        drag item, top: touch.clientY, left: touch.clientX, event
-      .on "mousemove.drag-drop", (event) ->
-        drag item, top: event.clientY, left: event.clientX, event
+  $(document)
+    .on "touchmove.drag-drop", (event) ->
+      touch = event.originalEvent.touches[0]
+      drag top: touch.clientY, left: touch.clientX, event
+    .on "mousemove.drag-drop", (event) ->
+      drag top: event.clientY, left: event.clientX, event
