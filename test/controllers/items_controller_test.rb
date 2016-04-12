@@ -27,11 +27,12 @@ class ItemsControllerTest < ActionController::TestCase
   test "PATCH to adopt changes the child's parent" do
     session[:current_user_id] = users(:avand).id
 
-    bananas = users(:avand).items.create name: "Bananas"
+    underwear = users(:avand).items.create name: "Underwear", order: 2
 
-    patch :adopt, params: { id: items(:groceries).id, child_id: bananas.id }
+    patch :adopt, params: { id: items(:pack).id, child_id: underwear.id }
 
-    assert_equal bananas.reload.parent, items(:groceries)
+    assert_equal underwear.reload.parent, items(:pack)
+    assert_equal 0, underwear.order
   end
 
   test "PATCH to adopt makes the child last in the new list" do

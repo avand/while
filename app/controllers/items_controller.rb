@@ -74,7 +74,9 @@ class ItemsController < ApplicationController
   def adopt
     child_item = Item.find(params[:child_id])
 
-    child_item.update parent: @item, order: @item.children.maximum(:order) + 1
+    child_item.update \
+      parent: @item,
+      order: (@item.children.maximum(:order) || -1) + 1
 
     total = @item.descendants.not_cleared.count
     completed = @item.descendants.completed.not_cleared.count
