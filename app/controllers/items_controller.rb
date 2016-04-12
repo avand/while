@@ -3,7 +3,8 @@ class ItemsController < ApplicationController
   include ItemsHelper
 
   before_action :require_current_user
-  before_action :set_item, only: [:new, :edit, :create, :update, :destroy, :complete, :clear]
+  before_action :set_item, only: [
+    :new, :edit, :create, :update, :destroy, :complete, :clear, :adopt]
   before_action :set_parent_items, only: [:new, :edit, :create, :update]
 
   def index
@@ -71,13 +72,12 @@ class ItemsController < ApplicationController
   end
 
   def adopt
-    parent_item = Item.find(params[:id])
     child_item = Item.find(params[:child_id])
 
-    child_item.update parent: parent_item
+    child_item.update parent: @item, order: @item.children.maximum(:order) + 1
 
-    total = parent_item.descendants.not_cleared.count
-    completed = parent_item.descendants.completed.not_cleared.count
+    total = @item.descendants.not_cleared.count
+    completed = @item.descendants.completed.not_cleared.count
 
     render json: {
       progress_width: progress_bar_width(total),

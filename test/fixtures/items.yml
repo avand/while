@@ -1,0 +1,25 @@
+groceries:
+  id: 1
+  user: avand
+  name: Buy groceries
+  order: 1
+
+pack:
+  id: 2
+  user: avand
+  name: Pack
+  order: 2
+
+avocados:
+  id: 3
+  user: avand
+  name: Avocados
+  ancestry: 1
+  order: 1
+
+apples:
+  id: 4
+  user: avand
+  name: Apples
+  ancestry: 1
+  order: 2

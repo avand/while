@@ -4,6 +4,14 @@ class ApplicationController < ActionController::Base
 
   after_action :track_current_user
 
+  class AuthorizationRequired < StandardError; end
+
+  if Rails.env.production?
+    rescue_from AuthorizationRequired do |error|
+      redirect_to root_path, alert: "Sorry, you must be signed in to do that!"
+    end
+  end
+
   def current_user
     if session[:current_user_id].present?
       @current_user ||= User.find(session[:current_user_id])
@@ -12,9 +20,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def require_current_user
-    if current_user.blank?
-      redirect_to root_path, alert: "Sorry, you must be signed in to do that!"
-    end
+    raise AuthorizationRequired if current_user.blank?
   end
 
 private
