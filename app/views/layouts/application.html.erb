@@ -17,22 +17,7 @@
 
   <body>
     <header>
-      <div class="brand inline">
-        <strong>While</strong>
-      </div>
-
-      <nav class="inline right">
-        <% if current_user.present? %>
-          <%= current_user.name %>
-
-          (<span class="cleared-items-count inline-block"
-                 data-clearable-items-count="<%= @clearable_items_count -%>"><%= current_user.items.cleared.count -%></span>)
-          &middot;
-          <%= link_to 'Log out', sessions_path, method: :delete, class: "underline", data: { 'no-turbolinks' => true } %>
-        <% else %>
-          <a href="/auth/google_oauth2" data-no-turbolinks class="underline">Log in</a>
-        <% end %>
-      </nav>
+      <%= yield :header %>
     </header>
 
     <main>
@@ -46,5 +31,23 @@
 
       <%= yield %>
     </main>
+
+    <footer class="align-center">
+      <% if current_user.present? %>
+        <% current_user.items.cleared.count.tap do |cleared_items_count| %>
+          <span class="cleared-items-count inline-block"
+                data-clearable-items-count="<%= @clearable_items_count -%>">
+            <%= cleared_items_count -%>
+          </span> cleared <%= "item".pluralize(cleared_items_count) -%>
+        <% end %>
+
+        <br>
+
+        <%= current_user.name %> &middot;
+        <%= link_to 'Log out', sessions_path, method: :delete, class: "underline", data: { 'no-turbolinks' => true } %>
+      <% else %>
+        <a href="/auth/google_oauth2" data-no-turbolinks class="underline">Log in</a>
+      <% end %>
+    </footer>
   </body>
 </html>

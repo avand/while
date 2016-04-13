@@ -1,23 +1,16 @@
-<% if @parent.present? %>
-  <nav>
-    <i class="fa fa-level-up fa-flip-horizontal"></i>
-    <%= link_to @parent.parent.try(:name) || "Items", items_path(@parent.parent), class: "underline" %>
-  </nav>
+<% content_for :header do %>
+  <div class="breadcrumbs">
+    <% @breadcrumbs.each_with_index do |breadcrumb, i| %>
+      <div class="breadcrumb"
+           style="background-color: rgba(0, 0, 0, <%= ((@breadcrumbs.length - 1) * 0.05) - (i * 0.05) %>);
+                  border-color: rgba(0, 0, 0, <%= ((@breadcrumbs.length - 1) * 0.02) - (i * 0.02) %>)">
+        <%= link_to_unless_current breadcrumb[0], breadcrumb[1], {
+          class: "block underline-on-hover"
+        } %>
+      </div>
+    <% end %>
+  </div>
 <% end %>
-
-<h1>
-  <%= @parent.try(:name) || "Items" %>
-
-  <% if @clearable_items_count > 0 %>
-    <span class="right" style="font-size: .4em;">
-      <%= link_to "Clear completed items", clear_items_path(@parent), {
-        class: "clear-completed-control underline-on-hover light-weight right",
-        remote: true,
-        method: :patch
-      } %>
-    </span>
-  <% end %>
-</h1>
 
 <% if @items.present? %>
   <div class="items">
@@ -30,5 +23,14 @@
 <% end %>
 
 <p>
-  <%= link_to 'Add item...', new_item_path(item: { parent_id: @parent.try(:id) }), class: "button button-primary" %>
+  <%= link_to 'Add item...', new_item_path(item: { parent_id: @parent.try(:id) }), {
+    class: "button button-primary"
+  } %>
+  <% if @clearable_items_count > 0 %>
+    <%= link_to "Clear completed items", clear_items_path(@parent), {
+      class: "clear-completed-control button button-link",
+      remote: true,
+      method: :patch
+    } %>
+  <% end %>
 </p>

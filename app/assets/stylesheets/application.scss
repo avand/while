@@ -16,15 +16,17 @@ body {
 
 header {
   color: rgba(0, 0, 0, 0.6);
-  background-color: rgba(0, 0, 0, 0.1);
+}
+
+footer {
   font-size: 0.8em;
-  padding: .5em;
+  padding: 2em;
 }
 
 main {
   max-width: 960px;
   margin: 0 auto;
-  padding: 1em 4%;
+  padding: 0 4%;
 }
 
 a {

@@ -1,0 +1,13 @@
+.breadcrumb {
+  font-size: 0.8em;
+  font-weight: 500;
+  padding: .4em 4.6%;
+  border-width: 0 0 1px;
+  border-style: solid;
+  box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.05);
+
+  &:last-of-type {
+    padding-top: .8em;
+    padding-bottom: .8em;
+  }
+}
