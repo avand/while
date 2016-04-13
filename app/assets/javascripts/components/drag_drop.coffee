@@ -4,6 +4,7 @@ document.addEventListener "turbolinks:load", ->
   dragDelay = 400
   dropTargets = []
   dragDelayTimer = null
+  startingPointOffset = null
 
   startDrag = (item, pointerOffset) ->
     dragItem = item
@@ -32,13 +33,11 @@ document.addEventListener "turbolinks:load", ->
       .find("a").on "click.drag-drop", (event) -> event.preventDefault()
 
   drag = (pointerOffset, event) ->
-    return unless dragItem
-
-    startingPointerOffset = dragItem.data("pointerOffset")
-
-    return clearTimeout(dragDelayTimer) if !dragItem.hasClass("item-drag") &&
-      pointerStrayedFromStartingPoint(startingPointerOffset, pointerOffset)
-    return unless dragItem.hasClass("item-drag")
+    if !dragItem
+      if pointerStrayedFromStartingPoint(pointerOffset)
+        clearTimeout(dragDelayTimer)
+        dragItem = null
+      return
 
     event.preventDefault()
 
@@ -111,17 +110,17 @@ document.addEventListener "turbolinks:load", ->
         dragItem = null
       ), 5
 
-  pointerStrayedFromStartingPoint = (startingPointerOffset, pointerOffset) ->
+  pointerStrayedFromStartingPoint = (pointerOffset) ->
     tolerance = 3 # px
-    startingPointerOffset &&
-    (pointerOffset.top < startingPointerOffset.top - tolerance ||
-     pointerOffset.top > startingPointerOffset.top + tolerance ||
-     pointerOffset.left < startingPointerOffset.left - tolerance ||
-     pointerOffset.left > startingPointerOffset.left + tolerance)
+
+    startingPointOffset &&
+    (pointerOffset.top < startingPointOffset.top - tolerance ||
+     pointerOffset.top > startingPointOffset.top + tolerance ||
+     pointerOffset.left < startingPointOffset.left - tolerance ||
+     pointerOffset.left > startingPointOffset.left + tolerance)
 
   delayDrag = (item, pointerOffset) ->
-    item.data "pointerOffset", top: pointerOffset.top, left: pointerOffset.left
-
+    startingPointOffset = pointerOffset
     dragDelayTimer = setTimeout ( -> startDrag item, pointerOffset ), dragDelay
 
   calculateDropTargetBoundaries = ->
