@@ -16,6 +16,17 @@
     <%= f.text_field :name %>
   </div>
 
+  <% if item.root? %>
+    <div class="field">
+      <%= f.label :color %>
+      <%= f.select :color do %>
+        <% Item::COLORS.each do |color| %>
+          <%= content_tag :option, color[0], value: color[1] %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
   <% if @parent_items.present? %>
     <div class="field">
       <%= f.label :parent_id %>

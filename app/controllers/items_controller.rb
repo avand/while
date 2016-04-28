@@ -10,6 +10,7 @@ class ItemsController < ApplicationController
   def index
     if params[:id].present?
       @parent = Item.find params[:id]
+      @root = @parent.root
       @items = @parent.children.not_cleared
       @clearable_items_count = @parent.descendants.completed.not_cleared.count
     else
@@ -116,7 +117,7 @@ private
   end
 
   def item_params
-    params.require(:item).permit(:name, :parent_id, :completed)
+    params.require(:item).permit(:name, :parent_id, :completed, :color)
   end
 
 end

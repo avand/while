@@ -15,7 +15,7 @@
     <link rel="icon" type="image/png" href="<%= asset_path "logo.png" -%>">
   </head>
 
-  <body>
+  <%= body_tag do %>
     <header>
       <%= yield :header %>
     </header>
@@ -49,5 +49,5 @@
         <a href="/auth/google_oauth2" data-no-turbolinks class="underline">Log in</a>
       <% end %>
     </footer>
-  </body>
+  <% end %>
 </html>
