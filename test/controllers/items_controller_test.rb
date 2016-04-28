@@ -2,6 +2,24 @@ require File.expand_path("../../test_helper.rb", __FILE__)
 
 class ItemsControllerTest < ActionController::TestCase
 
+  test "POST to create raises an exception if user is not signed in" do
+    assert_raises ApplicationController::AuthorizationRequired do
+      post :create, params: { item: {} }
+    end
+  end
+
+  test "POST to create creates an item" do
+    session[:current_user_id] = users(:avand).id
+
+    assert_difference "users(:avand).items.count" do
+      post :create, params: { item: { name: "foo" } }
+    end
+
+    item = Item.last
+    assert_equal "foo", item.name
+    assert_equal 3, item.order
+  end
+
   test "PATCH to adopt raises an exception if user is not signed in" do
     assert_raises ApplicationController::AuthorizationRequired do
       patch :adopt, params: { id: 1 }

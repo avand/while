@@ -8,4 +8,10 @@ class Item < ApplicationRecord
 
   belongs_to :user
 
+  before_create :make_last
+
+  def make_last
+    self.order = (siblings.maximum(:order) || -1) + 1
+  end
+
 end
