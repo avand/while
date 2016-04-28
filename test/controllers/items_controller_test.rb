@@ -20,6 +20,28 @@ class ItemsControllerTest < ActionController::TestCase
     assert_equal 3, item.order
   end
 
+  test "PATCH to update raises an exception if user is not signed in" do
+    assert_raises ApplicationController::AuthorizationRequired do
+      patch :update, params: { id: 1, item: {} }
+    end
+  end
+
+  test "PATCH to adopt raises an exception if the item can't be found" do
+    session[:current_user_id] = users(:avand).id
+
+    assert_raises ActiveRecord::RecordNotFound do
+      patch :adopt, params: { id: -1, item: {} }
+    end
+  end
+
+  test "PATCH to update updates the item" do
+    session[:current_user_id] = users(:avand).id
+
+    patch :update, params: { id: items(:avocados).id, item: { name: "pears" } }
+
+    assert_equal "pears", items(:avocados).reload.name
+  end
+
   test "PATCH to adopt raises an exception if user is not signed in" do
     assert_raises ApplicationController::AuthorizationRequired do
       patch :adopt, params: { id: 1 }
