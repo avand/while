@@ -19,4 +19,18 @@ class ActionsControllerTest < ActionController::TestCase
     assert_equal "did something", action.name
   end
 
+  test "GET to index raises an exception if user is not signed in" do
+    assert_raises ApplicationController::AuthorizationRequired do
+      get :index
+    end
+  end
+
+  test "GET to index raises an exception if current user is not an admin" do
+    session[:current_user_id] = users(:jessica).id
+
+    assert_raises ApplicationController::AdministratorRequired do
+      get :index
+    end
+  end
+
 end

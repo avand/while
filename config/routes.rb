@@ -14,7 +14,8 @@ Rails.application.routes.draw do
   get "/auth/:provider/callback", to: "sessions#create"
   delete "/bye" => "sessions#destroy", as: "sessions"
 
-  post "/actions/log" => "actions#log", as: "actions"
+  get "/actions" => "actions#index", as: "actions"
+  post "/actions/log" => "actions#log", as: "log_action"
 
   root "users#new"
 

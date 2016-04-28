@@ -1,0 +1,6 @@
+<% @actions.each do |action| %>
+  <div class="action">
+    <%= action.user.first_name %>: <%= action.name %>
+    (<%= action.occurred_at -%>)
+  </div>
+<% end %>

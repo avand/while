@@ -5,10 +5,15 @@ class ApplicationController < ActionController::Base
   after_action :track_current_user
 
   class AuthorizationRequired < StandardError; end
+  class AdministratorRequired < StandardError; end
 
   if Rails.env.production?
     rescue_from AuthorizationRequired do |error|
       redirect_to root_path, alert: "Sorry, you must be signed in to do that!"
+    end
+
+    rescue_from AdministratorRequired do |error|
+      redirect_to root_path, alert: "Sorry, you must be an admin to do that!"
     end
   end
 
@@ -21,6 +26,10 @@ class ApplicationController < ActionController::Base
 
   def require_current_user
     raise AuthorizationRequired if current_user.blank?
+  end
+
+  def require_current_admin
+    raise AdministratorRequired unless current_user.admin?
   end
 
 private
