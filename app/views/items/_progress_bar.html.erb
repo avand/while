@@ -3,8 +3,13 @@
 
 <div class="item-progress <%= "hidden" if total.zero? -%>"
      data-cleared-width="<%= progress_bar_width total - completed -%>%"
-     style="width: <%= progress_bar_width total -%>%">
+     style="width: <%= progress_bar_width total -%>%;
+            <%= "background-color: #{item.color}" if item.color.present? -%>;">
   <div class="item-progress-bar"
-       style="width: <%= ((completed / total.to_f) * 100).round rescue 0 %>%">
+       style="width: <%= ((completed / total.to_f) * 100).round rescue 0 %>%;">
+  </div>
+
+  <div class="item-progress-label hidden">
+    <%= completed -%> / <%= total -%>
   </div>
 </div>
