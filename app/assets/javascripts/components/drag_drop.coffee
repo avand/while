@@ -155,18 +155,18 @@ document.addEventListener "turbolinks:load", ->
       url: "/items/reorder"
       data: { ids: orderedItemIDs.get().join() }
       method: "PATCH"
-      beforeSend: -> item.addClass("item-wait")
-      success: -> item.removeClass("item-wait")
+      beforeSend: -> item.addClass("pulse-while-pending")
+      success: -> item.removeClass("pulse-while-pending")
 
   adoptItem = (child, parent) ->
     $.ajax
       url: "/items/#{parent.data("item-id")}/adopt"
       data: "child_id=#{child.data("item-id")}"
       method: "PATCH"
-      beforeSend: -> parent.addClass("item-wait")
+      beforeSend: -> parent.addClass("pulse-while-pending")
       success: (data) ->
         parent
-          .removeClass("item-wait")
+          .removeClass("pulse-while-pending")
           .find(".item-progress")
             .removeClass("hidden")
             .css("width", "#{data["progress_width"]}%")

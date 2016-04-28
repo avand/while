@@ -30,10 +30,6 @@ $transition-duration: 180ms;
     transform: scale(0) rotate(-2deg);
   }
 
-  &.item-wait {
-    opacity: 0.4;
-  }
-
   &.drop-target-active {
     border-color: $green-color;
     border-width: 2px;

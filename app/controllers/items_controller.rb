@@ -60,7 +60,11 @@ class ItemsController < ApplicationController
   def complete
     @item.update completed: !@item.completed?
 
-    redirect_to items_url(@item.parent, anchor: "item-#{@item.id}")
+    if request.xhr?
+      render json: @item
+    else
+      redirect_to items_url(@item.parent, anchor: "item-#{@item.id}")
+    end
   end
 
   def clear

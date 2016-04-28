@@ -17,3 +17,12 @@
   from { opacity: 1; }
   to { opacity: 0; }
 }
+
+.pulse-while-pending {
+  animation: pulse-while-pending 600ms alternate infinite;
+}
+
+@keyframes pulse-while-pending {
+  from { opacity: 0.15; }
+  to { opacity: 0.3; }
+}

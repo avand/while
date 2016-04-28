@@ -4,21 +4,11 @@
      data-item-completed="<%= item.completed? -%>"
      data-item-descendants-count="<%= item.descendants.not_cleared.count -%>"
      data-item-descendants-completed-count="<%= item.descendants.not_cleared.completed.count -%>">
-  <div class="item-checkbox left">
-    <% if item.descendants.not_cleared.present? %>
-      <% if item.completed? %>
-        <i class="item-checkbox-disabled unclickable fa fa-fw fa-check-square-o"></i>
-      <% else %>
-        <i class="item-checkbox-disabled unclickable fa fa-fw fa-square-o"></i>
-      <% end %>
+  <div class="item-checkbox left clickable">
+    <% if item.completed? %>
+      <i class="item-checkbox-checked fa fa-fw fa-check-square-o"></i>
     <% else %>
-      <%= link_to complete_item_path(item), method: :patch do %>
-        <% if item.completed? %>
-          <i class="item-checkbox-checked clickable fa fa-fw fa-check-square-o"></i>
-        <% else %>
-          <i class="item-checkbox-active clickable fa fa-fw fa-square-o"></i>
-        <% end %>
-      <% end %>
+      <i class="item-checkbox-active fa fa-fw fa-square-o"></i>
     <% end %>
   </div>
 

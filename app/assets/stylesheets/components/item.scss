@@ -37,28 +37,22 @@ $checkbox-padding: 18px;
   box-sizing: content-box;
 }
 
-.item-checkbox a {
-  display: block;
-  border: none;
+.item-checkbox {
   opacity: 0.5;
 
   &:hover {
     opacity: 1;
   }
-}
 
-.item-checkbox .fa {
-  box-sizing: content-box;
-  font-size: $checkbox-size;
-  height: $checkbox-size;
-  width: $checkbox-size;
-  line-height: $checkbox-size;
-  padding: $checkbox-padding;
-  display: block;
-}
-
-.item-checkbox-disabled {
-  opacity: 0.1;
+  .fa {
+    box-sizing: content-box;
+    font-size: $checkbox-size;
+    height: $checkbox-size;
+    width: $checkbox-size;
+    line-height: $checkbox-size;
+    padding: $checkbox-padding;
+    display: block;
+  }
 }
 
 .item-content {
