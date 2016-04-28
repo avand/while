@@ -20,6 +20,16 @@ class ItemsControllerTest < ActionController::TestCase
     assert_equal 3, item.order
   end
 
+  test "POST to create logs an action for the current user" do
+    session[:current_user_id] = users(:avand).id
+
+    assert_difference "users(:avand).actions.count" do
+      post :create, params: { item: { name: "foo" } }
+    end
+
+    assert_equal "created item", Action.last.name
+  end
+
   test "PATCH to update raises an exception if user is not signed in" do
     assert_raises ApplicationController::AuthorizationRequired do
       patch :update, params: { id: 1, item: {} }
@@ -40,6 +50,16 @@ class ItemsControllerTest < ActionController::TestCase
     patch :update, params: { id: items(:avocados).id, item: { name: "pears" } }
 
     assert_equal "pears", items(:avocados).reload.name
+  end
+
+  test "PATCH to update logs an action for the current user" do
+    session[:current_user_id] = users(:avand).id
+
+    assert_difference "users(:avand).actions.count" do
+      patch :update, params: { id: items(:avocados).id, item: { name: "foo" } }
+    end
+
+    assert_equal "updated item", Action.last.name
   end
 
   test "PATCH to adopt raises an exception if user is not signed in" do

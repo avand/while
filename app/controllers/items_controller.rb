@@ -34,6 +34,7 @@ class ItemsController < ApplicationController
 
   def create
     if @item.save
+      current_user.log_action "created item"
       redirect_to items_path(@item.parent, anchor: "item-#{@item.id}")
     else
       render :new
@@ -42,6 +43,7 @@ class ItemsController < ApplicationController
 
   def update
     if @item.update(item_params)
+      current_user.log_action "updated item"
       redirect_to items_path(@item.parent, anchor: "item-#{@item.id}")
     else
       render :edit
