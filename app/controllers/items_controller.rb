@@ -59,7 +59,11 @@ class ItemsController < ApplicationController
   end
 
   def complete
-    @item.update completed: !@item.completed?
+    if params[:completed_at].present?
+      f = @item.update completed_at: params[:completed_at]
+    else
+      @item.update completed_at: nil
+    end
 
     if request.xhr?
       render json: @item
