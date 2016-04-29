@@ -4,11 +4,17 @@
   padding: .5em 1em;
   border-radius: .3em;
   font-weight: 500;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-}
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom-width: 2px;
+  background-color: white;
 
-.button:hover {
-  text-decoration: underline;
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus {
+    outline: 0;
+  }
 }
 
 .button-primary {
@@ -18,10 +24,20 @@
 
 .button-link {
   text-decoration: underline;
-  border-bottom: none;
+  border-color: transparent;
   background-color: transparent;
 }
 
 .button-link:hover {
   text-decoration: none;
+}
+
+.button-disabled {
+  color: rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  cursor: not-allowed;
+
+  &:hover {
+    text-decoration: none;
+  }
 }

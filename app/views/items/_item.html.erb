@@ -1,14 +1,12 @@
 <div id="item-<%= item.id -%>"
-     class="item <%= "item-clearable" if item.completed? || item.descendants.completed.count > 0 -%>"
+     class="item"
      data-item-id="<%= item.id -%>"
-     data-item-completed="<%= item.completed? -%>"
-     data-item-descendants-count="<%= item.descendants.not_cleared.count -%>"
-     data-item-descendants-completed-count="<%= item.descendants.not_cleared.completed.count -%>">
+     data-item-completed-at="<%= item.completed_at -%>">
   <div class="item-checkbox left clickable">
     <% if item.completed? %>
-      <i class="item-checkbox-checked fa fa-fw fa-check-square-o"></i>
+      <i class="fa fa-fw fa-check-square-o"></i>
     <% else %>
-      <i class="item-checkbox-active fa fa-fw fa-square-o"></i>
+      <i class="fa fa-fw fa-square-o"></i>
     <% end %>
   </div>
 

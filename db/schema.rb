@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160428100050) do
+ActiveRecord::Schema.define(version: 20160428202822) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,18 +27,19 @@ ActiveRecord::Schema.define(version: 20160428100050) do
 
   create_table "items", force: :cascade do |t|
     t.string   "name"
-    t.boolean  "completed"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.string   "ancestry"
     t.integer  "user_id"
-    t.boolean  "cleared"
-    t.integer  "order",      default: 0
+    t.boolean  "archived"
+    t.integer  "order",        default: 0
     t.string   "color"
+    t.datetime "completed_at"
   end
 
   add_index "items", ["ancestry"], name: "index_items_on_ancestry", using: :btree
-  add_index "items", ["cleared"], name: "index_items_on_cleared", using: :btree
+  add_index "items", ["archived"], name: "index_items_on_archived", using: :btree
+  add_index "items", ["completed_at"], name: "index_items_on_completed_at", using: :btree
   add_index "items", ["user_id"], name: "index_items_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|

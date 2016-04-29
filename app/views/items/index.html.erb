@@ -16,21 +16,53 @@
   <div class="items">
     <%= render @items %>
   </div>
-<% else %>
-  <p>
-    No items.
-  </p>
 <% end %>
 
-<p>
-  <%= link_to 'Add item...', new_item_path(item: { parent_id: @parent.try(:id) }), {
-    class: "button button-primary"
-  } %>
-  <% if @clearable_items_count > 0 %>
-    <%= link_to "Clear completed items", clear_items_path(@parent), {
-      class: "clear-completed-control button button-link",
-      remote: true,
-      method: :patch
-    } %>
-  <% end %>
-</p>
+<div class="no-items align-center <%= "hidden" if @items.present? %>"
+     style="background-color: rgba(0, 0, 0, 0.04); padding: 1em;
+            border-radius: 1em;">
+  <div style="font-size: 2em; margin-top: .2em;">🤗</div>
+
+  <p style="font-size: .8em;">
+    Nothing to do here!
+  </p>
+</div>
+
+<% if @archived_items_by_completed_date.present? %>
+  <div class="archived-items">
+    <div class="archived-items-heading">
+      <span style="background-color: <%= @color -%>">Completed Items</span>
+    </div>
+
+    <% @archived_items_by_completed_date.each do |date, items| %>
+      <div class="archived-items-date-heading">
+        <%= date.strftime("%A, %B %e") %>
+      </div>
+
+      <%= render partial: "archived_item", collection: items, as: :item %>
+    <% end %>
+  </div>
+<% end %>
+
+<div class="control-bar">
+  <div class="control-bar-content">
+    <% path = new_item_path(item: { parent_id: @parent.try(:id) }) %>
+    <%= link_to path, class: "button button-primary new-item-button" do %>
+      Add item
+    <% end %>
+
+    <% path = cleanup_items_path(id: @parent.try(:id)) %>
+    <% classes = "button cleanup-button" %>
+    <% classes = "#{classes} button-disabled" if @items.none?(&:completed?) %>
+    <%= link_to "Cleanup", path, class: classes %>
+
+    <div class="right">
+      <% if current_user.present? %>
+        <%= current_user.name %> &middot;
+        <%= link_to 'Log out', sessions_path, method: :delete, class: "underline", data: { 'no-turbolinks' => true } %>
+      <% else %>
+        <a href="/auth/google_oauth2" data-no-turbolinks class="underline">Log in</a>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -36,14 +36,6 @@ class ItemsControllerTest < ActionController::TestCase
     end
   end
 
-  test "PATCH to adopt raises an exception if the item can't be found" do
-    session[:current_user_id] = users(:avand).id
-
-    assert_raises ActiveRecord::RecordNotFound do
-      patch :adopt, params: { id: -1, item: {} }
-    end
-  end
-
   test "PATCH to update updates the item" do
     session[:current_user_id] = users(:avand).id
 
@@ -65,6 +57,14 @@ class ItemsControllerTest < ActionController::TestCase
   test "PATCH to adopt raises an exception if user is not signed in" do
     assert_raises ApplicationController::AuthorizationRequired do
       patch :adopt, params: { id: 1 }
+    end
+  end
+
+  test "PATCH to adopt raises an exception if the item can't be found" do
+    session[:current_user_id] = users(:avand).id
+
+    assert_raises ActiveRecord::RecordNotFound do
+      patch :adopt, params: { id: -1, item: {} }
     end
   end
 

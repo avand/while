@@ -4,21 +4,26 @@ class ItemsController < ApplicationController
 
   before_action :require_current_user
   before_action :set_item, only: [
-    :new, :edit, :create, :update, :destroy, :complete, :clear, :adopt]
+    :new, :edit, :create, :update, :destroy, :complete, :adopt, :cleanup]
   before_action :set_parent_items, only: [:new, :edit, :create, :update]
 
   def index
     if params[:id].present?
       @parent = Item.find params[:id]
       @root = @parent.root
-      @items = @parent.children.not_cleared
-      @clearable_items_count = @parent.descendants.completed.not_cleared.count
+      @items = @parent.children
     else
-      @items = current_user.items.roots.not_cleared
-      @clearable_items_count = current_user.items.completed.not_cleared.count
+      @items = current_user.items.roots
     end
 
-    @items = @items.order(:order, :created_at)
+    @color = @root.try(:color) || "rgb(255, 250, 230)"
+
+    archived_items = @items.archived.order("completed_at desc")
+    @archived_items_by_completed_date = archived_items.group_by do |item|
+      item.completed_at.to_date
+    end
+
+    @items = @items.not_archived.order(:order, :created_at)
 
     @breadcrumbs = [["Items", items_path]]
     if @parent.present?
@@ -59,23 +64,17 @@ class ItemsController < ApplicationController
   end
 
   def complete
-    @item.update completed: !@item.completed?
+    if params[:completed_at].present?
+      @item.update completed_at: params[:completed_at]
+    else
+      @item.update completed_at: nil, archived: false
+    end
 
     if request.xhr?
       render json: @item
     else
       redirect_to items_url(@item.parent, anchor: "item-#{@item.id}")
     end
-  end
-
-  def clear
-    result = if @item.present?
-      @item.descendants.completed.update_all cleared: true
-    else
-      current_user.items.completed.update_all cleared: true
-    end
-
-    render text: "#{result} item(s) cleared."
   end
 
   def reorder
@@ -91,13 +90,24 @@ class ItemsController < ApplicationController
     child_item.make_last
     child_item.save
 
-    total = @item.descendants.not_cleared.count
-    completed = @item.descendants.completed.not_cleared.count
+    total = @item.descendants.not_archived.count
+    completed = @item.descendants.completed.not_archived.count
 
     render json: {
       progress_width: progress_bar_width(total),
       progress_bar_width: ((completed / total.to_f) * 100).round
     }
+  end
+
+  def cleanup
+    items = @item.present? ? @item.children : current_user.items
+    items.completed.not_archived.update_all archived: true
+
+    if request.xhr?
+      head :ok
+    else
+      redirect_to items_path(@item)
+    end
   end
 
 private
@@ -112,7 +122,7 @@ private
 
   def set_parent_items
     if @item.present? && @item.persisted? && !@item.root?
-      @parent_items = @item.ancestors.not_cleared.order(:ancestry)
+      @parent_items = @item.ancestors.not_archived.order(:ancestry)
     end
   end
 

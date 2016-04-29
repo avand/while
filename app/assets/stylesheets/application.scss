@@ -3,6 +3,7 @@
 @import "mixins/*";
 @import "components/*";
 @import "utilities/*";
+@import "items";
 
 * {
   box-sizing: border-box;
@@ -12,15 +13,11 @@ body {
   font-family: "Helvetica Neue", Helvetica, sans-serif;
   color: rgb(76, 72, 68);
   background-color: rgb(255, 250, 230);
+  padding-bottom: 100px;
 }
 
 header {
   color: rgba(0, 0, 0, 0.6);
-}
-
-footer {
-  font-size: 0.8em;
-  padding: 2em;
 }
 
 main {
