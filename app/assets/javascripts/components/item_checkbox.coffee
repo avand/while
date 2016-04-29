@@ -9,7 +9,7 @@ document.addEventListener "turbolinks:load", ->
     itemID = $item.data("item-id")
     data = { completed_at: null }
 
-    data["completed_at"] = new Date() unless $item.data("item-completed")
+    data["completed_at"] = new Date() unless $item.data("item-completed-at")
 
     $.ajax
       url: "/items/#{itemID}/complete"
@@ -18,6 +18,8 @@ document.addEventListener "turbolinks:load", ->
       beforeSend: ->
         $itemCheckbox.addClass("pulse-while-pending")
       success: (item) ->
+        $item.data("item-completed-at", item["completed_at"])
+
         $itemCheckboxIcon
           .removeClass("fa-check-square-o")
           .removeClass("fa-square-o")
@@ -25,10 +27,14 @@ document.addEventListener "turbolinks:load", ->
         if item.completed_at
           $itemCheckboxIcon.addClass("fa-check-square-o")
           $itemName.addClass("strikethrough")
-          $item.data("item-completed", true)
         else
           $itemCheckboxIcon.addClass("fa-square-o")
           $itemName.removeClass("strikethrough")
-          $item.data("item-completed", false)
+
+        $cleanupButton = $(".cleanup-button")
+        if $(".item-checkbox .fa-check-square-o").length > 0
+          $cleanupButton.removeClass "button-disabled"
+        else
+          $cleanupButton.addClass "button-disabled"
       complete: ->
         $itemCheckbox.removeClass("pulse-while-pending")

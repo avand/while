@@ -1,0 +1,17 @@
+.control-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+
+  .right {
+    color: lighten(black, 60%);
+    font-size: 0.8em;
+    line-height: 38px;
+  }
+}
+
+.control-bar-content {
+  margin: 20px 4%;
+}

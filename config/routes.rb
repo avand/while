@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get "items/:id/edit" => "items#edit", as: "edit_item"
   get "items(/:id)" => "items#index", as: "items"
   post "items" => "items#create"
+  patch "items(/:id)/cleanup" => "items#cleanup", as: "cleanup_items"
   patch "items/reorder" => "items#reorder", as: "reorder_items"
   patch "items/:id" => "items#update", as: "item"
   patch "items/:id/complete" => "items#complete", as: "complete_item"

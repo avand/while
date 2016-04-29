@@ -4,7 +4,7 @@ class ItemsController < ApplicationController
 
   before_action :require_current_user
   before_action :set_item, only: [
-    :new, :edit, :create, :update, :destroy, :complete, :adopt]
+    :new, :edit, :create, :update, :destroy, :complete, :adopt, :cleanup]
   before_action :set_parent_items, only: [:new, :edit, :create, :update]
 
   def index
@@ -16,7 +16,14 @@ class ItemsController < ApplicationController
       @items = current_user.items.roots
     end
 
-    @items = @items.order(:order, :created_at)
+    @color = @root.try(:color) || "rgb(255, 250, 230)"
+
+    archived_items = @items.archived.order("completed_at desc")
+    @archived_items_by_completed_date = archived_items.group_by do |item|
+      item.completed_at.to_date
+    end
+
+    @items = @items.not_archived.order(:order, :created_at)
 
     @breadcrumbs = [["Items", items_path]]
     if @parent.present?
@@ -58,9 +65,9 @@ class ItemsController < ApplicationController
 
   def complete
     if params[:completed_at].present?
-      f = @item.update completed_at: params[:completed_at]
+      @item.update completed_at: params[:completed_at]
     else
-      @item.update completed_at: nil
+      @item.update completed_at: nil, archived: false
     end
 
     if request.xhr?
@@ -90,6 +97,17 @@ class ItemsController < ApplicationController
       progress_width: progress_bar_width(total),
       progress_bar_width: ((completed / total.to_f) * 100).round
     }
+  end
+
+  def cleanup
+    items = @item.present? ? @item.children : current_user.items
+    items.completed.not_archived.update_all archived: true
+
+    if request.xhr?
+      head :ok
+    else
+      redirect_to items_path(@item)
+    end
   end
 
 private

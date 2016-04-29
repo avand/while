@@ -1,12 +1,12 @@
 <div id="item-<%= item.id -%>"
      class="item"
      data-item-id="<%= item.id -%>"
-     data-item-completed="<%= item.completed? -%>">
+     data-item-completed-at="<%= item.completed_at -%>">
   <div class="item-checkbox left clickable">
     <% if item.completed? %>
-      <i class="item-checkbox-checked fa fa-fw fa-check-square-o"></i>
+      <i class="fa fa-fw fa-check-square-o"></i>
     <% else %>
-      <i class="item-checkbox-active fa fa-fw fa-square-o"></i>
+      <i class="fa fa-fw fa-square-o"></i>
     <% end %>
   </div>
 

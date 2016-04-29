@@ -3,9 +3,7 @@ module ApplicationHelper
   def body_tag
     options = {}
 
-    if @root.present? && @root.color.present?
-      options[:style] = "background-color: #{@root.color}"
-    end
+    options[:style] = "background-color: #{@color}"
 
     content_tag :body, options do
       yield

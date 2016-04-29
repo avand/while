@@ -14,10 +14,12 @@ window.animationQueue = []
 # Sequentially (and recursively) process the animation queue. This function will
 # delegate to `transition` and `animate` depending on the contents of the
 # animation queue.
-window.runAnimationQueue = ->
+window.runAnimationQueue = (queueCallback) ->
   nextAnimation = window.animationQueue.shift()
 
-  return unless nextAnimation
+  if !nextAnimation
+    queueCallback() if queueCallback
+    return
 
   element = nextAnimation[0]
   callback = nextAnimation[3]
@@ -28,14 +30,14 @@ window.runAnimationQueue = ->
 
     animate element, animationName, animationOptions, (element) ->
       callback(element) if callback
-      runAnimationQueue()
+      runAnimationQueue(queueCallback)
   else
     properties = nextAnimation[1]
     transitionOptions = nextAnimation[2]
 
     transition element, properties, transitionOptions, (element) ->
       callback(element) if callback
-      runAnimationQueue()
+      runAnimationQueue(queueCallback)
 
 # Controlling animations solely with class names is hard. But jQuery's
 # animations don't take advantage of CSS animations. This method and
