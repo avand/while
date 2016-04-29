@@ -95,8 +95,8 @@ class ItemsController < ApplicationController
     child_item.make_last
     child_item.save
 
-    total = @item.descendants.not_cleared.count
-    completed = @item.descendants.completed.not_cleared.count
+    total = @item.descendants.not_archived.count
+    completed = @item.descendants.completed.not_archived.count
 
     render json: {
       progress_width: progress_bar_width(total),
@@ -116,7 +116,7 @@ private
 
   def set_parent_items
     if @item.present? && @item.persisted? && !@item.root?
-      @parent_items = @item.ancestors.not_cleared.order(:ancestry)
+      @parent_items = @item.ancestors.not_archived.order(:ancestry)
     end
   end
 
