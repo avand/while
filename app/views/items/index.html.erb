@@ -26,11 +26,4 @@
   <%= link_to 'Add item...', new_item_path(item: { parent_id: @parent.try(:id) }), {
     class: "button button-primary"
   } %>
-  <% if @clearable_items_count > 0 %>
-    <%= link_to "Clear completed items", clear_items_path(@parent), {
-      class: "clear-completed-control button button-link",
-      remote: true,
-      method: :patch
-    } %>
-  <% end %>
 </p>

@@ -2,7 +2,6 @@
 <% completed = item.descendants.completed.not_archived.count %>
 
 <div class="item-progress <%= "hidden" if total.zero? -%>"
-     data-cleared-width="<%= progress_bar_width total - completed -%>%"
      style="width: <%= progress_bar_width total -%>%;
             <%= "background-color: #{item.color}" if item.color.present? -%>;">
   <div class="item-progress-bar"
