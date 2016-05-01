@@ -8,9 +8,17 @@
     <% end %>
   </div>
 
-  <%= link_to items_path(item), class: "archived-item-content underline-on-hover" do %>
-    <div class="archived-item-name">
-      <%= item.name %>
-    </div>
-  <% end %>
+  <div class="archived-item-content">
+    <%= link_to items_path(item), class: "underline-on-hover" do %>
+      <span class="archived-item-name">
+        <%= item.name %>
+      </span>
+    <% end %>
+
+    <% if (descendants_count = item.descendants.count) > 0 %>
+      <div class="archived-item-descendants-count">
+        <%= pluralize item.descendants.count, "item" %>
+      </div>
+    <% end %>
+  </div>
 </div>

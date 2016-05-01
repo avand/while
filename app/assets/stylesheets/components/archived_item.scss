@@ -1,9 +1,8 @@
 $checkbox-size: 14px;
-$checkbox-padding: 6px;
+$checkbox-padding: 8px;
 
 .archived-item {
   overflow: auto;
-  padding: 0 16px;
 }
 
 .archived-item-checkbox {
@@ -27,10 +26,10 @@ $checkbox-padding: 6px;
 .archived-item-content {
   display: block;
   margin-left: $checkbox-size + ($checkbox-padding * 2);
-  margin-right: 5em;
-  padding: $checkbox-padding 0;
+  padding: ($checkbox-padding - 1px) 0 ($checkbox-padding - 4px);
 }
 
-.archived-item-name {
-  display: block;
+.archived-item-descendants-count {
+  font-size: 0.8em;
+  opacity: 0.5;
 }
