@@ -120,6 +120,9 @@ document.addEventListener "turbolinks:load", ->
      pointerOffset.left > startingPointOffset.left + tolerance)
 
   delayDrag = (item, pointerOffset) ->
+    # Disable drag/drop functionality if delete confirmation visible.
+    return unless item.find(".item-delete-confirmation").hasClass("hidden")
+    
     startingPointOffset = pointerOffset
     dragDelayTimer = setTimeout ( -> startDrag item, pointerOffset ), dragDelay
 

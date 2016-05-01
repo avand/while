@@ -8,6 +8,12 @@ class ItemTest < ActiveSupport::TestCase
     refute Item.new(completed_at: nil).completed?
   end
 
+  test "deleted? returns true if deleted_at is not nil" do
+    assert Item.new(deleted_at: 1.day.ago).deleted?
+    assert Item.new(deleted_at: 1.day.from_now).deleted?
+    refute Item.new(deleted_at: nil).deleted?
+  end
+
   test "make_last sets the order to order of the last sibling + 1" do
     item = Item.create
 

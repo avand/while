@@ -16,6 +16,8 @@ class Item < ApplicationRecord
   scope :not_completed, -> { where completed_at: nil }
   scope :archived, -> { where archived: true }
   scope :not_archived, -> { where archived: [nil, false] }
+  scope :deleted, -> { where "deleted_at is not null" }
+  scope :not_deleted, -> { where deleted_at: nil }
 
   belongs_to :user
 
@@ -23,6 +25,10 @@ class Item < ApplicationRecord
 
   def completed?
     completed_at.present?
+  end
+
+  def deleted?
+    deleted_at.present?
   end
 
   def make_last

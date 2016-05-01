@@ -16,6 +16,8 @@ class ItemsController < ApplicationController
       @items = current_user.items.roots
     end
 
+    @items = @items.not_deleted
+
     archived_items = @items.archived.order("completed_at desc")
     @archived_items_by_completed_date = archived_items.group_by do |item|
       item.completed_at.to_date
@@ -55,10 +57,13 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    parent_item = @item.parent
-    @item.destroy
+    @item.update deleted_at: params[:deleted_at]
 
-    redirect_to items_url(parent_item)
+    if request.xhr?
+      render json: @item
+    else
+      redirect_to items_url(@item.parent)
+    end
   end
 
   def complete
