@@ -1,8 +1,8 @@
 module ItemsHelper
 
   def progress_bar(item)
-    total = item.descendants.count
-    completed = item.descendants.completed.count
+    total = item.descendants.not_deleted.count
+    completed = item.descendants.completed.not_deleted.count
     percent_complete = ((completed / total.to_f) * 100).round rescue 0
 
     background_classes = ["progress-bar"]
