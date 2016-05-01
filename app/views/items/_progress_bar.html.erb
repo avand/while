@@ -1,5 +1,5 @@
-<% total = item.descendants.not_archived.count %>
-<% completed = item.descendants.completed.not_archived.count %>
+<% total = item.descendants.count %>
+<% completed = item.descendants.completed.count %>
 
 <div class="item-progress <%= "hidden" if total.zero? -%>"
      style="width: <%= progress_bar_width total -%>%;
