@@ -50,6 +50,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
+    color (1.8)
     concurrent-ruby (1.0.1)
     debug_inspector (0.0.2)
     dotenv (2.1.0)
@@ -188,6 +189,7 @@ DEPENDENCIES
   ancestry
   byebug
   coffee-rails (~> 4.1.0)
+  color
   dotenv-rails
   font-awesome-rails
   jquery-rails

@@ -4,26 +4,26 @@
 
 .archived-items-heading {
   text-align: center;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.35);
   margin-top: 1.5em;
 
-  span {
+  &::before,
+  &::after, {
     position: relative;
-    z-index: 1;
-    padding: 0 1em;
+    content: "";
+    display: inline-block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.075);
+    position: relative;
+    bottom: -8px;
+    width: calc(50% - 30px);
   }
 
-  &::after {
-    content: "";
-    display: block;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-    position: relative;
-    top: -.55em;
-  }
+  &::before { float: left; }
+  &::after  { float: right; }
 }
 
 .archived-items-date-heading {
   font-size: 0.9em;
   font-weight: 500;
-  margin: 1.4em 0 .75em;
+  margin: 1.5em 0 .75em;
 }

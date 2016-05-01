@@ -167,10 +167,10 @@ document.addEventListener "turbolinks:load", ->
       success: (data) ->
         parent
           .removeClass("pulse-while-pending")
-          .find(".item-progress")
+          .find(".progress-bar")
             .removeClass("hidden")
             .css("width", "#{data["progress_width"]}%")
-            .find(".item-progress-bar")
+            .find(".progress-bar-status")
               .css("width", "#{data["progress_bar_width"]}%")
 
   $(".item").each ->

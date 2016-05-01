@@ -16,8 +16,6 @@ class ItemsController < ApplicationController
       @items = current_user.items.roots
     end
 
-    @color = @root.try(:color) || "rgb(255, 250, 230)"
-
     archived_items = @items.archived.order("completed_at desc")
     @archived_items_by_completed_date = archived_items.group_by do |item|
       item.completed_at.to_date

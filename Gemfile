@@ -14,6 +14,7 @@ gem "font-awesome-rails"
 gem "ancestry"
 gem "omniauth"
 gem "omniauth-google-oauth2"
+gem "color"
 
 group :development, :test do
   gem "byebug"
