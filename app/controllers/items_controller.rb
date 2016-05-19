@@ -69,8 +69,10 @@ class ItemsController < ApplicationController
   def complete
     if params[:completed_at].present?
       @item.update completed_at: params[:completed_at]
+      current_user.log_action "checked item #{@item.id}"
     else
       @item.update completed_at: nil, archived: false
+      current_user.log_action "unchecked item #{@item.id}"
     end
 
     if request.xhr?

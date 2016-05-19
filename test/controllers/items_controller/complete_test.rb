@@ -37,4 +37,31 @@ class ItemsControllerTest < ActionController::TestCase
     assert_nil items(:groceries).reload.completed_at
   end
 
+  test "PATCH to complete logs an action indicating item checked" do
+    session[:current_user_id] = users(:avand).id
+
+    assert_difference "users(:avand).actions.count" do
+      patch :complete, params: {
+        id: items(:groceries).id,
+        completed_at: "2016-05-07:15:00.000Z"
+      }
+    end
+
+    assert_equal \
+      "checked item #{items(:groceries).id}",
+      users(:avand).actions.last.name
+  end
+
+  test "PATCH to complete logs an action indicating item unchecked" do
+    session[:current_user_id] = users(:avand).id
+
+    assert_difference "users(:avand).actions.count" do
+      patch :complete, params: { id: items(:groceries).id, completed_at: nil }
+    end
+
+    assert_equal \
+      "unchecked item #{items(:groceries).id}",
+      users(:avand).actions.last.name
+  end
+
 end
