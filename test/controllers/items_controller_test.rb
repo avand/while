@@ -27,7 +27,7 @@ class ItemsControllerTest < ActionController::TestCase
       post :create, params: { item: { name: "foo" } }
     end
 
-    assert_equal "created item", Action.last.name
+    assert_equal "created item #{Item.last.id}", Action.last.name
   end
 
   test "PATCH to update raises an exception if user is not signed in" do
@@ -51,7 +51,6 @@ class ItemsControllerTest < ActionController::TestCase
       patch :update, params: { id: items(:avocados).id, item: { name: "foo" } }
     end
 
-    assert_equal "updated item", Action.last.name
   end
 
   test "PATCH to adopt raises an exception if user is not signed in" do
@@ -103,6 +102,7 @@ class ItemsControllerTest < ActionController::TestCase
     patch :adopt, params: { id: items(:groceries).id, child_id: bananas.id }
 
     assert_equal 3, bananas.reload.order
+    assert_equal "updated item #{items(:avocados).id}", Action.last.name
   end
 
 end
