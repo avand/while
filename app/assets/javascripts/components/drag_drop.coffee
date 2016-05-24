@@ -184,21 +184,25 @@ document.addEventListener "turbolinks:load", ->
       beforeSend: -> parent.addClass("pulse-while-pending")
       success: (newProgressBar) ->
         newProgressBar = $(newProgressBar)
+        newLabel = newProgressBar.find(".progress-bar-label")
+
         width = newProgressBar.css("width")
         statusWidth = newProgressBar.find(".progress-bar-status").css("width")
-        labelHTML = newProgressBar.find(".progress-bar-label").html()
-
-        parent.removeClass("pulse-while-pending")
+        labelHTML = newLabel.html()
 
         progressBar = parent.find(".progress-bar")
-        progressBar
-          .removeClass("hidden")
-          .css("width", width)
-        progressBar.find(".progress-bar-status")
-          .css("width", statusWidth)
-        progressBar.find(".progress-bar-label")
-          .removeClass("hidden")
-          .html(labelHTML)
+        status = progressBar.find(".progress-bar-status")
+        label = progressBar.find(".progress-bar-label")
+
+        parent.removeClass("pulse-while-pending")
+        progressBar.removeClass("hidden").css("width", width)
+        status.css("width", statusWidth)
+        label.html(labelHTML)
+
+        if newLabel.hasClass("hidden")
+          label.addClass("hidden")
+        else
+          label.removeClass("hidden")
 
         checkForEmptyList()
 
