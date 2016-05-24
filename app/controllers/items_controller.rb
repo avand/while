@@ -95,13 +95,20 @@ class ItemsController < ApplicationController
     child_item.make_last
     child_item.save
 
-    total = @item.descendants.not_archived.count
-    completed = @item.descendants.completed.not_archived.count
+    if @item
+      # TODO: This code is duplicative with code in ItemsHelper and can be
+      # better shared. In reality, this type of response, should be avoided.
+      total = @item.descendants.not_deleted.count
+      completed = @item.descendants.completed.not_deleted.count
+      percent_complete = ((completed / total.to_f) * 100).round rescue 0
 
-    render json: {
-      progress_width: progress_bar_width(total),
-      progress_bar_width: ((completed / total.to_f) * 100).round
-    }
+      render json: {
+        progress_width: progress_bar_width(total),
+        progress_bar_width: percent_complete
+      }
+    else
+      head :ok
+    end
   end
 
   def cleanup
