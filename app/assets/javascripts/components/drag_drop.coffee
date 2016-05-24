@@ -5,6 +5,7 @@ document.addEventListener "turbolinks:load", ->
   dropTargets = []
   dragDelayTimer = null
   startingPointOffset = null
+  placeholder = null
 
   startDrag = (item, pointerOffset) ->
     dragItem = item
@@ -44,27 +45,41 @@ document.addEventListener "turbolinks:load", ->
     dragItem.css pointerOffset
 
     if dropTarget = getDropTargetAtPointer(pointerOffset)
-      return unless dropTarget.hasClass("item")
-
       boundaries = dropTarget.data "boundaries"
-      tolerance = boundaries.height / 4
 
       $(".drop-target-active").removeClass "drop-target-active"
 
-      if pointerOffset.top >= (boundaries.top - pageYOffset) + tolerance &&
-         pointerOffset.top <= (boundaries.bottom - pageYOffset) - tolerance
-        dragItem.addClass("item-drop")
-        dropTarget.addClass("drop-target-active")
-      else
+      if dropTarget.hasClass("item")
+        tolerance = boundaries.height / 4
+
+        if pointerOffset.top >= (boundaries.top - pageYOffset) + tolerance &&
+           pointerOffset.top <= (boundaries.bottom - pageYOffset) - tolerance
+          dragItem.addClass("item-drop")
+          dropTarget.addClass("drop-target-active")
+        else
+          dragItem.removeClass("item-drop")
+
+          if pointerOffset.top > (boundaries.bottom - pageYOffset) - tolerance
+            placeholder.insertAfter(dropTarget)
+            calculateDropTargetBoundaries(dragItem)
+
+          if pointerOffset.top < (boundaries.top - pageYOffset) + tolerance
+            placeholder.insertBefore(dropTarget)
+            calculateDropTargetBoundaries(dragItem)
+      else if dropTarget.hasClass("ancestor")
+        if dropTarget.hasClass("parent")
+          placeholder.prependTo(".items")
+          $(".no-items").addClass("hidden")
+          dragItem.removeClass("item-drop")
+        else
+          dragItem.addClass("item-drop")
+          placeholder.appendTo(dropTarget.find(".ancestor-content"))
+          checkForEmptyList()
+
+        calculateDropTargetBoundaries(dragItem)
+      else if dropTarget.hasClass("no-items")
         dragItem.removeClass("item-drop")
-
-        if pointerOffset.top > (boundaries.bottom - pageYOffset) - tolerance
-          $(".item-placeholder").insertAfter(dropTarget)
-          calculateDropTargetBoundaries(dragItem)
-
-        if pointerOffset.top < (boundaries.top - pageYOffset) + tolerance
-          $(".item-placeholder").insertBefore(dropTarget)
-          calculateDropTargetBoundaries(dragItem)
+        dropTarget.addClass("hidden").after(placeholder)
 
   finishDrag = ->
     return unless dragItem
@@ -74,13 +89,10 @@ document.addEventListener "turbolinks:load", ->
       top: parseFloat(dragItem.css("top")),
       left: parseFloat(dragItem.css("left"))
 
-    placeholder = $(".item-placeholder")
+    dropTarget = getDropTargetAtPointer(pointerOffset)
 
-    if dropTarget = getDropTargetAtPointer(pointerOffset)
-      dragItem.addClass("item-vanish")
-      placeholder.addClass("item-placeholder-vanish").css "height", ""
-      $(".drop-target-active").removeClass "drop-target-active"
-
+    if dropTarget && (dropTarget.hasClass("item") ||
+                      dropTarget.hasClass("ancestor"))
       setTimeout ( ->
         dragItem.remove()
         placeholder.remove()
@@ -88,6 +100,9 @@ document.addEventListener "turbolinks:load", ->
         dragItem = null
       ), parseFloat(dragItem.css("transition-duration")) * 1000
 
+      dragItem.addClass("item-vanish")
+      placeholder.addClass("item-placeholder-vanish").css "height", ""
+      $(".drop-target-active").removeClass "drop-target-active"
       adoptItem(dragItem, dropTarget)
     else
       dragItem
@@ -122,14 +137,14 @@ document.addEventListener "turbolinks:load", ->
   delayDrag = (item, pointerOffset) ->
     # Disable drag/drop functionality if delete confirmation visible.
     return unless item.find(".item-delete-confirmation").hasClass("hidden")
-    
+
     startingPointOffset = pointerOffset
     dragDelayTimer = setTimeout ( -> startDrag item, pointerOffset ), dragDelay
 
   calculateDropTargetBoundaries = ->
     dropTargets = []
 
-    $(".item").each ->
+    $(".item, .ancestor, .no-items").each ->
       item = $(this)
 
       if item.attr("id") != dragItem.attr("id")
@@ -175,6 +190,7 @@ document.addEventListener "turbolinks:load", ->
             .css("width", "#{data["progress_width"]}%")
             .find(".progress-bar-status")
               .css("width", "#{data["progress_bar_width"]}%")
+        checkForEmptyList()
 
   $(".item").each ->
     item = $(this)

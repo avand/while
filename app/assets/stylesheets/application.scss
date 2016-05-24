@@ -1,5 +1,6 @@
 @import "normalize";
 @import "font-awesome";
+@import "variables/*";
 @import "mixins/*";
 @import "components/*";
 @import "utilities/*";
@@ -21,9 +22,7 @@ header {
 }
 
 main {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 4%;
+  @include content-box();
 }
 
 a {

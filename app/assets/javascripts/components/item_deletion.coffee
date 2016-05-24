@@ -25,4 +25,4 @@ document.addEventListener "turbolinks:load", ->
         cancelDelete $item, ->
           animate $item, "disappear", duration: 300, ->
             $item.remove()
-            $(".no-items").removeClass("hidden") if $(".item").length == 0
+            checkForEmptyList()

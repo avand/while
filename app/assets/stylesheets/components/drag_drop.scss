@@ -1,5 +1,3 @@
-@import "mixins/colors";
-
 $transition-duration: 180ms;
 
 .item {
@@ -44,5 +42,15 @@ $transition-duration: 180ms;
     opacity: 0;
     height: 0;
     margin-bottom: 0;
+  }
+}
+
+.ancestor {
+  &.drop-target-active {
+    background-color: red;
+  }
+
+  .item-placeholder {
+    margin-top: 5px;
   }
 }

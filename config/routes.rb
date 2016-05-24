@@ -5,10 +5,10 @@ Rails.application.routes.draw do
   get "items(/:id)" => "items#index", as: "items"
   post "items" => "items#create"
   patch "items(/:id)/cleanup" => "items#cleanup", as: "cleanup_items"
+  patch "items(/:id)/adopt" => "items#adopt", as: "adopt_item"
   patch "items/reorder" => "items#reorder", as: "reorder_items"
   patch "items/:id" => "items#update", as: "item"
   patch "items/:id/complete" => "items#complete", as: "complete_item"
-  patch "items/:id/adopt" => "items#adopt", as: "adopt_item"
   delete "items/:id" => "items#destroy"
 
   get "/auth/:provider/callback", to: "sessions#create"

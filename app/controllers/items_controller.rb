@@ -25,10 +25,10 @@ class ItemsController < ApplicationController
 
     @items = @items.not_archived.order(:order, :created_at)
 
-    @breadcrumbs = [["Items", items_path]]
+    @ancestors = [["While", items_path]]
     if @parent.present?
-      @breadcrumbs += @parent.ancestors.map { |i| [i.name, items_path(i)] }
-      @breadcrumbs << [@parent.name, items_path(@parent)]
+      @ancestors += @parent.ancestors.map { |i| [i.name, items_path(i), i.id] }
+      @ancestors << [@parent.name, items_path(@parent)]
     end
   end
 

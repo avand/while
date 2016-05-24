@@ -1,0 +1,14 @@
+<div class="ancestors">
+  <% @ancestors.each_with_index do |ancestor, i| %>
+    <div class="ancestor <%= "parent" if @ancestors.length == (i + 1) -%>"
+         data-item-id="<%= ancestor[2] -%>"
+         style="background-color: rgba(0, 0, 0, <%= ((@ancestors.length - 1) * 0.05) - (i * 0.05) %>);
+                border-color: rgba(0, 0, 0, <%= ((@ancestors.length - 1) * 0.02) - (i * 0.02) %>)">
+      <div class="ancestor-content">
+        <%= link_to_unless_current ancestor[0], ancestor[1], {
+          class: "block underline-on-hover"
+        } %>
+      </div>
+    </div>
+  <% end %>
+</div>

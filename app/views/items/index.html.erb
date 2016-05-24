@@ -1,15 +1,5 @@
 <% content_for :header do %>
-  <div class="breadcrumbs">
-    <% @breadcrumbs.each_with_index do |breadcrumb, i| %>
-      <div class="breadcrumb"
-           style="background-color: rgba(0, 0, 0, <%= ((@breadcrumbs.length - 1) * 0.05) - (i * 0.05) %>);
-                  border-color: rgba(0, 0, 0, <%= ((@breadcrumbs.length - 1) * 0.02) - (i * 0.02) %>)">
-        <%= link_to_unless_current breadcrumb[0], breadcrumb[1], {
-          class: "block underline-on-hover"
-        } %>
-      </div>
-    <% end %>
-  </div>
+  <%= render "ancestors" %>
 <% end %>
 
 <% if @items.present? %>
@@ -19,13 +9,8 @@
 <% end %>
 
 <div class="no-items align-center <%= "hidden" if @items.present? %>"
-     style="background-color: rgba(0, 0, 0, 0.04); padding: 1em;
-            border-radius: 1em;">
-  <div style="font-size: 2em; margin-top: .2em;">🤗</div>
-
-  <p style="font-size: .8em;">
-    Nothing to do here!
-  </p>
+     style="margin: 1.5em 0 5em; font-size: .75em; color: rgba(0, 0, 0, 0.35);">
+  Nothing to do here.
 </div>
 
 <% if @archived_items_by_completed_date.present? %>

@@ -16,6 +16,12 @@
 //= require fastclick
 //= require_tree .
 
+window.checkForEmptyList = function() {
+  if ($("main .item:not(.item-drag)").length == 0) {
+    $(".no-items").removeClass("hidden")
+  }
+};
+
 document.addEventListener("turbolinks:load", function() {
   FastClick.attach(document.body);
-})
+});
