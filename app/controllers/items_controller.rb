@@ -10,7 +10,17 @@ class ItemsController < ApplicationController
       @parent = Item.find params[:id]
       @root = @parent.root
       @items = @parent.children
+
+      cookies[:last_viewed_item_id] = {
+        value: params[:id],
+        expires: 1.week.from_now
+      }
     else
+      if cookies[:last_viewed_item_id].present? && request.referer.blank?
+        redirect_to items_path(id: cookies[:last_viewed_item_id])
+        return
+      end
+
       @items = current_user.items.roots
     end
 
