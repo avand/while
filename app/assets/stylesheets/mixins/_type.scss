@@ -1,0 +1,7 @@
+@mixin default-font-family() {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+
+@mixin monospace-font-family() {
+  font-family: "Lucida Console", Monaco, monospace;
+}

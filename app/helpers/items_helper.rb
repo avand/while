@@ -27,7 +27,7 @@ module ItemsHelper
       status = content_tag(:div, "", class: foreground_classes.join(" "),
                                      style: foreground_styles.join(" "))
       label = content_tag(:div, class: label_classes.join(" ")) do
-        completed.zero? ? pluralize(left, "item") : "#{left} left"
+        "<span>#{completed}</span>/<span>#{total}</span>".html_safe
       end
 
       status + label
