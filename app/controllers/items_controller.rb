@@ -16,8 +16,10 @@ class ItemsController < ApplicationController
         expires: 1.week.from_now
       }
     else
-      if cookies[:last_viewed_item_id].present? && request.referer.blank?
-        redirect_to items_path(id: cookies[:last_viewed_item_id])
+      last_viewed_item_id = cookies.delete :last_viewed_item_id
+
+      if last_viewed_item_id.present? && request.referer.blank?
+        redirect_to items_path(id: last_viewed_item_id)
         return
       end
 

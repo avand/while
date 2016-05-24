@@ -39,4 +39,14 @@ class ItemsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "GET to index removes last viewed item cookie when viewing the root" do
+    session[:current_user_id] = users(:avand).id
+
+    cookies[:last_viewed_item_id] = 1
+
+    get :index
+
+    assert_nil cookies[:last_viewed_item_id]
+  end
+
 end
