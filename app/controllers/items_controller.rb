@@ -1,7 +1,5 @@
 class ItemsController < ApplicationController
 
-  include ItemsHelper
-
   before_action :require_current_user
   before_action :set_item, only: [
     :new, :edit, :create, :update, :destroy, :complete, :adopt, :cleanup]
@@ -96,16 +94,7 @@ class ItemsController < ApplicationController
     child_item.save
 
     if @item
-      # TODO: This code is duplicative with code in ItemsHelper and can be
-      # better shared. In reality, this type of response, should be avoided.
-      total = @item.descendants.not_deleted.count
-      completed = @item.descendants.completed.not_deleted.count
-      percent_complete = ((completed / total.to_f) * 100).round rescue 0
-
-      render json: {
-        progress_width: progress_bar_width(total),
-        progress_bar_width: percent_complete
-      }
+      render partial: "progress_bar", object: @item, as: "item"
     else
       head :ok
     end

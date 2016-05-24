@@ -4,6 +4,7 @@ module ItemsHelper
     total = item.descendants.not_deleted.count
     completed = item.descendants.completed.not_deleted.count
     percent_complete = ((completed / total.to_f) * 100).round rescue 0
+    left = total - completed
 
     background_classes = ["progress-bar"]
     background_classes << "hidden" if total.zero?
@@ -11,6 +12,9 @@ module ItemsHelper
 
     foreground_classes = ["progress-bar-status"]
     foreground_styles = ["width: #{percent_complete}%;"]
+
+    label_classes = ["progress-bar-label"]
+    label_classes << "hidden" if left.zero?
 
     if color = (item.color || item.root.color)
       color = Color::RGB.by_hex color
@@ -20,13 +24,14 @@ module ItemsHelper
 
     content_tag :div, class: background_classes.join(" "),
                       style: background_styles.join(" ") do
-      content_tag :div, "", class: foreground_classes.join(" "),
-                            style: foreground_styles.join(" ")
-    end
+      status = content_tag(:div, "", class: foreground_classes.join(" "),
+                                     style: foreground_styles.join(" "))
+      label = content_tag(:div, class: label_classes.join(" ")) do
+        completed.zero? ? pluralize(left, "item") : "#{left} left"
+      end
 
-    # <div class="item-progress-label hidden">
-    #   <%= completed -%> / <%= total -%>
-    # </div>
+      status + label
+    end
   end
 
   def progress_bar_width(number_of_items)

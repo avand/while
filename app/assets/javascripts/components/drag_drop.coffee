@@ -182,14 +182,24 @@ document.addEventListener "turbolinks:load", ->
       data: "child_id=#{child.data("item-id")}"
       method: "PATCH"
       beforeSend: -> parent.addClass("pulse-while-pending")
-      success: (data) ->
-        parent
-          .removeClass("pulse-while-pending")
-          .find(".progress-bar")
-            .removeClass("hidden")
-            .css("width", "#{data["progress_width"]}%")
-            .find(".progress-bar-status")
-              .css("width", "#{data["progress_bar_width"]}%")
+      success: (newProgressBar) ->
+        newProgressBar = $(newProgressBar)
+        width = newProgressBar.css("width")
+        statusWidth = newProgressBar.find(".progress-bar-status").css("width")
+        labelHTML = newProgressBar.find(".progress-bar-label").html()
+
+        parent.removeClass("pulse-while-pending")
+
+        progressBar = parent.find(".progress-bar")
+        progressBar
+          .removeClass("hidden")
+          .css("width", width)
+        progressBar.find(".progress-bar-status")
+          .css("width", statusWidth)
+        progressBar.find(".progress-bar-label")
+          .removeClass("hidden")
+          .html(labelHTML)
+
         checkForEmptyList()
 
   $(".item").each ->

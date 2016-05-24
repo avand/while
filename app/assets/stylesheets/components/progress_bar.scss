@@ -8,7 +8,7 @@
 }
 
 .progress-bar {
-  height: 8px;
+  height: 9px;
   background-color: rgba(0, 0, 0, 0.05);
   margin-top: .6em;
   max-width: 100%;
@@ -23,12 +23,10 @@
 
 .progress-bar-label {
   position: absolute;
-  top: 0;
-  right: -25px;
-  width: 25px;
-  text-align: right;
+  top: -2px;
+  right: -45px;
+  width: 40px;
+  text-align: left;
   font-size: 10px;
-  line-height: 10px;
-  font-weight: 500;
-  color: lighten(black, 60%);
+  color: lighten(black, 85%);
 }
