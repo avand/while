@@ -215,13 +215,13 @@ document.addEventListener "turbolinks:load", ->
       .on "mousedown.drag-drop", (event) ->
         delayDrag item, top: event.clientY, left: event.clientX
 
-      .on "touchend.drag-drop mouseup.drag-drop", (event) ->
-        clearTimeout(dragDelayTimer)
-        finishDrag()
-
   $(document)
     .on "touchmove.drag-drop", (event) ->
       touch = event.originalEvent.touches[0]
       drag top: touch.clientY, left: touch.clientX, event
     .on "mousemove.drag-drop", (event) ->
       drag top: event.clientY, left: event.clientX, event
+
+    .on "touchend.drag-drop mouseup.drag-drop", (event) ->
+      clearTimeout(dragDelayTimer)
+      finishDrag()
