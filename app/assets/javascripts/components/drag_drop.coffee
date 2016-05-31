@@ -211,6 +211,7 @@ document.addEventListener "turbolinks:load", ->
 
     item
       .on "touchstart.drag-drop", (event) ->
+        event.preventDefault()
         touch = event.originalEvent.touches[0]
         delayDrag item, top: touch.clientY, left: touch.clientX
       .on "mousedown.drag-drop", (event) ->
