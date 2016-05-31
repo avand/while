@@ -7,14 +7,20 @@ document.addEventListener "turbolinks:load", ->
       callback() if callback
 
   $(".item-delete-control").click (event) ->
+    event.stopPropagation()
+
     $el = $(this).parents(".item").find(".item-delete-confirmation")
       .removeClass("hidden")
     animate $el, "fade-in", duration: 100
 
   $(".item-delete-cancel-control").click (event) ->
+    event.stopPropagation()
+
     cancelDelete $(this).parents(".item")
 
   $(".item-delete-confirm-control").click (event) ->
+    event.stopPropagation()
+
     $item = $(this).parents(".item")
 
     $.ajax

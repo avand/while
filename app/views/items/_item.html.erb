@@ -1,6 +1,7 @@
 <div id="item-<%= item.id -%>"
      class="item"
      data-item-id="<%= item.id -%>"
+     data-item-href="<%= items_path(item) -%>"
      data-item-completed-at="<%= item.completed_at -%>">
   <div class="item-checkbox left clickable">
     <% if item.completed? %>
@@ -20,13 +21,13 @@
     </span>
   </div>
 
-  <%= link_to items_path(item), class: "item-content" do %>
+  <div class="item-content">
     <div class="item-name <%= "strikethrough" if item.completed? -%>">
       <%= item.name %>
     </div>
 
     <%= progress_bar item %>
-  <% end %>
+  </div>
 
   <div class="item-delete-confirmation full-bleed hidden">
     <span style="margin-bottom: .5em;">

@@ -1,6 +1,8 @@
 document.addEventListener "turbolinks:load", ->
 
   $(".item-checkbox").click (event) ->
+    event.stopPropagation()
+
     $itemCheckbox = $(this)
     $item = $itemCheckbox.parents(".item")
     $itemCheckboxIcon = $itemCheckbox.find("i")

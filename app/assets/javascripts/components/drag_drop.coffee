@@ -31,7 +31,6 @@ document.addEventListener "turbolinks:load", ->
           "#{pointerOffset.left - boundaries.left}px"
       .data "original-index", dragItem.index()
       .addClass("item-drag")
-      .find("a").on "click.drag-drop", (event) -> event.preventDefault()
 
   drag = (pointerOffset, event) ->
     if !dragItem
@@ -211,7 +210,6 @@ document.addEventListener "turbolinks:load", ->
 
     item
       .on "touchstart.drag-drop", (event) ->
-        event.preventDefault()
         touch = event.originalEvent.touches[0]
         delayDrag item, top: touch.clientY, left: touch.clientX
       .on "mousedown.drag-drop", (event) ->
