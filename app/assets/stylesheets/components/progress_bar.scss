@@ -29,12 +29,13 @@
   right: -55px;
   width: 50px;
   text-align: left;
-  font-size: 8px;
-  line-height: 8px;
-  color: lighten(black, 90%);
+  font-size: 10px;
+  line-height: 10px;
+  color: lighten(black, 85%);
+  letter-spacing: -.5px;
 
   span {
-    margin: 0 .5px;
-    color: lighten(black, 82.5%);
+    margin: 0 1px;
+    color: lighten(black, 70%);
   }
 }
