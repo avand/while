@@ -13,6 +13,24 @@
   Nothing to do here.
 </div>
 
+<div class="control-bar-container">
+  <div class="control-bar">
+    <div class="control-bar-content">
+      <% path = new_item_path(item: { parent_id: @parent.try(:id) }) %>
+      <%= link_to path, class: "button button-icon button-primary new-item-button" do %>
+        <i class="fa fa-fw fa-plus"></i>
+      <% end %>
+
+      <% path = cleanup_items_path(id: @parent.try(:id)) %>
+      <% classes = "button button-icon cleanup-button" %>
+      <% classes = "#{classes} button-disabled" if @items.none?(&:completed?) %>
+      <%= link_to path, class: classes do %>
+        <i class="fa fa-fw fa-magic"></i>
+      <% end %>
+    </div>
+  </div>
+</div>
+
 <% if @archived_items_by_completed_date.present? %>
   <div class="archived-items">
     <div class="archived-items-heading">
@@ -28,26 +46,3 @@
     <% end %>
   </div>
 <% end %>
-
-<div class="control-bar">
-  <div class="control-bar-content">
-    <% path = new_item_path(item: { parent_id: @parent.try(:id) }) %>
-    <%= link_to path, class: "button button-primary new-item-button" do %>
-      Add item
-    <% end %>
-
-    <% path = cleanup_items_path(id: @parent.try(:id)) %>
-    <% classes = "button cleanup-button" %>
-    <% classes = "#{classes} button-disabled" if @items.none?(&:completed?) %>
-    <%= link_to "Cleanup", path, class: classes %>
-
-    <div class="right">
-      <% if current_user.present? %>
-        <%= current_user.name %> &middot;
-        <%= link_to 'Log out', sessions_path, method: :delete, class: "underline", data: { 'no-turbolinks' => true } %>
-      <% else %>
-        <a href="/auth/google_oauth2" data-no-turbolinks class="underline">Log in</a>
-      <% end %>
-    </div>
-  </div>
-</div>

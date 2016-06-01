@@ -1,19 +1,40 @@
-.control-bar {
+.control-bar-fixed {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 999;
 
-  .right {
-    color: lighten(black, 60%);
-    font-size: 0.8em;
-    line-height: 38px;
+  .button {
+    box-shadow: 0 .25em 2em rgba(0, 0, 0, 0.25);
+  }
+
+  .control-bar-content {
+    @include content-box();
   }
 }
 
 .control-bar-content {
-  @include content-box();
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  .button {
+    transition: box-shadow 200ms;
+
+    border-radius: 100%;
+    padding: 8px;
+
+    width: 45px;
+    height: 45px;
+
+    &:first-child {
+      margin-left: 8px;
+    }
+
+    i {
+      font-size: 20px;
+      display: inline-block;
+      line-height: 28px;
+    }
+  }
 }

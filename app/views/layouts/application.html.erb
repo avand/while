@@ -32,5 +32,16 @@
 
       <%= yield %>
     </main>
+
+    <footer>
+      <div class="footer-content">
+        <% if current_user.present? %>
+          Logged in as <strong><%= current_user.name %></strong> &middot;
+          <%= link_to 'Log out', sessions_path, method: :delete, class: "underline", data: { 'no-turbolinks' => true } %>
+        <% else %>
+          <a href="/auth/google_oauth2" data-no-turbolinks class="underline">Log in</a>
+        <% end %>
+      </div>
+    </footer>
   <% end %>
 </html>
