@@ -8,10 +8,6 @@
   border-bottom-width: 2px;
   background-color: white;
 
-  &:hover {
-    text-decoration: underline;
-  }
-
   &:focus {
     outline: 0;
   }
@@ -28,16 +24,14 @@
   background-color: transparent;
 }
 
-.button-link:hover {
-  text-decoration: none;
-}
-
 .button-disabled {
   color: rgba(0, 0, 0, 0.2);
   text-decoration: none;
   cursor: not-allowed;
-
-  &:hover {
-    text-decoration: none;
-  }
 }
+
+.button:active,
+.hover-enabled .button:hover { text-decoration: underline; }
+.button.button-link:active,
+.hover-enabled .button-link:hover,
+.hover-enabled .button-disabled:hover { text-decoration: none; }

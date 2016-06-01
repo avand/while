@@ -32,6 +32,15 @@ document.addEventListener "turbolinks:load", ->
       .data "original-index", dragItem.index()
       .addClass("item-drag")
 
+    disableAllOtherPointers()
+
+  disableAllOtherPointers = ->
+    $(document).on "touchstart.drag-drop mousedown.drag-drop", (event) ->
+      console.log "other click"
+      event.preventDefault()
+      event.stopPropagation()
+
+
   drag = (pointerOffset, event) ->
     if !dragItem
       if pointerStrayedFromStartingPoint(pointerOffset)
