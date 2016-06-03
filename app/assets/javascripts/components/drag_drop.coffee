@@ -1,7 +1,8 @@
 document.addEventListener "turbolinks:load", ->
 
+  pointerItem = null
   dragItem = null
-  dragDelay = 400
+  dragDelay = 300
   dropTargets = []
   dragDelayTimer = null
   startingPointOffset = null
@@ -32,20 +33,13 @@ document.addEventListener "turbolinks:load", ->
       .data "original-index", dragItem.index()
       .addClass("item-drag")
 
-    disableAllOtherPointers()
-
-  disableAllOtherPointers = ->
-    $(document).on "touchstart.drag-drop mousedown.drag-drop", (event) ->
-      console.log "other click"
-      event.preventDefault()
-      event.stopPropagation()
-
+  reset = ->
+    clearTimeout(dragDelayTimer)
+    pointerItem = dragItem = null
 
   drag = (pointerOffset, event) ->
     if !dragItem
-      if pointerStrayedFromStartingPoint(pointerOffset)
-        clearTimeout(dragDelayTimer)
-        dragItem = null
+      reset() if pointerStrayedFromStartingPoint(pointerOffset)
       return
 
     event.preventDefault()
@@ -90,6 +84,10 @@ document.addEventListener "turbolinks:load", ->
         dropTarget.addClass("hidden").after(placeholder)
 
   finishDrag = ->
+    if !dragItem && pointerItem
+      Turbolinks.visit(pointerItem.data("item-href"))
+      return
+
     return unless dragItem
     return unless dragItem.hasClass("item-drag")
 
@@ -104,8 +102,7 @@ document.addEventListener "turbolinks:load", ->
       setTimeout ( ->
         dragItem.remove()
         placeholder.remove()
-        dragItem.find("a").off "click.drag-drop"
-        dragItem = null
+        reset()
       ), parseFloat(dragItem.css("transition-duration")) * 1000
 
       dragItem.addClass("item-vanish")
@@ -128,10 +125,7 @@ document.addEventListener "turbolinks:load", ->
       if dragItem.data("original-index") != dragItem.index()
         reorderItem(dragItem)
 
-      setTimeout ( ->
-        dragItem.find("a").off "click.drag-drop"
-        dragItem = null
-      ), 5
+      setTimeout ( -> reset() ), 5
 
   pointerStrayedFromStartingPoint = (pointerOffset) ->
     tolerance = 3 # px
@@ -146,6 +140,7 @@ document.addEventListener "turbolinks:load", ->
     # Disable drag/drop functionality if delete confirmation visible.
     return unless item.find(".item-delete-confirmation").hasClass("hidden")
 
+    pointerItem = item
     startingPointOffset = pointerOffset
     dragDelayTimer = setTimeout ( -> startDrag item, pointerOffset ), dragDelay
 
@@ -223,6 +218,9 @@ document.addEventListener "turbolinks:load", ->
         delayDrag item, top: touch.clientY, left: touch.clientX
       .on "mousedown.drag-drop", (event) ->
         delayDrag item, top: event.clientY, left: event.clientX
+      .on "touchend.drag-drop mouseup.drag-drop", (event) ->
+        clearTimeout(dragDelayTimer)
+        finishDrag()
 
   $(document)
     .on "touchmove.drag-drop", (event) ->
@@ -230,7 +228,3 @@ document.addEventListener "turbolinks:load", ->
       drag top: touch.clientY, left: touch.clientX, event
     .on "mousemove.drag-drop", (event) ->
       drag top: event.clientY, left: event.clientX, event
-
-    .on "touchend.drag-drop mouseup.drag-drop", (event) ->
-      clearTimeout(dragDelayTimer)
-      finishDrag()
