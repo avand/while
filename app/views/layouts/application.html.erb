@@ -36,12 +36,43 @@
     <footer>
       <div class="footer-content">
         <% if current_user.present? %>
-          Logged in as <strong><%= current_user.name %></strong> &middot;
-          <%= link_to 'Log out', sessions_path, method: :delete, class: "underline", data: { 'no-turbolinks' => true } %>
+          Logged in as <strong><%= current_user.name %></strong><br>
+
+          <a href="#" class="underline give-feedback-link">Give feedback</a>
+
+          &middot;
+
+          <%= link_to "Log out", sessions_path, {
+            method: :delete,
+            class: "underline", data: { "no-turbolinks" => true }
+          } %>
         <% else %>
+          <a href="#" class="underline give-feedback-link">Give feedback</a>
+
+          &middot;
+
           <a href="/auth/google_oauth2" data-no-turbolinks class="underline">Log in</a>
         <% end %>
       </div>
     </footer>
+
+    <div class="feedback-overlay hidden">
+      <h1 class="align-center">Give feedback</h1>
+
+      <%= form_tag give_feedback_path do %>
+        <textarea name="message" rows="8" cols="40" class="field"
+                  placeholder="<%= if current_user.present?
+                                     "Give it to me straight..."
+                                   else
+                                     "Please include your name & email"
+                                   end
+                               %>"></textarea>
+
+        <button type="submit"
+                class="button button-primary">Send</button>
+        <button type="button"
+                class="button button-link cancel-button">Cancel</button>
+      <% end %>
+    </div>
   <% end %>
 </html>

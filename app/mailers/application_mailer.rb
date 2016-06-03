@@ -1,4 +1,18 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'from@example.com'
-  layout 'mailer'
+
+  layout "mailer"
+
+  def feedback(user, message)
+    @message = message
+
+    name = user.try(:name) || "While Guest"
+    email = user.try(:email) || "guest@getwhile.com"
+
+    mail({
+      from: "#{name} <#{user.try(:email) || ""}>",
+      to: "Avand Amiri <avand@avandamiri.com>",
+      subject: "Feedback on While"
+    })
+  end
+
 end

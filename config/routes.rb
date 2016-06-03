@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   get "/actions" => "actions#index", as: "actions"
   post "/actions/log" => "actions#log", as: "log_action"
 
+  post "/feedback" => "feedback#create", as: "give_feedback"
+
   root "users#new"
 
   # Serve websocket cable requests in-process

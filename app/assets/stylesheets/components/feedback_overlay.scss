@@ -1,0 +1,17 @@
+.feedback-overlay {
+  position: fixed;
+  z-index: 9999;
+
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: white;
+
+  padding: 0 10% 15px;
+
+  h1 { font-size: 1em; }
+
+  textarea { height: 100px; }
+}

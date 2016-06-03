@@ -11,6 +11,7 @@ gem "rack-canonical-host", "0.2.2"
 gem "jquery-rails"
 gem "turbolinks", "~> 5.x"
 gem "font-awesome-rails"
+gem "postmark-rails", ">= 0.12.0"
 
 gem "ancestry"
 gem "omniauth"
