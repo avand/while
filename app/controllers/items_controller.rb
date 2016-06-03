@@ -4,22 +4,23 @@ class ItemsController < ApplicationController
   before_action :set_item, only: [
     :new, :edit, :create, :update, :destroy, :complete, :adopt, :cleanup]
   before_action :set_parent_items, only: [:new, :edit, :create, :update]
+  before_action :validate_hashid
 
   def index
-    if params[:id].present?
-      @parent = Item.find params[:id]
+    if params[:hashid].present?
+      @parent = Item.find_by_hashid params[:hashid]
       @root = @parent.root
       @items = @parent.children
 
-      cookies[:last_viewed_item_id] = {
-        value: params[:id],
+      cookies[:last_viewed_item_hashid] = {
+        value: @parent.hashid,
         expires: 1.week.from_now
       }
     else
-      last_viewed_item_id = cookies.delete :last_viewed_item_id
+      last_viewed_item_hashid = cookies.delete :last_viewed_item_hashid
 
-      if last_viewed_item_id.present? && request.referer.blank?
-        redirect_to items_path(id: last_viewed_item_id)
+      if last_viewed_item_hashid.present? && request.referer.blank?
+        redirect_to items_path(last_viewed_item_hashid)
         return
       end
 
@@ -37,7 +38,10 @@ class ItemsController < ApplicationController
 
     @ancestors = [["While", items_path]]
     if @parent.present?
-      @ancestors += @parent.ancestors.map { |i| [i.name, items_path(i), i.id] }
+      @ancestors += @parent.ancestors.map do |item|
+        [item.name, items_path(item), item.hashid]
+      end
+
       @ancestors << [@parent.name, items_path(@parent)]
     end
   end
@@ -93,13 +97,13 @@ class ItemsController < ApplicationController
   end
 
   def reorder
-    params[:ids].split(",").each_with_index do |id, i|
-      Item.find(id).update order: i
+    params[:hashids].split(",").each_with_index do |id, i|
+      Item.find_by_hashid(id).update order: i
     end
   end
 
   def adopt
-    child_item = Item.find(params[:child_id])
+    child_item = Item.find_by_hashid(params[:child_hashid])
 
     child_item.parent = @item
     child_item.make_last
@@ -126,8 +130,8 @@ class ItemsController < ApplicationController
 private
 
   def set_item
-    if params[:id].present?
-      @item = current_user.items.find params[:id]
+    if params[:hashid].present?
+      @item = current_user.items.find_by_hashid params[:hashid]
     elsif params[:item].present?
       @item = current_user.items.new item_params
     end
@@ -141,6 +145,18 @@ private
 
   def item_params
     params.require(:item).permit(:name, :parent_id, :completed, :color)
+  end
+
+  def validate_hashid
+    if params[:hashid].present? && params[:hashid] =~ /\A\d+\z/
+      flash[:notice] = \
+        "For your privacy, the URLs for all your lists have changed and no " +
+        "longer include a sequential (and easily guessable) ID. Any existing" +
+        "links to your lists will no longer work but you shouldn’t " +
+        "experience any other issues."
+
+      redirect_to root_path
+    end
   end
 
 end

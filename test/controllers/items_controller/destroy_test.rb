@@ -4,7 +4,7 @@ class ItemsControllerTest < ActionController::TestCase
 
   test "DELETE to destroy raises an exception if the user is not signed in" do
     assert_raises ApplicationController::AuthorizationRequired do
-      delete :destroy, params: { id: 1 }
+      delete :destroy, params: { hashid: "a1" }
     end
   end
 
@@ -12,7 +12,7 @@ class ItemsControllerTest < ActionController::TestCase
     session[:current_user_id] = users(:avand).id
 
     assert_raises ActiveRecord::RecordNotFound do
-      delete :destroy, params: { id: -1 }
+      delete :destroy, params: { hashid: "a1" }
     end
   end
 
@@ -21,7 +21,7 @@ class ItemsControllerTest < ActionController::TestCase
     session[:current_user_id] = users(:avand).id
 
     delete :destroy, params: {
-      id: items(:groceries).id,
+      hashid: items(:groceries).to_param,
       deleted_at: "2016-05-1T12:15:00.000Z"
     }
 

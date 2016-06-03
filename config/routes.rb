@@ -1,15 +1,15 @@
 Rails.application.routes.draw do
 
   get "items/new" => "items#new", as: "new_item"
-  get "items/:id/edit" => "items#edit", as: "edit_item"
-  get "items(/:id)" => "items#index", as: "items"
+  get "items/:hashid/edit" => "items#edit", as: "edit_item"
+  get "items(/:hashid)" => "items#index", as: "items"
   post "items" => "items#create"
-  patch "items(/:id)/cleanup" => "items#cleanup", as: "cleanup_items"
-  patch "items(/:id)/adopt" => "items#adopt", as: "adopt_item"
+  patch "items(/:hashid)/cleanup" => "items#cleanup", as: "cleanup_items"
+  patch "items(/:hashid)/adopt" => "items#adopt", as: "adopt_item"
   patch "items/reorder" => "items#reorder", as: "reorder_items"
-  patch "items/:id" => "items#update", as: "item"
-  patch "items/:id/complete" => "items#complete", as: "complete_item"
-  delete "items/:id" => "items#destroy"
+  patch "items/:hashid" => "items#update", as: "item"
+  patch "items/:hashid/complete" => "items#complete", as: "complete_item"
+  delete "items/:hashid" => "items#destroy"
 
   get "/auth/:provider/callback", to: "sessions#create"
   delete "/bye" => "sessions#destroy", as: "sessions"

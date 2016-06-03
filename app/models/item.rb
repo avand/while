@@ -35,4 +35,20 @@ class Item < ApplicationRecord
     self.order = (siblings.maximum(:order) || -1) + 1
   end
 
+  def hashid
+    return nil if id.blank?
+    salt = Rails.application.secrets[:hashids_salt]
+    hashids = Hashids.new(salt)
+    hashids.encode(id)
+  end
+
+  def to_param
+    hashid
+  end
+
+  def self.find_by_hashid(hashid)
+    hashids = Hashids.new(Rails.application.secrets[:hashids_salt])
+    find hashids.decode(hashid).first
+  end
+
 end

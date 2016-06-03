@@ -4,7 +4,7 @@ class ItemsControllerTest < ActionController::TestCase
 
   test "PATCH to complete raises an exception if the user is not signed in" do
     assert_raises ApplicationController::AuthorizationRequired do
-      patch :complete, params: { id: 1 }
+      patch :complete, params: { hashid: "a1" }
     end
   end
 
@@ -12,7 +12,7 @@ class ItemsControllerTest < ActionController::TestCase
     session[:current_user_id] = users(:avand).id
 
     assert_raises ActiveRecord::RecordNotFound do
-      patch :complete, params: { id: -1 }
+      patch :complete, params: { hashid: "a1" }
     end
   end
 
@@ -21,7 +21,7 @@ class ItemsControllerTest < ActionController::TestCase
     session[:current_user_id] = users(:avand).id
 
     patch :complete, params: {
-      id: items(:groceries).id,
+      hashid: items(:groceries).to_param,
       completed_at: "2016-04-28T22:30:00.000Z"
     }
 
@@ -32,7 +32,10 @@ class ItemsControllerTest < ActionController::TestCase
   test "PATCH to complete sets the completed_at to nil" do
     session[:current_user_id] = users(:avand).id
 
-    patch :complete, params: { id: items(:groceries).id, completed_at: nil }
+    patch :complete, params: {
+      hashid: items(:groceries).to_param,
+      completed_at: nil
+    }
 
     assert_nil items(:groceries).reload.completed_at
   end
@@ -42,7 +45,7 @@ class ItemsControllerTest < ActionController::TestCase
 
     assert_difference "users(:avand).actions.count" do
       patch :complete, params: {
-        id: items(:groceries).id,
+        hashid: items(:groceries).to_param,
         completed_at: "2016-05-07:15:00.000Z"
       }
     end
@@ -56,7 +59,10 @@ class ItemsControllerTest < ActionController::TestCase
     session[:current_user_id] = users(:avand).id
 
     assert_difference "users(:avand).actions.count" do
-      patch :complete, params: { id: items(:groceries).id, completed_at: nil }
+      patch :complete, params: {
+        hashid: items(:groceries).to_param,
+        completed_at: nil
+      }
     end
 
     assert_equal \

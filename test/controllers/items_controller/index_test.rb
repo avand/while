@@ -4,35 +4,50 @@ class ItemsControllerTest < ActionController::TestCase
 
   test "GET to index raises an exception if user is not signed in" do
     assert_raises ApplicationController::AuthorizationRequired do
-      get :index, params: { id: 1 }
+      get :index, params: { hashid: "a1" }
     end
   end
 
   test "GET to index saves the item ID as a cookie" do
     session[:current_user_id] = users(:avand).id
 
-    get :index, params: { id: 1 }
+    get :index, params: { hashid: "gZ" }
 
-    assert_equal "1", cookies[:last_viewed_item_id]
+    assert_equal "gZ", cookies[:last_viewed_item_hashid]
+  end
+
+  test "GET to index validates the hashid" do
+    session[:current_user_id] = users(:avand).id
+
+    get :index, params: { hashid: "123" }
+
+    assert_response :redirect
+    assert_redirected_to root_path
+    assert_equal \
+      "For your privacy, the URLs for all your lists have changed and no " +
+      "longer include a sequential (and easily guessable) ID. Any existing" +
+      "links to your lists will no longer work but you shouldn’t " +
+      "experience any other issues.",
+      flash[:notice]
   end
 
   test "GET to index redirects to the last viewed item" do
     session[:current_user_id] = users(:avand).id
 
-    cookies[:last_viewed_item_id] = 1
+    cookies[:last_viewed_item_hashid] = "a1"
 
     get :index
 
     assert_response :redirect
-    assert_redirected_to items_path(id: 1)
+    assert_redirected_to items_path("a1")
   end
 
   test "GET to index does not redirect to the last viewed item if there’s a
         HTTP referrer" do
     session[:current_user_id] = users(:avand).id
 
-    cookies[:last_viewed_item_id] = 1
-    request.env["HTTP_REFERER"] = "http://getwhile.com/items/123"
+    cookies[:last_viewed_item_hashid] = "a1"
+    request.env["HTTP_REFERER"] = "http://getwhile.com/items/gZ"
 
     get :index
 
@@ -42,11 +57,11 @@ class ItemsControllerTest < ActionController::TestCase
   test "GET to index removes last viewed item cookie when viewing the root" do
     session[:current_user_id] = users(:avand).id
 
-    cookies[:last_viewed_item_id] = 1
+    cookies[:last_viewed_item_hashid] = "a1"
 
     get :index
 
-    assert_nil cookies[:last_viewed_item_id]
+    assert_nil cookies[:last_viewed_item_hashid]
   end
 
 end

@@ -174,20 +174,20 @@ document.addEventListener "turbolinks:load", ->
         return dropTarget
 
   reorderItem = (item) ->
-    orderedItemIDs = $(".item").map ->
-      $(this).data("item-id")
+    orderedItemHashids = $(".item").map ->
+      $(this).data("item-hashid")
 
     $.ajax
       url: "/items/reorder"
-      data: { ids: orderedItemIDs.get().join() }
+      data: { hashids: orderedItemHashids.get().join() }
       method: "PATCH"
       beforeSend: -> item.addClass("pulse-while-pending")
       success: -> item.removeClass("pulse-while-pending")
 
   adoptItem = (child, parent) ->
     $.ajax
-      url: "/items/#{parent.data("item-id")}/adopt"
-      data: "child_id=#{child.data("item-id")}"
+      url: "/items/#{parent.data("item-hashid")}/adopt"
+      data: "child_hashid=#{child.data("item-hashid")}"
       method: "PATCH"
       beforeSend: -> parent.addClass("pulse-while-pending")
       success: (newProgressBar) ->

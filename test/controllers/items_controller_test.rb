@@ -32,14 +32,17 @@ class ItemsControllerTest < ActionController::TestCase
 
   test "PATCH to update raises an exception if user is not signed in" do
     assert_raises ApplicationController::AuthorizationRequired do
-      patch :update, params: { id: 1, item: {} }
+      patch :update, params: { hashid: "a1", item: {} }
     end
   end
 
   test "PATCH to update updates the item" do
     session[:current_user_id] = users(:avand).id
 
-    patch :update, params: { id: items(:avocados).id, item: { name: "pears" } }
+    patch :update, params: {
+      hashid: items(:avocados).to_param,
+      item: { name: "pears" }
+    }
 
     assert_equal "pears", items(:avocados).reload.name
   end
@@ -48,7 +51,10 @@ class ItemsControllerTest < ActionController::TestCase
     session[:current_user_id] = users(:avand).id
 
     assert_difference "users(:avand).actions.count" do
-      patch :update, params: { id: items(:avocados).id, item: { name: "foo" } }
+      patch :update, params: {
+        hashid: items(:avocados).to_param,
+        item: { name: "foo" }
+      }
     end
 
     assert_equal "updated item #{items(:avocados).id}", Action.last.name

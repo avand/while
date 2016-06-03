@@ -24,7 +24,7 @@ document.addEventListener "turbolinks:load", ->
     $item = $(this).parents(".item")
 
     $.ajax
-      url: "/items/#{$item.data("item-id")}"
+      url: "/items/#{$item.data("item-hashid")}"
       data: { deleted_at: (new Date()) }
       method: "DELETE"
       success: ->

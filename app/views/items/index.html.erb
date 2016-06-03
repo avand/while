@@ -21,7 +21,7 @@
         <i class="fa fa-fw fa-plus"></i>
       <% end %>
 
-      <% path = cleanup_items_path(id: @parent.try(:id)) %>
+      <% path = cleanup_items_path(@parent) %>
       <% classes = "button button-icon cleanup-button" %>
       <% classes = "#{classes} button-disabled" if @items.none?(&:completed?) %>
       <%= link_to path, class: classes do %>

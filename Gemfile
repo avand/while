@@ -17,6 +17,7 @@ gem "ancestry"
 gem "omniauth"
 gem "omniauth-google-oauth2"
 gem "color"
+gem "hashids"
 
 group :development, :test do
   gem "byebug"

@@ -8,13 +8,13 @@ document.addEventListener "turbolinks:load", ->
     $itemCheckboxIcon = $itemCheckbox.find("i")
     $itemName = $item.find(".item-name")
 
-    itemID = $item.data("item-id")
+    itemHashid = $item.data("item-hashid")
     data = { completed_at: null }
 
     data["completed_at"] = new Date() unless $item.data("item-completed-at")
 
     $.ajax
-      url: "/items/#{itemID}/complete"
+      url: "/items/#{itemHashid}/complete"
       data: data
       method: "PATCH"
       beforeSend: ->
