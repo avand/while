@@ -136,9 +136,12 @@ document.addEventListener "turbolinks:load", ->
      pointerOffset.left < startingPointOffset.left - tolerance ||
      pointerOffset.left > startingPointOffset.left + tolerance)
 
-  delayDrag = (item, pointerOffset) ->
-    # Disable drag/drop functionality if delete confirmation visible.
+  delayDrag = (event, item, pointerOffset) ->
+    # Abort if delete confirmation visible.
     return unless item.find(".item-delete-confirmation").hasClass("hidden")
+
+    # Abort if one of the items control was clicked
+    return if $(event.target).parents(".item-control").length > 0
 
     pointerItem = item
     startingPointOffset = pointerOffset
@@ -215,9 +218,9 @@ document.addEventListener "turbolinks:load", ->
     item
       .on "touchstart.drag-drop", (event) ->
         touch = event.originalEvent.touches[0]
-        delayDrag item, top: touch.clientY, left: touch.clientX
+        delayDrag event, item, top: touch.clientY, left: touch.clientX
       .on "mousedown.drag-drop", (event) ->
-        delayDrag item, top: event.clientY, left: event.clientX
+        delayDrag event, item, top: event.clientY, left: event.clientX
       .on "touchend.drag-drop mouseup.drag-drop", (event) ->
         clearTimeout(dragDelayTimer)
         finishDrag()
