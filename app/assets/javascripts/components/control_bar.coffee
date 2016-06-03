@@ -4,7 +4,7 @@ document.addEventListener "turbolinks:load", ->
   container = $(".control-bar-container")
   container.css "height", container.height()
 
-  setInterval ( ->
+  setInterval(( ->
     windowHeight = $(window).height()
     controlBarBottom = container[0].getBoundingClientRect().bottom
 
@@ -12,7 +12,7 @@ document.addEventListener "turbolinks:load", ->
       controlBar.addClass("control-bar-fixed")
     else
       controlBar.removeClass("control-bar-fixed")
-  ), 100
+  ), 100) if container[0]
 
   $(".cleanup-button").click (event) ->
     event.preventDefault()
