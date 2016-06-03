@@ -140,8 +140,11 @@ document.addEventListener "turbolinks:load", ->
     # Abort if delete confirmation visible.
     return unless item.find(".item-delete-confirmation").hasClass("hidden")
 
-    # Abort if one of the items control was clicked
-    return if $(event.target).parents(".item-control").length > 0
+    target = $(event.target)
+    # Abort if one of the item's control was clicked.
+    return if target.parents(".item-control").length > 0
+    # Abort if the checkbox was clicked.
+    return if target.parents(".item-checkbox").length > 0
 
     pointerItem = item
     startingPointOffset = pointerOffset
