@@ -18,6 +18,7 @@ gem "omniauth"
 gem "omniauth-google-oauth2"
 gem "color"
 gem "hashids"
+gem "bugsnag"
 
 group :development, :test do
   gem "byebug"

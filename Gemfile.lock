@@ -42,6 +42,7 @@ GEM
     ancestry (2.1.0)
       activerecord (>= 3.0.0)
     arel (7.0.0)
+    bugsnag (4.1.0)
     builder (3.2.2)
     byebug (8.2.2)
     coffee-rails (4.1.1)
@@ -198,6 +199,7 @@ PLATFORMS
 
 DEPENDENCIES
   ancestry
+  bugsnag
   byebug
   coffee-rails (~> 4.1.0)
   color
