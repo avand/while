@@ -2,7 +2,7 @@
      class="archived-item"
      data-item-hashid="<%= item.hashid -%>"
      data-item-completed-at="<%= item.completed_at -%>">
-  <div class="archived-item-checkbox left clickable">
+  <div class="archived-item-checkbox left pointer">
     <%= link_to complete_item_path(item), method: :patch do %>
       <i class="fa fa-fw fa-check-square-o"></i>
     <% end %>

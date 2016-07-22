@@ -7,14 +7,14 @@ module ItemsHelper
     left = total - completed
 
     background_classes = ["progress-bar"]
-    background_classes << "hidden" if total.zero?
+    background_classes << "hide" if total.zero?
     background_styles = ["width: #{progress_bar_width total}%;"]
 
     foreground_classes = ["progress-bar-status"]
     foreground_styles = ["width: #{percent_complete}%;"]
 
     label_classes = ["progress-bar-label"]
-    label_classes << "hidden" if total.zero?
+    label_classes << "hide" if total.zero?
 
     if color = (item.color || item.root.color)
       color = Color::RGB.by_hex color

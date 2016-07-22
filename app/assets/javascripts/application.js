@@ -14,11 +14,12 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require fastclick
+//= require sprinkles-2.0.0
 //= require_tree .
 
 window.checkForEmptyList = function() {
   if ($("main .item:not(.item-drag)").length == 0) {
-    $(".no-items").removeClass("hidden")
+    $(".no-items").removeClass("hide")
   }
 };
 

@@ -71,7 +71,7 @@ document.addEventListener "turbolinks:load", ->
       else if dropTarget.hasClass("ancestor")
         if dropTarget.hasClass("parent")
           placeholder.prependTo(".items")
-          $(".no-items").addClass("hidden")
+          $(".no-items").addClass("hide")
           dragItem.removeClass("item-drop")
         else
           dragItem.addClass("item-drop")
@@ -81,7 +81,7 @@ document.addEventListener "turbolinks:load", ->
         calculateDropTargetBoundaries(dragItem)
       else if dropTarget.hasClass("no-items")
         dragItem.removeClass("item-drop")
-        dropTarget.addClass("hidden").after(placeholder)
+        dropTarget.addClass("hide").after(placeholder)
 
   finishDrag = ->
     if !dragItem && pointerItem
@@ -138,7 +138,7 @@ document.addEventListener "turbolinks:load", ->
 
   delayDrag = (event, item, pointerOffset) ->
     # Abort if delete confirmation visible.
-    return unless item.find(".item-delete-confirmation").hasClass("hidden")
+    return unless item.find(".item-delete-confirmation").hasClass("hide")
 
     target = $(event.target)
     # Abort if one of the item's control was clicked.
@@ -204,14 +204,14 @@ document.addEventListener "turbolinks:load", ->
         label = progressBar.find(".progress-bar-label")
 
         parent.removeClass("pulse-while-pending")
-        progressBar.removeClass("hidden").css("width", width)
+        progressBar.removeClass("hide").css("width", width)
         status.css("width", statusWidth)
         label.html(labelHTML)
 
-        if newLabel.hasClass("hidden")
-          label.addClass("hidden")
+        if newLabel.hasClass("hide")
+          label.addClass("hide")
         else
-          label.removeClass("hidden")
+          label.removeClass("hide")
 
         checkForEmptyList()
 

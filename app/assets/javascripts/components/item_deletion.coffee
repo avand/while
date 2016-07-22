@@ -3,14 +3,14 @@ document.addEventListener "turbolinks:load", ->
   cancelDelete = (item, callback) ->
     $confirmation = item.find(".item-delete-confirmation")
     animate $confirmation, "fade-out", duration: 200, ->
-      $confirmation.addClass("hidden")
+      $confirmation.addClass("hide")
       callback() if callback
 
   $(".item-delete-control").click (event) ->
     event.stopPropagation()
 
     $el = $(this).parents(".item").find(".item-delete-confirmation")
-      .removeClass("hidden")
+      .removeClass("hide")
     animate $el, "fade-in", duration: 100
 
   $(".item-delete-cancel-control").click (event) ->

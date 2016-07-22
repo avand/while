@@ -3,7 +3,7 @@
      data-item-hashid="<%= item.hashid -%>"
      data-item-href="<%= items_path(item) -%>"
      data-item-completed-at="<%= item.completed_at -%>">
-  <div class="item-checkbox left clickable">
+  <div class="item-checkbox left pointer">
     <% if item.completed? %>
       <i class="fa fa-fw fa-check-square-o"></i>
     <% else %>
@@ -29,7 +29,7 @@
     <%= progress_bar item %>
   </div>
 
-  <div class="item-delete-confirmation full-bleed hidden">
+  <div class="item-delete-confirmation full-bleed absolute hide">
     <span style="margin-bottom: .5em;">
       Are you sure you want to delete this item?
     </span>
@@ -37,13 +37,13 @@
     <span class="item-delete-confirm-control
                  underline-on-hover
                  medium-weight
-                 clickable">Yes</span>
+                 pointer">Yes</span>
 
     &middot;
 
     <span class="item-delete-cancel-control
                  underline-on-hover
                  medium-weight
-                 clickable">No</span>
+                 pointer">No</span>
   </div>
 </div>
