@@ -4,7 +4,6 @@ class ItemsController < ApplicationController
   before_action :set_item, only: [
     :new, :edit, :create, :update, :destroy, :complete, :adopt, :cleanup]
   before_action :set_parent_items, only: [:new, :edit, :create, :update]
-  before_action :validate_hashid
 
   def index
     if params[:hashid].present?
@@ -145,18 +144,6 @@ private
 
   def item_params
     params.require(:item).permit(:name, :parent_id, :completed, :color)
-  end
-
-  def validate_hashid
-    if params[:hashid].present? && params[:hashid] =~ /\A\d+\z/
-      flash[:notice] = \
-        "For your privacy, the URLs for all your lists have changed and no " +
-        "longer include a sequential (and easily guessable) ID. Any existing" +
-        "links to your lists will no longer work but you shouldn’t " +
-        "experience any other issues."
-
-      redirect_to root_path
-    end
   end
 
 end

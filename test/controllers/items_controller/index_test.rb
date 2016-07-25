@@ -16,21 +16,6 @@ class ItemsControllerTest < ActionController::TestCase
     assert_equal "gZ", cookies[:last_viewed_item_hashid]
   end
 
-  test "GET to index validates the hashid" do
-    session[:current_user_id] = users(:avand).id
-
-    get :index, params: { hashid: "123" }
-
-    assert_response :redirect
-    assert_redirected_to root_path
-    assert_equal \
-      "For your privacy, the URLs for all your lists have changed and no " +
-      "longer include a sequential (and easily guessable) ID. Any existing" +
-      "links to your lists will no longer work but you shouldn’t " +
-      "experience any other issues.",
-      flash[:notice]
-  end
-
   test "GET to index redirects to the last viewed item" do
     session[:current_user_id] = users(:avand).id
 
