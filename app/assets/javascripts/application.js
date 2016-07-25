@@ -15,7 +15,10 @@
 //= require turbolinks
 //= require fastclick
 //= require sprinkles-2.0.0
+//= require while
 //= require_tree .
+
+While.history = new While.History()
 
 window.checkForEmptyList = function() {
   if ($("main .item:not(.item-drag)").length == 0) {

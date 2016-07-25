@@ -1,12 +1,16 @@
-window.loadHistory = ->
-  path = location.pathname.replace("items", "history")
-  cacheKey = "html:" + path.replace(/\/$/, '')
+class While.History
+  load: (path) ->
+    @path = path.replace("items", "history")
+    @cacheKey = "html:" + @path.replace(/\/$/, "")
 
-  showHistory = (html) ->
-    if html && html.length > 0
-      $(".archived-items").removeClass("hide").find("script").replaceWith(html)
-      localStorage.setItem(cacheKey, html)
+    @show(localStorage.getItem(@cacheKey))
 
-  showHistory(localStorage.getItem(cacheKey))
+    $get @path, (html) =>
+      @show(html)
+      localStorage.setItem(@cacheKey, html)
 
-  $get(path, showHistory)
+  show: (html) ->
+    return unless html && html.length > 0
+
+    $(".archived-items").removeClass("hide")
+    $(".archived-items-content").html(html)
