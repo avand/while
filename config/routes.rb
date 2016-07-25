@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   patch "items/:hashid/complete" => "items#complete", as: "complete_item"
   delete "items/:hashid" => "items#destroy"
 
+  get "history(/:hashid)" => "items#history", as: "history"
+
   get "/auth/:provider/callback", to: "sessions#create"
   delete "/bye" => "sessions#destroy", as: "sessions"
 

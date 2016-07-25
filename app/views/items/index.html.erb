@@ -31,18 +31,10 @@
   </div>
 </div>
 
-<% if @archived_items_by_completed_date.present? %>
-  <div class="archived-items">
-    <div class="archived-items-heading">
-      History
-    </div>
-
-    <% @archived_items_by_completed_date.each do |date, items| %>
-      <div class="archived-items-date-heading">
-        <%= date.strftime("%A, %B %e") %>
-      </div>
-
-      <%= render partial: "archived_item", collection: items, as: :item %>
-    <% end %>
+<div class="archived-items hide">
+  <div class="archived-items-heading">
+    History
   </div>
-<% end %>
+
+  <script>loadHistory()</script>
+</div>

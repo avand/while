@@ -1,48 +1,26 @@
 class ItemsController < ApplicationController
 
   before_action :require_current_user
-  before_action :set_item, only: [
-    :new, :edit, :create, :update, :destroy, :complete, :adopt, :cleanup]
+  before_action :redirect_to_last_viewed_item, only: :index
+  before_action :set_item, except: [:index, :history, :reorder]
   before_action :set_parent_items, only: [:new, :edit, :create, :update]
 
   def index
-    if params[:hashid].present?
-      @parent = Item.find_by_hashid params[:hashid]
-      @root = @parent.root
-      @items = @parent.children
+    load_items
+    load_ancestors
 
-      cookies[:last_viewed_item_hashid] = {
-        value: @parent.hashid,
-        expires: 1.week.from_now
-      }
-    else
-      last_viewed_item_hashid = cookies.delete :last_viewed_item_hashid
+    @items = @items.not_archived.order(:order, :created_at)
+  end
 
-      if last_viewed_item_hashid.present? && request.referer.blank?
-        redirect_to items_path(last_viewed_item_hashid)
-        return
-      end
-
-      @items = current_user.items.roots
-    end
-
-    @items = @items.not_deleted
+  def history
+    load_items
 
     archived_items = @items.archived.order("completed_at desc")
     @archived_items_by_completed_date = archived_items.group_by do |item|
       item.completed_at.to_date
     end
 
-    @items = @items.not_archived.order(:order, :created_at)
-
-    @ancestors = [["While", items_path]]
-    if @parent.present?
-      @ancestors += @parent.ancestors.map do |item|
-        [item.name, items_path(item), item.hashid]
-      end
-
-      @ancestors << [@parent.name, items_path(@parent)]
-    end
+    render layout: false
   end
 
   def new
@@ -144,6 +122,43 @@ private
 
   def item_params
     params.require(:item).permit(:name, :parent_id, :completed, :color)
+  end
+
+  def load_items
+    if params[:hashid].present?
+      @parent = Item.find_by_hashid params[:hashid]
+      @root = @parent.root
+      @items = @parent.children
+
+      cookies[:last_viewed_item_hashid] = {
+        value: @parent.hashid,
+        expires: 1.week.from_now
+      }
+    else
+      @items = current_user.items.roots
+    end
+
+    @items = @items.not_deleted
+  end
+
+  def load_ancestors
+    @ancestors = [["While", items_path]]
+
+    if @parent.present?
+      @ancestors += @parent.ancestors.map do |item|
+        [item.name, items_path(item), item.hashid]
+      end
+
+      @ancestors << [@parent.name, items_path(@parent)]
+    end
+  end
+
+  def redirect_to_last_viewed_item
+    last_viewed_item_hashid = cookies.delete :last_viewed_item_hashid
+
+    if last_viewed_item_hashid.present? && request.referer.blank?
+      redirect_to items_path(last_viewed_item_hashid)
+    end
   end
 
 end
