@@ -20,23 +20,16 @@
       <%= link_to path, class: "button button-icon button-primary new-item-button" do %>
         <i class="fa fa-fw fa-plus"></i>
       <% end %>
-
-      <% path = cleanup_items_path(@parent) %>
-      <% classes = "button button-icon cleanup-button" %>
-      <% classes = "#{classes} button-disabled" if @items.none?(&:completed?) %>
-      <%= link_to path, class: classes do %>
-        <i class="fa fa-fw fa-magic"></i>
-      <% end %>
     </div>
   </div>
 </div>
 
-<div class="archived-items hide">
-  <div class="archived-items-heading">
+<div class="completed-items hide">
+  <div class="completed-items-heading">
     History
   </div>
 
-  <div class="archived-items-content">
+  <div class="completed-items-content">
     <script>While.history.load(location.pathname)</script>
   </div>
 </div>

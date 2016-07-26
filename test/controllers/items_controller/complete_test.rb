@@ -46,7 +46,7 @@ class ItemsControllerTest < ActionController::TestCase
     assert_difference "users(:avand).actions.count" do
       patch :complete, params: {
         hashid: items(:groceries).to_param,
-        completed_at: "2016-05-07:15:00.000Z"
+        completed_at: "2016-05-07T15:00:00.000Z"
       }
     end
 
@@ -68,6 +68,18 @@ class ItemsControllerTest < ActionController::TestCase
     assert_equal \
       "unchecked item #{items(:groceries).id}",
       users(:avand).actions.last.name
+  end
+
+  test "PATCH to complete returns the history of the item’s parent" do
+    session[:current_user_id] = users(:avand).id
+
+    patch :complete, params: {
+      hashid: items(:apples).to_param,
+      completed_at: "2016-07-25T00:00:00.000Z"
+    }
+
+    assert_select ".completed-items-date-heading", "Monday, July 25"
+    assert_select ".completed-item-name", items(:apples).name
   end
 
 end

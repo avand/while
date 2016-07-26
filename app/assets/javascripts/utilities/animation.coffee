@@ -72,10 +72,17 @@ window.transition = (element, properties, options, callback) ->
   options.delay ||= Math.round(parseFloat(element.css("transition-delay")) * 1000)
   options.duration ||= Math.round(parseFloat(element.css("transition-duration")) * 1000)
 
-  properties["transition-timing-function"] = options.timingFunction
-  properties["transition-delay"] = "#{options.delay}ms"
-  properties["transition-duration"] = "#{options.duration}ms"
+  transitionProperties = { "transition-property": Object.keys(properties).join(", ") }
+  transitionProperties["transition-timing-function"] = options.timingFunction
+  transitionProperties["transition-delay"] = "#{options.delay}ms"
+  transitionProperties["transition-duration"] = "#{options.duration}ms"
 
+  element.css transitionProperties
   element.css properties
 
-  setTimeout ( -> callback(element) if callback ), options.duration
+  setTimeout ( ->
+    Object.keys(transitionProperties).forEach (key) -> transitionProperties[key] = ""
+    element.css transitionProperties
+
+    callback(element) if callback
+  ), options.duration

@@ -12,5 +12,5 @@ class While.History
   show: (html) ->
     return unless html && html.length > 0
 
-    $(".archived-items").removeClass("hide")
-    $(".archived-items-content").html(html)
+    $(".completed-items").removeClass("hide")
+    $(".completed-items-content").html(html)

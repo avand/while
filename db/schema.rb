@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160501180228) do
+ActiveRecord::Schema.define(version: 20160726020821) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,10 +19,9 @@ ActiveRecord::Schema.define(version: 20160501180228) do
     t.string   "name"
     t.integer  "user_id"
     t.datetime "occurred_at"
+    t.index ["occurred_at"], name: "index_actions_on_occurred_at", using: :btree
+    t.index ["user_id"], name: "index_actions_on_user_id", using: :btree
   end
-
-  add_index "actions", ["occurred_at"], name: "index_actions_on_occurred_at", using: :btree
-  add_index "actions", ["user_id"], name: "index_actions_on_user_id", using: :btree
 
   create_table "items", force: :cascade do |t|
     t.string   "name"
@@ -31,17 +29,14 @@ ActiveRecord::Schema.define(version: 20160501180228) do
     t.datetime "updated_at",               null: false
     t.string   "ancestry"
     t.integer  "user_id"
-    t.boolean  "archived"
     t.integer  "order",        default: 0
     t.string   "color"
     t.datetime "completed_at"
     t.datetime "deleted_at"
+    t.index ["ancestry"], name: "index_items_on_ancestry", using: :btree
+    t.index ["completed_at"], name: "index_items_on_completed_at", using: :btree
+    t.index ["user_id"], name: "index_items_on_user_id", using: :btree
   end
-
-  add_index "items", ["ancestry"], name: "index_items_on_ancestry", using: :btree
-  add_index "items", ["archived"], name: "index_items_on_archived", using: :btree
-  add_index "items", ["completed_at"], name: "index_items_on_completed_at", using: :btree
-  add_index "items", ["user_id"], name: "index_items_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
@@ -52,9 +47,8 @@ ActiveRecord::Schema.define(version: 20160501180228) do
     t.integer  "request_count"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.index ["email"], name: "index_users_on_email", using: :btree
+    t.index ["uid"], name: "index_users_on_uid", using: :btree
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", using: :btree
-  add_index "users", ["uid"], name: "index_users_on_uid", using: :btree
 
 end

@@ -1,11 +1,11 @@
 $checkbox-size: 14px;
 $checkbox-padding: 8px;
 
-.archived-item {
+.completed-item {
   overflow: auto;
 }
 
-.archived-item-checkbox .fa {
+.completed-item-checkbox .fa {
   box-sizing: content-box;
   font-size: $checkbox-size;
   height: $checkbox-size;
@@ -15,16 +15,16 @@ $checkbox-padding: 8px;
   display: block;
 }
 
-.archived-item-checkbox { opacity: 0.5; }
-.hover-enabled .archived-item-checkbox:hover { opacity: 1; }
+.completed-item-checkbox { opacity: 0.5; }
+.hover-enabled .completed-item-checkbox:hover { opacity: 1; }
 
-.archived-item-content {
+.completed-item-content {
   display: block;
   margin-left: $checkbox-size + ($checkbox-padding * 2);
   padding: ($checkbox-padding - 1px) 0 ($checkbox-padding - 4px);
 }
 
-.archived-item-descendants-count {
+.completed-item-descendants-count {
   font-size: 0.8em;
   opacity: 0.5;
 }

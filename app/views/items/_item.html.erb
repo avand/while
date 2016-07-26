@@ -1,14 +1,9 @@
 <div id="item-<%= item.id -%>"
      class="item"
      data-item-hashid="<%= item.hashid -%>"
-     data-item-href="<%= items_path(item) -%>"
-     data-item-completed-at="<%= item.completed_at -%>">
+     data-item-href="<%= items_path(item) -%>">
   <div class="item-checkbox left pointer">
-    <% if item.completed? %>
-      <i class="fa fa-fw fa-check-square-o"></i>
-    <% else %>
-      <i class="fa fa-fw fa-square-o"></i>
-    <% end %>
+    <i class="fa fa-fw fa-square-o"></i>
   </div>
 
   <div class="item-controls right">
@@ -22,7 +17,7 @@
   </div>
 
   <div class="item-content">
-    <div class="item-name <%= "strikethrough" if item.completed? -%>">
+    <div class="item-name">
       <%= item.name %>
     </div>
 

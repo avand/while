@@ -1,7 +1,7 @@
-<% @archived_items_by_completed_date.each do |date, items| %>
-  <div class="archived-items-date-heading">
+<% @history.each do |date, items| %>
+  <div class="completed-items-date-heading">
     <%= date.strftime("%A, %B %e") %>
   </div>
 
-  <%= render partial: "archived_item", collection: items, as: :item %>
+  <%= render partial: "completed_item", collection: items, as: :item %>
 <% end %>

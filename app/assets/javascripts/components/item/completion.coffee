@@ -3,40 +3,38 @@ document.addEventListener "turbolinks:load", ->
   $(".item-checkbox").click (event) ->
     event.stopPropagation()
 
-    $itemCheckbox = $(this)
-    $item = $itemCheckbox.parents(".item")
-    $itemCheckboxIcon = $itemCheckbox.find("i")
-    $itemName = $item.find(".item-name")
+    itemCheckbox = $(this)
+    itemCheckboxIcon = itemCheckbox.find("i")
 
-    itemHashid = $item.data("item-hashid")
-    data = { completed_at: null }
+    return if itemCheckboxIcon.hasClass("fa-check-square-o")
 
-    data["completed_at"] = new Date() unless $item.data("item-completed-at")
+    item = itemCheckbox.parents(".item")
+    itemName = item.find(".item-name")
 
     $.ajax
-      url: "/items/#{itemHashid}/complete"
-      data: data
+      url: "/items/#{item.data("item-hashid")}/complete"
+      data: { completed_at: new Date() }
       method: "PATCH"
       beforeSend: ->
-        $itemCheckbox.addClass("pulse-while-pending")
-      success: (item) ->
-        $item.data("item-completed-at", item["completed_at"])
-
-        $itemCheckboxIcon
-          .removeClass("fa-check-square-o")
+        itemName.addClass("strikethrough")
+        itemCheckboxIcon
           .removeClass("fa-square-o")
+          .addClass("fa-check-square-o")
 
-        if item.completed_at
-          $itemCheckboxIcon.addClass("fa-check-square-o")
-          $itemName.addClass("strikethrough")
-        else
-          $itemCheckboxIcon.addClass("fa-square-o")
-          $itemName.removeClass("strikethrough")
+        setTimeout ( ->
+          transition item, {
+            transform: "translateY(100px)"
+            opacity: 0
+            zIndex: 9999
+          }, duration: 500, (el) ->
+            el.css("height", el.height() + 4)
 
-        $cleanupButton = $(".cleanup-button")
-        if $(".item-checkbox .fa-check-square-o").length > 0
-          $cleanupButton.removeClass "button-disabled"
-        else
-          $cleanupButton.addClass "button-disabled"
-      complete: ->
-        $itemCheckbox.removeClass("pulse-while-pending")
+            transition el, {
+              "height": "0px"
+              "padding": "0px"
+              "margin": "0px"
+              "border-width": "0px"
+            }, duration: 200, (el) -> el.remove()
+        ), 150
+      success: (html) ->
+        While.history.show(html)

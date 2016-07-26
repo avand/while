@@ -14,8 +14,6 @@ class Item < ApplicationRecord
 
   scope :completed, -> { where "completed_at is not null" }
   scope :not_completed, -> { where completed_at: nil }
-  scope :archived, -> { where archived: true }
-  scope :not_archived, -> { where archived: [nil, false] }
   scope :deleted, -> { where "deleted_at is not null" }
   scope :not_deleted, -> { where deleted_at: nil }
 
@@ -47,6 +45,7 @@ class Item < ApplicationRecord
   end
 
   def self.find_by_hashid(hashid)
+    raise ActiveRecord::RecordNotFound if hashid.blank?
     hashids = Hashids.new(Rails.application.secrets[:hashids_salt])
     find hashids.decode(hashid).first
   end

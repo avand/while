@@ -1,22 +1,22 @@
 <div id="item-<%= item.id -%>"
-     class="archived-item"
+     class="completed-item"
      data-item-hashid="<%= item.hashid -%>"
      data-item-completed-at="<%= item.completed_at -%>">
-  <div class="archived-item-checkbox left pointer">
+  <div class="completed-item-checkbox left pointer">
     <%= link_to complete_item_path(item), method: :patch do %>
       <i class="fa fa-fw fa-check-square-o"></i>
     <% end %>
   </div>
 
-  <div class="archived-item-content">
+  <div class="completed-item-content">
     <%= link_to items_path(item), class: "underline-on-hover" do %>
-      <span class="archived-item-name">
+      <span class="completed-item-name">
         <%= item.name %>
       </span>
     <% end %>
 
     <% if (descendants_count = item.descendants.count) > 0 %>
-      <div class="archived-item-descendants-count">
+      <div class="completed-item-descendants-count">
         <%= pluralize item.descendants.count, "item" %>
       </div>
     <% end %>

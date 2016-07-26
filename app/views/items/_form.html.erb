@@ -27,10 +27,10 @@
     </div>
   <% end %>
 
-  <% if @parent_items.present? %>
+  <% if @parents.present? %>
     <div class="field">
       <%= f.label :parent_id %>
-      <%= f.select :parent_id, @parent_items.map { |i| [truncate(i.name), i.id] }, include_blank: "None" %>
+      <%= f.select :parent_id, @parents.map { |i| [truncate(i.name), i.id] }, include_blank: "None" %>
     </div>
   <% else %>
     <%= f.hidden_field :parent_id %>
