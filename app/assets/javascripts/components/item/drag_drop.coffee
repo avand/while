@@ -153,7 +153,7 @@ document.addEventListener "turbolinks:load", ->
   calculateDropTargetBoundaries = ->
     dropTargets = []
 
-    $(".item, .ancestor, .no-items").each ->
+    $(".item, .ancestor:not(:last-child), .no-items").each ->
       item = $(this)
 
       if item.attr("id") != dragItem.attr("id")
