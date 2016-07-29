@@ -7,7 +7,12 @@ $transition-duration: 180ms;
     border-color $transition-duration,
     opacity $transition-duration;
 
+  // Disable the callout that iPhone OS and Safari display when a target is
+  // touched and held.
   -webkit-touch-callout: none;
+
+  // Disable the default semi-transparent gray highlight that appears when
+  // tapping on a link.
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-user-select: none;
 
