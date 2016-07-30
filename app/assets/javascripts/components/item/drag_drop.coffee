@@ -1,9 +1,11 @@
 document.addEventListener "turbolinks:load", ->
 
+  DRAG_DELAY = 300
+  DOCUMENT = $(document)
+
   pointerItem = null
   dragItem = null
-  dragDelay = 300
-  dropTargets = []
+  dropTargets = null
   dragDelayTimer = null
   startingPointOffset = null
   placeholder = null
@@ -12,6 +14,7 @@ document.addEventListener "turbolinks:load", ->
     dragItem = item
 
     calculateDropTargetBoundaries(dragItem)
+    disableTextSelection()
 
     placeholder = $("<div>")
       .css "height", dragItem.height()
@@ -33,9 +36,27 @@ document.addEventListener "turbolinks:load", ->
       .data "original-index", dragItem.index()
       .addClass("item-drag")
 
+  enableTextSelection = ->
+    $("#transparent-selection-background-rules").remove()
+
+  disableTextSelection = ->
+    $("<style>")
+      .attr("id", "transparent-selection-background-rules")
+      .text("::selection { background-color: transparent !important; }
+             ::-moz-selection { background-color: transparent !important; }")
+      .appendTo("body")
+
   reset = ->
     clearTimeout(dragDelayTimer)
-    pointerItem = dragItem = null
+    enableTextSelection()
+
+    pointerItem = null
+    dragItem = null
+    dropTargets = []
+    dragDelayTimer = null
+    startingPointOffset = null
+    placeholder = null
+
 
   drag = (pointerOffset, event) ->
     if !dragItem
@@ -148,7 +169,7 @@ document.addEventListener "turbolinks:load", ->
 
     pointerItem = item
     startingPointOffset = pointerOffset
-    dragDelayTimer = setTimeout ( -> startDrag item, pointerOffset ), dragDelay
+    dragDelayTimer = setTimeout ( -> startDrag item, pointerOffset ), DRAG_DELAY
 
   calculateDropTargetBoundaries = ->
     dropTargets = []
@@ -228,9 +249,11 @@ document.addEventListener "turbolinks:load", ->
         clearTimeout(dragDelayTimer)
         finishDrag()
 
-  $(document)
+  DOCUMENT
     .on "touchmove.drag-drop", (event) ->
       touch = event.originalEvent.touches[0]
       drag top: touch.clientY, left: touch.clientX, event
     .on "mousemove.drag-drop", (event) ->
       drag top: event.clientY, left: event.clientX, event
+
+  reset()

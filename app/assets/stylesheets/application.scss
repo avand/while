@@ -36,5 +36,5 @@ label {
   display: block;
 }
 
-::selection { background: fade-out($green-color, 0.5); }
-::-moz-selection { background: fade-out($green-color, 0.5); }
+::selection { background-color: fade-out($green-color, 0.75); }
+::-moz-selection { background-color: fade-out($green-color, 0.75); }
