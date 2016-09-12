@@ -30,7 +30,7 @@ document.addEventListener "turbolinks:load", ->
 
     itemName = itemName.data("original-value", itemName.text())[0]
     itemName.focus()
-    setEndOfContenteditable(itemName)
+    # setEndOfContenteditable(itemName)
 
     if !progressBar.hasClass("hide")
       progressBar.addClass("hide")
