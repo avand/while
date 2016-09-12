@@ -1,5 +1,5 @@
 $checkbox-size: 24px;
-$checkbox-padding: 16px;
+$checkbox-padding: 12px;
 $border-radius: .4em;
 
 .item [contenteditable] {
@@ -71,7 +71,7 @@ $border-radius: .4em;
   display: block;
   margin-left: $checkbox-size + ($checkbox-padding * 2);
   margin-right: 5em;
-  padding: ($checkbox-padding + 1px) 0 $checkbox-padding;
+  padding: $checkbox-padding 0;
 }
 
 .item-name {
