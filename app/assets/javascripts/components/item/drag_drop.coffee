@@ -160,6 +160,8 @@ document.addEventListener "turbolinks:load", ->
   delayDrag = (event, item, pointerOffset) ->
     # Abort if delete confirmation visible.
     return unless item.find(".item-delete-confirmation").hasClass("hide")
+    # Abort if item is being edited.
+    return if item.hasClass("item-editing")
 
     target = $(event.target)
     # Abort if one of the item's control was clicked.

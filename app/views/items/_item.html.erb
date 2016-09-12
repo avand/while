@@ -7,7 +7,7 @@
   </div>
 
   <div class="item-controls right">
-    <%= link_to edit_item_path(item), class: "item-control no-underline" do %>
+    <%= link_to edit_item_path(item), class: "item-control item-edit-control no-underline" do %>
       <i class="fa fa-fw fa-pencil"></i>
     <% end %>
 
@@ -17,9 +17,18 @@
   </div>
 
   <div class="item-content">
-    <div class="item-name">
-      <%= item.name %>
-    </div>
+    <%= form_for item do |f| %>
+      <%= f.hidden_field :name %>
+      
+      <div class="item-name">
+        <%= item.name %>
+      </div>
+
+      <div class="item-buttons hide">
+        <button type="submit" class="button button-small button-primary">Save</button>
+        <a href="#" class="button button-small button-link item-edit-cancel-control">Cancel</a>
+      </div>
+    <% end %>
 
     <%= progress_bar item %>
   </div>

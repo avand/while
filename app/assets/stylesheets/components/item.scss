@@ -2,6 +2,18 @@ $checkbox-size: 24px;
 $checkbox-padding: 16px;
 $border-radius: .4em;
 
+.item [contenteditable] {
+  cursor: text;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.item-buttons {
+  margin-top: .6em;
+}
+
 .item,
 .item-placeholder {
   border-radius: $border-radius;
@@ -73,7 +85,10 @@ $border-radius: .4em;
 }
 
 .item-control { opacity: 0.2; }
+.item-control-active,
 .hover-enabled .item-control:hover { opacity: 0.8; }
+
+.item-control-active { cursor: default; }
 
 .item-delete-confirmation {
   background-color: rgba(255, 255, 255, 0.95);

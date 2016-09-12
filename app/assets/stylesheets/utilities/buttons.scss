@@ -1,7 +1,7 @@
 .button {
   display: inline-block;
   border: none;
-  padding: .5em 1em;
+  padding: .2em .8em;
   border-radius: .3em;
   font-weight: 500;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -29,6 +29,10 @@
   color: rgba(0, 0, 0, 0.2);
   text-decoration: none;
   cursor: not-allowed;
+}
+
+.button-small {
+  font-size: 0.8em;
 }
 
 .button:active,

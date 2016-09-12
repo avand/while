@@ -49,7 +49,12 @@ class ItemsController < ApplicationController
 
     if @item.update(item_params)
       current_user.log_action "updated item #{@item.id}"
-      redirect_to items_path(@item.parent, anchor: "item-#{@item.id}")
+
+      if request.xhr?
+        render partial: @item
+      else
+        redirect_to items_path(@item.parent, anchor: "item-#{@item.id}")
+      end
     else
       render :edit
     end
