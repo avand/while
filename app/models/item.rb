@@ -16,6 +16,7 @@ class Item < ApplicationRecord
   scope :not_completed, -> { where completed_at: nil }
   scope :deleted, -> { where "deleted_at is not null" }
   scope :not_deleted, -> { where deleted_at: nil }
+  scope :in_order, -> { order(:order, :created_at) }
 
   belongs_to :user
 
