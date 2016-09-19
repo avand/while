@@ -24,4 +24,31 @@ class ItemTest < ActiveSupport::TestCase
     assert_equal 5, item.order
   end
 
+  test "destroying a parent also destroys the descendants" do
+    grandparent = Item.create
+    parent = grandparent.children.create
+    child = parent.children.create
+
+    assert_difference "Item.count", -3 do
+      grandparent.destroy
+    end
+  end
+
+  test "soft_delete sets deleted_at for current item and all descendants" do
+    grandparent = Item.create
+    parent = grandparent.children.create
+    child = parent.children.create
+
+    previously_deleted_at = 2.days.ago
+    previously_deleted_child = parent.children.create deleted_at: previously_deleted_at
+
+    deleted_at = Time.now
+    grandparent.soft_delete deleted_at
+
+    assert_equal deleted_at, grandparent.reload.deleted_at
+    assert_equal deleted_at, parent.reload.deleted_at
+    assert_equal deleted_at, child.reload.deleted_at
+    assert_equal previously_deleted_at, previously_deleted_child.reload.deleted_at
+  end
+
 end

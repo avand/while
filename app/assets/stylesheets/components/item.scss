@@ -1,5 +1,4 @@
 $checkbox-size: 24px;
-$checkbox-padding: 12px;
 $border-radius: .4em;
 
 .item [contenteditable] {
@@ -60,7 +59,7 @@ $border-radius: .4em;
   height: $checkbox-size;
   width: $checkbox-size;
   line-height: $checkbox-size;
-  padding: $checkbox-padding $checkbox-padding ($checkbox-padding - 3px);
+  padding: $item-padding $item-padding ($item-padding - 3px);
   display: block;
 }
 
@@ -74,9 +73,9 @@ $border-radius: .4em;
 
 .item-content {
   display: block;
-  margin-left: $checkbox-size + ($checkbox-padding * 2);
+  margin-left: $checkbox-size + ($item-padding * 2);
   margin-right: 5em;
-  padding: $checkbox-padding 0;
+  padding: $item-padding 0;
 }
 
 .item-name {
@@ -85,7 +84,7 @@ $border-radius: .4em;
 }
 
 .item-controls {
-  padding: $checkbox-padding;
+  padding: $item-padding;
   font-size: 1.2em;
 }
 
@@ -94,14 +93,3 @@ $border-radius: .4em;
 .hover-enabled .item-control:hover { opacity: 0.8; }
 
 .item-control-active { cursor: default; }
-
-.item-delete-confirmation {
-  background-color: rgba(255, 255, 255, 0.95);
-  padding: ($checkbox-padding + 2px) $checkbox-padding $checkbox-padding;
-  text-align: center;
-  border-radius: $border-radius;
-  cursor: default;
-}
-
-.item-delete-confirm-control { color: green; }
-.item-delete-cancel-control  { color: red; }

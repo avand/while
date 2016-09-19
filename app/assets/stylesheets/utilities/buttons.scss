@@ -8,6 +8,7 @@
   border-bottom-width: 2px;
   background-color: white;
   text-align: center;
+  cursor: pointer;
 
   &:focus {
     outline: 0;
@@ -17,6 +18,11 @@
 .button-primary {
   color: white;
   background-color: $green-color;
+}
+
+.button-danger {
+  color: white;
+  background-color: rgb(190, 16, 53);
 }
 
 .button-link {

@@ -29,4 +29,17 @@ class ItemsControllerTest < ActionController::TestCase
     assert_equal expected_deleted_at, items(:groceries).reload.deleted_at
   end
 
+  test "DELETE to destroy logs an action for the current user" do
+    session[:current_user_id] = users(:avand).id
+
+    assert_difference "users(:avand).actions.count" do
+      delete :destroy, params: {
+        hashid: items(:groceries).to_param,
+        deleted_at: "2016-05-1T12:15:00.000Z"
+      }
+    end
+
+    assert_equal "deleted item #{items(:groceries).id}", Action.last.name
+  end
+
 end

@@ -63,7 +63,9 @@ class ItemsController < ApplicationController
   def destroy
     @item = get_item
 
-    @item.update deleted_at: params[:deleted_at]
+    @item.soft_delete params[:deleted_at]
+
+    current_user.log_action "deleted item #{@item.id}"
 
     if request.xhr?
       render json: @item

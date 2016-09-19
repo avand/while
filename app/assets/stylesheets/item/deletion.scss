@@ -1,0 +1,12 @@
+.item-delete-confirmation {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: $item-padding;
+  border-radius: $border-radius;
+  cursor: default;
+}
+
+.item-delete-confirmation-message {
+  margin-right: 140px;
+  font-size: 0.7em;
+  color: rgb(128, 125, 122);
+}

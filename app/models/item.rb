@@ -51,4 +51,9 @@ class Item < ApplicationRecord
     find hashids.decode(hashid).first
   end
 
+  def soft_delete(time)
+    update deleted_at: time
+    descendants.not_deleted.update deleted_at: time
+  end
+
 end
