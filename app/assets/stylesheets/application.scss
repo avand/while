@@ -40,3 +40,7 @@ label {
 
 ::selection { background-color: fade-out($green-color, 0.75); }
 ::-moz-selection { background-color: fade-out($green-color, 0.75); }
+
+.turbolinks-progress-bar {
+  background-color: $green-color;
+}
