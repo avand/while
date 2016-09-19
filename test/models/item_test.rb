@@ -45,10 +45,10 @@ class ItemTest < ActiveSupport::TestCase
     deleted_at = Time.now
     grandparent.soft_delete deleted_at
 
-    assert_equal deleted_at, grandparent.reload.deleted_at
-    assert_equal deleted_at, parent.reload.deleted_at
-    assert_equal deleted_at, child.reload.deleted_at
-    assert_equal previously_deleted_at, previously_deleted_child.reload.deleted_at
+    assert_equal deleted_at.to_i, grandparent.reload.deleted_at.to_i
+    assert_equal deleted_at.to_i, parent.reload.deleted_at.to_i
+    assert_equal deleted_at.to_i, child.reload.deleted_at.to_i
+    assert_equal previously_deleted_at.to_i, previously_deleted_child.reload.deleted_at.to_i
   end
 
 end
