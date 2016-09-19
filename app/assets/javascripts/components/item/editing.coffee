@@ -14,6 +14,7 @@ document.addEventListener "turbolinks:load", ->
 
     item.find(".item-edit-control").removeClass("item-control-active")
     item.find(".item-buttons").addClass("hide")
+    item.removeClass("item-editing")
 
   $(".item-edit-control").click (event) ->
     event.preventDefault()
@@ -37,8 +38,8 @@ document.addEventListener "turbolinks:load", ->
       item.data("show-progress-bar", true)
 
     target.addClass("item-control-active")
-    item.addClass("item-editing")
     item.find(".item-buttons").removeClass("hide")
+    item.addClass("item-editing")
 
   $(".item-edit-cancel-control").click (event) ->
     event.preventDefault()
