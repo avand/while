@@ -6,7 +6,7 @@ class ItemsController < ApplicationController
   def index
     @parent = get_item
     @root = get_root(@parent)
-    @items = get_items(@parent).not_completed.in_order
+    @items = get_items(@parent).not_completed.order(:order, :created_at)
     @ancestors = get_ancestors(@parent)
 
     if @parent.present?

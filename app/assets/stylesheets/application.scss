@@ -14,7 +14,7 @@
 body {
   @include default-font-family();
   font-size: 16px;
-  line-height: 1.4;
+  line-height: 1.4em;
 
   color: rgb(76, 72, 68);
   background-color: hsl(47, 100%, 97%);

@@ -19,7 +19,7 @@
   <div class="item-content">
     <%= form_for item do |f| %>
       <%= f.hidden_field :name %>
-
+      
       <div class="item-name">
         <%= item.name %>
       </div>
@@ -31,14 +31,6 @@
     <% end %>
 
     <%= progress_bar item %>
-
-    <% if (children = item.children.not_deleted.not_completed.in_order).present? %>
-      <ol class="item-children">
-        <% children.each do |child| %>
-          <li><%= child.name %></li>
-        <% end %>
-      </ol>
-    <% end %>
   </div>
 
   <div class="item-delete-confirmation full-bleed absolute hide">
