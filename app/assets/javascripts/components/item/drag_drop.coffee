@@ -75,10 +75,9 @@ class While.DragDrop
 
     @item.css @coordinates
 
+    @findDropTargets()
     dropTarget = @getCurrentDropTarget()
     @activateDropTarget(dropTarget) if dropTarget
-
-    @findDropTargets()
 
     @scroll()
 
