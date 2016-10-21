@@ -2,7 +2,7 @@ class While.DragDrop
 
   constructor: (event) ->
     @item = $(event.target).parents(".item")
-    @startingPoint = @getCoordinatesFromEvent event
+    @coordinates = @getCoordinatesFromEvent event
 
   start: () ->
     @findDropTargets()
@@ -17,14 +17,14 @@ class While.DragDrop
 
     @item
       .css
-        top: "#{@startingPoint.top}px"
-        left: "#{@startingPoint.left}px"
+        top: "#{@coordinates.top}px"
+        left: "#{@coordinates.left}px"
         width: boundaries.width
-        marginTop: "#{-1 * (@startingPoint.top - boundaries.top)}px"
-        marginLeft: "#{-1 * (@startingPoint.left - boundaries.left)}px"
+        marginTop: "#{-1 * (@coordinates.top - boundaries.top)}px"
+        marginLeft: "#{-1 * (@coordinates.left - boundaries.left)}px"
         transformOrigin:
-          "#{@startingPoint.left - boundaries.left}px " +
-          "#{@startingPoint.top - boundaries.top}px"
+          "#{@coordinates.left - boundaries.left}px " +
+          "#{@coordinates.top - boundaries.top}px"
       .data "original-index", @item.index()
       .addClass("item-drag")
 
@@ -49,6 +49,15 @@ class While.DragDrop
 
     @dropTargets
 
+  getCurrentDropTarget: () ->
+    for dropTarget in @dropTargets
+      boundaries = dropTarget.data("boundaries")
+      if @coordinates.top >= (boundaries.top - pageYOffset) &&
+         @coordinates.left <= (boundaries.right - pageXOffset) &&
+         @coordinates.top <= (boundaries.bottom - pageYOffset) &&
+         @coordinates.left >= (boundaries.left - pageXOffset)
+        return dropTarget
+
   disableTextSelection: ->
     $("<style>")
       .attr("id", "transparent-selection-background-rules")
@@ -62,57 +71,62 @@ class While.DragDrop
   drag: (event) ->
     event.preventDefault()
 
-    coordinates = @getCoordinatesFromEvent(event)
-    dropTarget = @getDropTargetAtPointer(coordinates)
+    @coordinates = @getCoordinatesFromEvent(event)
 
-    @item.css coordinates
-    @item.data "coordinates", coordinates
+    @item.css @coordinates
 
-    return unless dropTarget
+    dropTarget = @getCurrentDropTarget()
+    @activateDropTarget(dropTarget) if dropTarget
 
-    boundaries = dropTarget.data "boundaries"
+    @findDropTargets()
 
+  activateDropTarget: (el) ->
     $(".drop-target-active").removeClass "drop-target-active"
 
-    if dropTarget.hasClass("item")
-      tolerance = boundaries.height / 4
-
-      if coordinates.top >= (boundaries.top - pageYOffset) + tolerance &&
-         coordinates.top <= (boundaries.bottom - pageYOffset) - tolerance
-        @item.addClass("item-drop")
-        dropTarget.addClass("drop-target-active")
-      else
-        @item.removeClass("item-drop")
-
-        if coordinates.top > (boundaries.bottom - pageYOffset) - tolerance
-          @placeholder.insertAfter(dropTarget)
-
-        if coordinates.top < (boundaries.top - pageYOffset) + tolerance
-          @placeholder.insertBefore(dropTarget)
-
-        @findDropTargets()
-    else if dropTarget.hasClass("ancestor")
-      if dropTarget.hasClass("parent")
-        @placeholder.prependTo(".items")
-        $(".no-items").addClass("hide")
-        @item.removeClass("item-drop")
-      else
-        @item.addClass("item-drop")
-        @placeholder.appendTo(dropTarget.find(".ancestor-content"))
-        While.Items.checkForEmpty()
-
-      @findDropTargets()
+    if el.hasClass("item")
+      @activateItemDropTarget(el)
+    else if el.hasClass("ancestor")
+      @activateAncestorDropTarget(el)
     else if dropTarget.hasClass("no-items")
+      @activateNoItemsDropTarget(el)
+
+  activateItemDropTarget: (item) ->
+    boundaries = item.data "boundaries"
+    tolerance = boundaries.height / 4
+
+    if @coordinates.top >= (boundaries.top - pageYOffset) + tolerance &&
+       @coordinates.top <= (boundaries.bottom - pageYOffset) - tolerance
+      @item.addClass("item-drop")
+      item.addClass("drop-target-active")
+    else
       @item.removeClass("item-drop")
-      dropTarget.addClass("hide").after(@placeholder)
+
+      if @coordinates.top > (boundaries.bottom - pageYOffset) - tolerance
+        @placeholder.insertAfter(item)
+
+      if @coordinates.top < (boundaries.top - pageYOffset) + tolerance
+        @placeholder.insertBefore(item)
+
+  activateAncestorDropTarget: (ancestor) ->
+    if ancestor.hasClass("parent")
+      @placeholder.prependTo(".items")
+      $(".no-items").addClass("hide")
+      @item.removeClass("item-drop")
+    else
+      @item.addClass("item-drop")
+      @placeholder.appendTo(ancestor.find(".ancestor-content"))
+      While.Items.checkForEmpty()
+
+  activateNoItemsDropTarget: (noItems) ->
+    @item.removeClass("item-drop")
+    noItems.addClass("hide").after(@placeholder)
 
   finish: (event) ->
     @item.off ".drag-drop"
     $(document).off ".drag-drop"
     @enableTextSelection()
 
-    coordinates = @item.data("coordinates") || @startingPoint
-    dropTarget = @getDropTargetAtPointer(coordinates)
+    dropTarget = @getCurrentDropTarget()
 
     if dropTarget && (dropTarget.hasClass("item") || dropTarget.hasClass("ancestor"))
       setTimeout ( =>
@@ -187,12 +201,3 @@ class While.DragDrop
       method: "PATCH"
       beforeSend: -> item.addClass("pulse-while-pending")
       success: -> item.removeClass("pulse-while-pending")
-
-  getDropTargetAtPointer: (coordinates) ->
-    for dropTarget in this.dropTargets
-      boundaries = dropTarget.data("boundaries")
-      if coordinates.top >= (boundaries.top - pageYOffset) &&
-         coordinates.left <= (boundaries.right - pageXOffset) &&
-         coordinates.top <= (boundaries.bottom - pageYOffset) &&
-         coordinates.left >= (boundaries.left - pageXOffset)
-        return dropTarget
