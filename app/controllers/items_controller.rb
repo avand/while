@@ -45,7 +45,7 @@ class ItemsController < ApplicationController
       end
     else
       if request.xhr?
-        render partial: current_user.items.build
+        render partial: @item
       else
         render :new
       end
