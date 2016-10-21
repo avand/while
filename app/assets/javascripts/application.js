@@ -20,12 +20,6 @@
 
 While.history = new While.History()
 
-window.checkForEmptyList = function() {
-  if ($("main .item:not(.item-drag)").length == 0) {
-    $(".no-items").removeClass("hide")
-  }
-};
-
 document.addEventListener("turbolinks:load", function() {
   FastClick.attach(document.body);
 });

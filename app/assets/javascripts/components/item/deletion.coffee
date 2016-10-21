@@ -31,4 +31,4 @@ document.addEventListener "turbolinks:load", ->
         cancelDelete $item, ->
           animate $item, "disappear", duration: 300, ->
             $item.remove()
-            checkForEmptyList()
+            While.Items.checkForEmpty()
