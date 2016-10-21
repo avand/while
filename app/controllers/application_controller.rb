@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 
   class AuthorizationRequired < StandardError; end
   class AdministratorRequired < StandardError; end
+  class CurrentUserNotFound < StandardError; end
 
   if Rails.env.production?
     rescue_from AuthorizationRequired do |error|
@@ -15,11 +16,19 @@ class ApplicationController < ActionController::Base
     rescue_from AdministratorRequired do |error|
       redirect_to root_path, alert: "Sorry, you must be an admin to do that!"
     end
+
+    rescue_from CurrentUserNotFound do |error|
+      redirect_to log_out_path
+    end
   end
 
   def current_user
     if session[:current_user_id].present?
-      @current_user ||= User.find(session[:current_user_id])
+      begin
+        @current_user ||= User.find(session[:current_user_id])
+      rescue ActiveRecord::RecordNotFound
+        raise CurrentUserNotFound
+      end
     end
   end
   helper_method :current_user
