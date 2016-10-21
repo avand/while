@@ -1,8 +1,8 @@
 .control-bar-fixed {
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  margin-left: -50px;
   z-index: 999;
 
   .button {
@@ -10,13 +10,13 @@
   }
 
   .control-bar-content {
-    @include content-box();
+    padding-top: 0;
   }
 }
 
 .control-bar-content {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 
   text-align: center;
 
