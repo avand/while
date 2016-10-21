@@ -20,6 +20,7 @@ $transition-duration: 180ms;
     position: fixed;
     transform: scale(0.925) rotate(-0.75deg);
     box-shadow: 0 .2em .6em rgba(0, 0, 0, 0.2);
+    background-color: white;
   }
 
   &.item-drop {

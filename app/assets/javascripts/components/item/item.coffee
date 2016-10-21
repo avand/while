@@ -1,7 +1,7 @@
 document.addEventListener "turbolinks:load", ->
 
   $(".item-drag-control")
-    .on "mousedown", (event) ->
+    .on "mousedown touchstart", (event) ->
       event.preventDefault()
 
       dragDrop = new While.DragDrop(event)

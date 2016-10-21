@@ -2,10 +2,10 @@ class While.DragDrop
 
   constructor: (event) ->
     @item = $(event.target).parents(".item")
-    @startingPoint = top: event.clientY, left: event.clientX
+    @startingPoint = @getCoordinatesFromEvent event
 
   start: () ->
-    @calculateDropTargetBoundaries(@item)
+    @findDropTargets()
     @disableTextSelection()
 
     @placeholder = $("<div>")
@@ -29,10 +29,10 @@ class While.DragDrop
       .addClass("item-drag")
 
     $(document)
-      .on "mousemove.drag-drop", (event) => @drag(event)
-      .on "mouseup.drag-drop", (event) => @finish(event)
+      .on "mousemove.drag-drop touchmove.drag-drop", (event) => @drag(event)
+      .on "mouseup.drag-drop touchend.drag-drop", (event) => @finish(event)
 
-  calculateDropTargetBoundaries: ->
+  findDropTargets: ->
     @dropTargets = []
 
     $(".item, .ancestor:not(:last-child), .no-items").each (i, el) =>
@@ -66,6 +66,7 @@ class While.DragDrop
     dropTarget = @getDropTargetAtPointer(coordinates)
 
     @item.css coordinates
+    @item.data "coordinates", coordinates
 
     return unless dropTarget
 
@@ -85,11 +86,11 @@ class While.DragDrop
 
         if coordinates.top > (boundaries.bottom - pageYOffset) - tolerance
           @placeholder.insertAfter(dropTarget)
-          @calculateDropTargetBoundaries()
 
         if coordinates.top < (boundaries.top - pageYOffset) + tolerance
           @placeholder.insertBefore(dropTarget)
-          @calculateDropTargetBoundaries()
+
+        @findDropTargets()
     else if dropTarget.hasClass("ancestor")
       if dropTarget.hasClass("parent")
         @placeholder.prependTo(".items")
@@ -100,7 +101,7 @@ class While.DragDrop
         @placeholder.appendTo(dropTarget.find(".ancestor-content"))
         While.Items.checkForEmpty()
 
-      @calculateDropTargetBoundaries()
+      @findDropTargets()
     else if dropTarget.hasClass("no-items")
       @item.removeClass("item-drop")
       dropTarget.addClass("hide").after(@placeholder)
@@ -110,7 +111,7 @@ class While.DragDrop
     $(document).off ".drag-drop"
     @enableTextSelection()
 
-    coordinates = @getCoordinatesFromEvent(event)
+    coordinates = @item.data("coordinates") || @startingPoint
     dropTarget = @getDropTargetAtPointer(coordinates)
 
     if dropTarget && (dropTarget.hasClass("item") || dropTarget.hasClass("ancestor"))
@@ -140,7 +141,11 @@ class While.DragDrop
         @reorderItem(@item)
 
   getCoordinatesFromEvent: (event) ->
-    top: event.clientY, left: event.clientX
+    if event.type.match(/^touch/)
+      touch = event.originalEvent.touches[0]
+      top: touch.clientY, left: touch.clientX
+    else
+      top: event.clientY, left: event.clientX
 
   adoptItem: (child, parent) ->
     $.ajax
