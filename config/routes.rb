@@ -22,6 +22,8 @@ Rails.application.routes.draw do
 
   get "/about" => "pages#about", as: "about"
 
+  post "/bootstrap" => "users#bootstrap", as: "bootstrap"
+
   root "users#new"
 
   # Serve websocket cable requests in-process

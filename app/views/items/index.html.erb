@@ -28,9 +28,12 @@
     <% end %>
   </div>
 
-  <div style="font-size: 0.8em; margin: .8em 0;">
+  <div style="font-size: 0.8em; margin-top: .8em;">
     Or,
-    <%= link_to "add example items", bootstrap_path, class: "underline color-dark-green" %>.
+    <%= link_to "add example items", bootstrap_path, {
+      class: "underline color-dark-green",
+      method: :post
+    } %>.
   </div>
 </div>
 
