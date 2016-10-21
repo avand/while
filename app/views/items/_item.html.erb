@@ -8,9 +8,13 @@
   </div>
 
   <div class="item-controls right">
-    <%= link_to edit_item_path(item), class: "item-control item-edit-control no-underline" do %>
+    <span class="item-control item-drag-control no-underline">
+      <i class="fa fa-fw fa-arrows"></i>
+    </span>
+
+    <span class="item-control item-edit-control no-underline">
       <i class="fa fa-fw fa-pencil"></i>
-    <% end %>
+    </span>
 
     <span class="item-delete-control item-control no-underline">
       <i class="fa fa-fw fa-trash"></i>
@@ -20,7 +24,7 @@
   <div class="item-content">
     <%= form_for item do |f| %>
       <%= f.hidden_field :name %>
-      
+
       <div class="item-name">
         <%= item.name %>
       </div>

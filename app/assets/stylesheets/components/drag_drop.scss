@@ -16,16 +16,14 @@ $transition-duration: 180ms;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
   &.item-drag {
-    position: fixed;
-    transform: scale(0.90) rotate(-1deg);
-    box-shadow: 0 .2em .6em rgba(0, 0, 0, 0.2);
-    animation: grab 100ms;
     z-index: 9999;
-    background-color: white !important;
+    position: fixed;
+    transform: scale(0.925) rotate(-0.75deg);
+    box-shadow: 0 .2em .6em rgba(0, 0, 0, 0.2);
   }
 
   &.item-drop {
-    transform: scale(0.70) rotate(-2deg);
+    transform: scale(0.70) rotate(-1.5deg);
   }
 
   &.item-vanish {

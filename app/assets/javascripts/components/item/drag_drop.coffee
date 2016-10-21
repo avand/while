@@ -1,137 +1,130 @@
-document.addEventListener "turbolinks:load", ->
+class While.DragDrop
 
-  DRAG_DELAY = 300
-  DOCUMENT = $(document)
+  constructor: (event) ->
+    @item = $(event.target).parents(".item")
+    @startingPoint = top: event.clientY, left: event.clientX
 
-  pointerItem = null
-  dragItem = null
-  dropTargets = null
-  dragDelayTimer = null
-  startingPointOffset = null
-  placeholder = null
+  start: () ->
+    @calculateDropTargetBoundaries(@item)
+    @disableTextSelection()
 
-  startDrag = (item, pointerOffset) ->
-    dragItem = item
-
-    calculateDropTargetBoundaries(dragItem)
-    disableTextSelection()
-
-    placeholder = $("<div>")
-      .css "height", dragItem.height()
+    @placeholder = $("<div>")
+      .css "height", @item.height()
       .addClass("item-placeholder")
-      .insertAfter dragItem
+      .insertAfter @item
 
-    boundaries = dragItem[0].getBoundingClientRect()
+    boundaries = @item[0].getBoundingClientRect()
 
-    dragItem
+    @item
       .css
-        top: "#{pointerOffset.top}px"
-        left: "#{pointerOffset.left}px"
-        width: item.css("width")
-        marginTop: "#{-1 * (pointerOffset.top - boundaries.top)}px"
-        marginLeft: "#{-1 * (pointerOffset.left - boundaries.left)}px"
+        top: "#{@startingPoint.top}px"
+        left: "#{@startingPoint.left}px"
+        width: boundaries.width
+        marginTop: "#{-1 * (@startingPoint.top - boundaries.top)}px"
+        marginLeft: "#{-1 * (@startingPoint.left - boundaries.left)}px"
         transformOrigin:
-          "#{pointerOffset.top - boundaries.top}px" +
-          "#{pointerOffset.left - boundaries.left}px"
-      .data "original-index", dragItem.index()
+          "#{@startingPoint.left - boundaries.left}px " +
+          "#{@startingPoint.top - boundaries.top}px"
+      .data "original-index", @item.index()
       .addClass("item-drag")
 
-  enableTextSelection = ->
-    $("#transparent-selection-background-rules").remove()
+    $(document)
+      .on "mousemove.drag-drop", (event) => @drag(event)
+      .on "mouseup.drag-drop", (event) => @finish(event)
 
-  disableTextSelection = ->
+  calculateDropTargetBoundaries: ->
+    @dropTargets = []
+
+    $(".item, .ancestor:not(:last-child), .no-items").each (i, el) =>
+      el = $(el)
+
+      if el.attr("id") != @item.attr("id")
+        boundaries = el.offset()
+        boundaries.width = parseFloat el.css "width"
+        boundaries.height = parseFloat el.css "height"
+        boundaries.right = boundaries.left + boundaries.width
+        boundaries.bottom = boundaries.top + boundaries.height
+        el.data "boundaries", boundaries
+        @dropTargets.push el
+
+    @dropTargets
+
+  disableTextSelection: ->
     $("<style>")
       .attr("id", "transparent-selection-background-rules")
       .text("::selection { background-color: transparent !important; }
              ::-moz-selection { background-color: transparent !important; }")
       .appendTo("body")
 
-  reset = ->
-    clearTimeout(dragDelayTimer)
-    enableTextSelection()
+  enableTextSelection: ->
+    $("#transparent-selection-background-rules").remove()
 
-    pointerItem = null
-    dragItem = null
-    dropTargets = []
-    dragDelayTimer = null
-    startingPointOffset = null
-    placeholder = null
-
-
-  drag = (pointerOffset, event) ->
-    if !dragItem
-      reset() if pointerStrayedFromStartingPoint(pointerOffset)
-      return
-
+  drag: (event) ->
     event.preventDefault()
 
-    dragItem.css pointerOffset
+    coordinates = @getCoordinatesFromEvent(event)
+    dropTarget = @getDropTargetAtPointer(coordinates)
 
-    if dropTarget = getDropTargetAtPointer(pointerOffset)
-      boundaries = dropTarget.data "boundaries"
+    @item.css coordinates
 
+    return unless dropTarget
+
+    boundaries = dropTarget.data "boundaries"
+
+    $(".drop-target-active").removeClass "drop-target-active"
+
+    if dropTarget.hasClass("item")
+      tolerance = boundaries.height / 4
+
+      if coordinates.top >= (boundaries.top - pageYOffset) + tolerance &&
+         coordinates.top <= (boundaries.bottom - pageYOffset) - tolerance
+        @item.addClass("item-drop")
+        dropTarget.addClass("drop-target-active")
+      else
+        @item.removeClass("item-drop")
+
+        if coordinates.top > (boundaries.bottom - pageYOffset) - tolerance
+          @placeholder.insertAfter(dropTarget)
+          @calculateDropTargetBoundaries()
+
+        if coordinates.top < (boundaries.top - pageYOffset) + tolerance
+          @placeholder.insertBefore(dropTarget)
+          @calculateDropTargetBoundaries()
+    else if dropTarget.hasClass("ancestor")
+      if dropTarget.hasClass("parent")
+        @placeholder.prependTo(".items")
+        $(".no-items").addClass("hide")
+        @item.removeClass("item-drop")
+      else
+        @item.addClass("item-drop")
+        @placeholder.appendTo(dropTarget.find(".ancestor-content"))
+        While.Items.checkForEmpty()
+
+      @calculateDropTargetBoundaries()
+    else if dropTarget.hasClass("no-items")
+      @item.removeClass("item-drop")
+      dropTarget.addClass("hide").after(@placeholder)
+
+  finish: (event) ->
+    @item.off ".drag-drop"
+    $(document).off ".drag-drop"
+    @enableTextSelection()
+
+    coordinates = @getCoordinatesFromEvent(event)
+    dropTarget = @getDropTargetAtPointer(coordinates)
+
+    if dropTarget && (dropTarget.hasClass("item") || dropTarget.hasClass("ancestor"))
+      setTimeout ( =>
+        @item.remove()
+        @placeholder.remove()
+      ), parseFloat(@item.css("transition-duration")) * 1000
+
+      @item.addClass("item-vanish")
+      @placeholder.addClass("item-placeholder-vanish").css "height", ""
       $(".drop-target-active").removeClass "drop-target-active"
-
-      if dropTarget.hasClass("item")
-        tolerance = boundaries.height / 4
-
-        if pointerOffset.top >= (boundaries.top - pageYOffset) + tolerance &&
-           pointerOffset.top <= (boundaries.bottom - pageYOffset) - tolerance
-          dragItem.addClass("item-drop")
-          dropTarget.addClass("drop-target-active")
-        else
-          dragItem.removeClass("item-drop")
-
-          if pointerOffset.top > (boundaries.bottom - pageYOffset) - tolerance
-            placeholder.insertAfter(dropTarget)
-            calculateDropTargetBoundaries(dragItem)
-
-          if pointerOffset.top < (boundaries.top - pageYOffset) + tolerance
-            placeholder.insertBefore(dropTarget)
-            calculateDropTargetBoundaries(dragItem)
-      else if dropTarget.hasClass("ancestor")
-        if dropTarget.hasClass("parent")
-          placeholder.prependTo(".items")
-          $(".no-items").addClass("hide")
-          dragItem.removeClass("item-drop")
-        else
-          dragItem.addClass("item-drop")
-          placeholder.appendTo(dropTarget.find(".ancestor-content"))
-          checkForEmptyList()
-
-        calculateDropTargetBoundaries(dragItem)
-      else if dropTarget.hasClass("no-items")
-        dragItem.removeClass("item-drop")
-        dropTarget.addClass("hide").after(placeholder)
-
-  finishDrag = ->
-    if !dragItem && pointerItem
-      Turbolinks.visit(pointerItem.data("item-href"))
-      return
-
-    return unless dragItem
-    return unless dragItem.hasClass("item-drag")
-
-    pointerOffset =
-      top: parseFloat(dragItem.css("top")),
-      left: parseFloat(dragItem.css("left"))
-
-    dropTarget = getDropTargetAtPointer(pointerOffset)
-
-    if dropTarget && (dropTarget.hasClass("item") ||
-                      dropTarget.hasClass("ancestor"))
-      setTimeout ( ->
-        dragItem.remove()
-        placeholder.remove()
-        reset()
-      ), parseFloat(dragItem.css("transition-duration")) * 1000
-
-      dragItem.addClass("item-vanish")
-      placeholder.addClass("item-placeholder-vanish").css "height", ""
-      $(".drop-target-active").removeClass "drop-target-active"
-      adoptItem(dragItem, dropTarget)
+      @adoptItem(@item, dropTarget)
     else
-      dragItem
+      @item
         .css
           top: ""
           left: ""
@@ -141,77 +134,18 @@ document.addEventListener "turbolinks:load", ->
           transformOrigin: ""
         .removeClass("item-drag")
 
-      placeholder.replaceWith(dragItem)
+      @placeholder.replaceWith(@item)
 
-      if dragItem.data("original-index") != dragItem.index()
-        reorderItem(dragItem)
+      if @item.data("original-index") != @item.index()
+        @reorderItem(@item)
 
-      setTimeout ( -> reset() ), 5
+  getCoordinatesFromEvent: (event) ->
+    top: event.clientY, left: event.clientX
 
-  pointerStrayedFromStartingPoint = (pointerOffset) ->
-    tolerance = 3 # px
-
-    startingPointOffset &&
-    (pointerOffset.top < startingPointOffset.top - tolerance ||
-     pointerOffset.top > startingPointOffset.top + tolerance ||
-     pointerOffset.left < startingPointOffset.left - tolerance ||
-     pointerOffset.left > startingPointOffset.left + tolerance)
-
-  delayDrag = (event, item, pointerOffset) ->
-    # Abort if delete confirmation visible.
-    return unless item.find(".item-delete-confirmation").hasClass("hide")
-    # Abort if item is being edited.
-    return if item.hasClass("item-editing")
-
-    target = $(event.target)
-    # Abort if one of the item's control was clicked.
-    return if target.parents(".item-control").length > 0
-    # Abort if the checkbox was clicked.
-    return if target.parents(".item-checkbox").length > 0
-
-    pointerItem = item
-    startingPointOffset = pointerOffset
-    dragDelayTimer = setTimeout ( -> startDrag item, pointerOffset ), DRAG_DELAY
-
-  calculateDropTargetBoundaries = ->
-    dropTargets = []
-
-    $(".item, .ancestor:not(:last-child), .no-items").each ->
-      item = $(this)
-
-      if item.attr("id") != dragItem.attr("id")
-        boundaries = item.offset()
-        boundaries.width = parseFloat item.css "width"
-        boundaries.height = parseFloat item.css "height"
-        boundaries.right = boundaries.left + boundaries.width
-        boundaries.bottom = boundaries.top + boundaries.height
-        item.data "boundaries", boundaries
-        dropTargets.push item
-
-  getDropTargetAtPointer = (pointerOffset) ->
-    for dropTarget in dropTargets
-      boundaries = dropTarget.data("boundaries")
-      if pointerOffset.top >= (boundaries.top - pageYOffset) &&
-         pointerOffset.left <= (boundaries.right - pageXOffset) &&
-         pointerOffset.top <= (boundaries.bottom - pageYOffset) &&
-         pointerOffset.left >= (boundaries.left - pageXOffset)
-        return dropTarget
-
-  reorderItem = (item) ->
-    orderedItemHashids = $(".item").map ->
-      $(this).data("item-hashid")
-
+  adoptItem: (child, parent) ->
     $.ajax
-      url: "/items/reorder"
-      data: { hashids: orderedItemHashids.get().join() }
-      method: "PATCH"
-      beforeSend: -> item.addClass("pulse-while-pending")
-      success: -> item.removeClass("pulse-while-pending")
-
-  adoptItem = (child, parent) ->
-    $.ajax
-      url: "/items/#{parent.data("item-hashid")}/adopt"
-      data: "child_hashid=#{child.data("item-hashid")}"
+      url: "/items/#{parent.data("hashid")}/adopt"
+      data: "child_hashid=#{child.data("hashid")}"
       method: "PATCH"
       beforeSend: -> parent.addClass("pulse-while-pending")
       success: (newProgressBar) ->
@@ -236,26 +170,24 @@ document.addEventListener "turbolinks:load", ->
         else
           label.removeClass("hide")
 
-        checkForEmptyList()
+        While.Items.checkForEmpty()
 
-  $(".item").each ->
-    item = $(this)
+  reorderItem: (item) ->
+    orderedItemHashids = $(".item").map ->
+      $(this).data("hashid")
 
-    item
-      .on "touchstart.drag-drop", (event) ->
-        touch = event.originalEvent.touches[0]
-        delayDrag event, item, top: touch.clientY, left: touch.clientX
-      .on "mousedown.drag-drop", (event) ->
-        delayDrag event, item, top: event.clientY, left: event.clientX
-      .on "touchend.drag-drop mouseup.drag-drop", (event) ->
-        clearTimeout(dragDelayTimer)
-        finishDrag()
+    $.ajax
+      url: "/items/reorder"
+      data: { hashids: orderedItemHashids.get().join() }
+      method: "PATCH"
+      beforeSend: -> item.addClass("pulse-while-pending")
+      success: -> item.removeClass("pulse-while-pending")
 
-  DOCUMENT
-    .on "touchmove.drag-drop", (event) ->
-      touch = event.originalEvent.touches[0]
-      drag top: touch.clientY, left: touch.clientX, event
-    .on "mousemove.drag-drop", (event) ->
-      drag top: event.clientY, left: event.clientX, event
-
-  reset()
+  getDropTargetAtPointer: (coordinates) ->
+    for dropTarget in this.dropTargets
+      boundaries = dropTarget.data("boundaries")
+      if coordinates.top >= (boundaries.top - pageYOffset) &&
+         coordinates.left <= (boundaries.right - pageXOffset) &&
+         coordinates.top <= (boundaries.bottom - pageYOffset) &&
+         coordinates.left >= (boundaries.left - pageXOffset)
+        return dropTarget
