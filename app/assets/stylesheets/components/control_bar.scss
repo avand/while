@@ -1,6 +1,6 @@
 .control-bar-fixed {
   position: fixed;
-  bottom: 0;
+  bottom: 20px;
   left: 50%;
   margin-left: -50px;
   z-index: 999;
@@ -16,7 +16,6 @@
 
 .control-bar-content {
   padding-top: 20px;
-  padding-bottom: 20px;
 
   text-align: center;
 

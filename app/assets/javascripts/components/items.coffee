@@ -15,7 +15,8 @@ While.Items =
 
   toggleControlBar: ->
     if $(".no-items-bootstrap:visible").length > 0 ||
-       $(".item-editing").length > 0
+       $(".item-editing").length > 0 ||
+       $(".item-drag").length > 0
       $(".control-bar-container").addClass "hide"
     else
       $(".control-bar-container").removeClass "hide"
