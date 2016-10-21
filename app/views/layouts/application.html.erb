@@ -29,7 +29,7 @@
         <% end %>
       <% end %>
 
-      <%= yield %>
+      <%= content_for?(:content) ? yield(:content) : yield %>
     </main>
 
     <footer>
@@ -45,7 +45,7 @@
             class: "underline", data: { "no-turbolinks" => true }
           } %>
         <% else %>
-          <a href="#" class="underline give-feedback-link">Give feedback</a>
+          <a href="/about" class="underline">Learn more</a>
 
           &middot;
 
