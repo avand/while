@@ -19,6 +19,7 @@ gem "omniauth-google-oauth2"
 gem "color"
 gem "hashids"
 gem "bugsnag"
+gem "browser"
 
 group :development, :test do
   gem "byebug", platform: :mri
