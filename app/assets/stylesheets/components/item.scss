@@ -64,7 +64,7 @@ $border-radius: .4em;
 .item-content {
   display: block;
   margin-left: $checkbox-size + ($item-padding * 2);
-  margin-right: 108px;
+  margin-right: 80px;
   padding: $item-padding 0;
 }
 
@@ -74,9 +74,24 @@ $border-radius: .4em;
 }
 
 .item-controls {
-  padding: $item-padding;
-  font-size: 1.2em;
+  padding: ($item-padding + 3px) ($item-padding - 4px) 0;
+  font-size: 0;
+  line-height: 12px;
 }
+
+.item-control {
+  text-align: center;
+  display: inline-block;
+}
+
+.item-drag-control {
+  padding: 0 2px;
+}
+
+.item-edit-control i { font-size: 1rem; }
+.item-drag-control i { font-size: 0.95rem; }
+.item-delete-control i { font-size: 1rem; }
+
 
 .item-control { opacity: 0.2; }
 .item-control-active,

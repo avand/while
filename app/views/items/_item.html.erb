@@ -8,12 +8,12 @@
   </div>
 
   <div class="item-controls right">
-    <span class="item-control item-drag-control no-underline <%= item.new_record? ? "disabled" : "pointer" -%>">
-      <i class="fa fa-fw fa-arrows"></i>
-    </span>
-
     <span class="item-control item-edit-control no-underline pointer">
       <i class="fa fa-fw fa-pencil"></i>
+    </span>
+
+    <span class="item-control item-drag-control no-underline <%= item.new_record? ? "disabled" : "pointer" -%>">
+      <i class="fa fa-fw fa-arrows"></i>
     </span>
 
     <span class="item-delete-control item-control no-underline <%= item.new_record? ? "disabled" : "pointer" -%>">
