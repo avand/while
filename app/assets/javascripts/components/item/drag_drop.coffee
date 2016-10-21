@@ -89,7 +89,7 @@ class While.DragDrop
       @activateItemDropTarget(el)
     else if el.hasClass("ancestor")
       @activateAncestorDropTarget(el)
-    else if dropTarget.hasClass("no-items")
+    else if el.hasClass("no-items")
       @activateNoItemsDropTarget(el)
 
   activateItemDropTarget: (item) ->
