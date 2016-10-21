@@ -10,5 +10,6 @@ document.addEventListener "turbolinks:load", ->
   $(".item-content")
     .on "click", (event) ->
       item = $(this).parents(".item")
-      if item.data("state") == "default"
+
+      if !item.hasClass("item-editing")
         Turbolinks.visit(item.data("href"))

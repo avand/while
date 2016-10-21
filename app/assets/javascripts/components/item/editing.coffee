@@ -14,7 +14,7 @@ document.addEventListener "turbolinks:load", ->
 
     item.find(".item-edit-control").removeClass("item-control-active")
     item.find(".item-buttons").addClass("hide")
-    item.data("state", "default")
+    item.removeClass("item-editing")
 
   $(".item-edit-control").click (event) ->
     event.preventDefault()
@@ -39,7 +39,7 @@ document.addEventListener "turbolinks:load", ->
 
     target.addClass("item-control-active")
     item.find(".item-buttons").removeClass("hide")
-    item.data("state", "editing")
+    item.addClass("item-editing")
 
   $(".item-edit-cancel-control").click (event) ->
     event.preventDefault()
