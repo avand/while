@@ -1,7 +1,6 @@
 class While.History
-  load: (path) ->
-    path = path.replace("items", "history")
-    cacheKey = "html:" + path.replace(/\/$/, "")
+  load: () ->
+    path = location.pathname.replace("items", "history")
 
     @container = $(".completed-items")
     @content = @container.find(".completed-items-content")
