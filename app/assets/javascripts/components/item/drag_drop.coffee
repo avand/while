@@ -116,7 +116,7 @@ class While.Item.DragDrop
       @item.addClass("item-drop")
       @placeholder.appendTo(ancestor.find(".ancestor-content"))
 
-    While.Items.checkForEmpty()
+    While.Items.toggleNoItems()
 
   activateNoItemsDropTarget: (noItems) ->
     @item.removeClass("item-drop")
@@ -191,7 +191,7 @@ class While.Item.DragDrop
         else
           label.removeClass("hide")
 
-        While.Items.checkForEmpty()
+        While.Items.toggleNoItems()
 
   reorderItem: (item) ->
     orderedItemHashids = $(".item:visible").map ->

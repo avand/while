@@ -10,17 +10,36 @@
   <%= render current_user.items.build(parent: @parent) %>
 </div>
 
-<div class="no-items align-center <%= "hide" if @items.present? %>"
-     style="margin: 1.5em 0 5em; font-size: .75em; color: rgba(0, 0, 0, 0.35);">
-  Nothing to do here.
+<% if @parent.present? %>
+  <div class="no-items no-items-drop-target">
+  </div>
+<% end %>
+
+<div class="no-items no-items-bootstrap align-center hide">
+  <p>
+    This is just the beginning.
+    Get started by adding an item&hellip;
+  </p>
+
+  <div>
+    <% path = new_item_path(item: { parent_id: @parent.try(:id) }) %>
+    <%= link_to path, class: "button button-primary button-large new-item-button" do %>
+      Add item
+    <% end %>
+  </div>
+
+  <div style="font-size: 0.8em; margin: .8em 0;">
+    Or,
+    <%= link_to "add example items", bootstrap_path, class: "underline color-dark-green" %>.
+  </div>
 </div>
 
-<div class="control-bar-container">
+<div class="control-bar-container <%= "hide" if @parent.nil? && @items.blank? -%>">
   <div class="control-bar">
     <div class="control-bar-content">
       <% path = new_item_path(item: { parent_id: @parent.try(:id) }) %>
-      <%= link_to path, class: "button button-icon button-primary new-item-button" do %>
-        <i class="fa fa-fw fa-plus"></i>
+      <%= link_to path, class: "button button-primary new-item-button" do %>
+        Add item
       <% end %>
     </div>
   </div>

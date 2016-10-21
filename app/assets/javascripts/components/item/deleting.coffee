@@ -27,4 +27,5 @@ While.Item.Deleting =
         While.Item.Deleting.hide item, ->
           animate item, "disappear", duration: 300, ->
             item.remove()
-            While.Items.checkForEmpty()
+            While.Items.toggleNoItems()
+            While.Items.toggleControlBar()

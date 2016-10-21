@@ -20,6 +20,7 @@ While.Item.Saving =
         newItem = $(response.responseText)
         item.replaceWith(newItem)
         While.Item.Events.bind($(newItem))
+        While.Items.toggleControlBar()
 
         if newItem.attr("id") == "item-new-template"
           $(".new-item-button").click()
@@ -46,6 +47,7 @@ While.Item.Saving =
     target.addClass("item-control-active")
     item.find(".item-buttons").removeClass("hide")
     item.addClass("item-editing")
+    While.Items.toggleControlBar()
 
   cancel: (event) ->
     event.preventDefault()
@@ -58,7 +60,8 @@ While.Item.Saving =
     else
       While.Item.Saving.reset item
 
-    While.Items.checkForEmpty()
+    While.Items.toggleNoItems()
+    While.Items.toggleControlBar()
 
   reset: (item) ->
     itemName = item.find(".item-name").removeAttr("contenteditable")

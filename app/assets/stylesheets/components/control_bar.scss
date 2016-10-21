@@ -18,23 +18,9 @@
   padding-top: 10px;
   padding-bottom: 10px;
 
+  text-align: center;
+
   .button {
     transition: box-shadow 200ms;
-
-    border-radius: 100%;
-    padding: 8px;
-
-    width: 45px;
-    height: 45px;
-
-    &:first-child {
-      margin-left: 8px;
-    }
-
-    i {
-      font-size: 20px;
-      display: inline-block;
-      line-height: 28px;
-    }
   }
 }
