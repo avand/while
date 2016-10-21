@@ -80,6 +80,8 @@ class While.DragDrop
 
     @findDropTargets()
 
+    @scroll()
+
   activateDropTarget: (el) ->
     $(".drop-target-active").removeClass "drop-target-active"
 
@@ -201,3 +203,28 @@ class While.DragDrop
       method: "PATCH"
       beforeSend: -> item.addClass("pulse-while-pending")
       success: -> item.removeClass("pulse-while-pending")
+
+  scroll: ->
+    $window = $(window)
+    windowHeight = $window.height()
+    slowThreshold = 60
+    fastThreshold = 30
+    slowInterval = 6
+    fastInterval = 1
+
+    clearInterval(@scrollInterval)
+    @scrollInterval = null
+
+    scrollUp = () => $window.scrollTop($window.scrollTop() - 1)
+    scrollUpFast = () => $window.scrollTop($window.scrollTop() - 2)
+    scrollDown = () => $window.scrollTop($window.scrollTop() + 1)
+    scrollDownFast = () => $window.scrollTop($window.scrollTop() + 2)
+
+    if @coordinates.top < fastThreshold
+      @scrollInterval = setInterval scrollUpFast, fastInterval
+    else if @coordinates.top < slowThreshold
+      @scrollInterval = setInterval scrollUp, slowInterval
+    else if @coordinates.top > windowHeight - fastThreshold
+      @scrollInterval = setInterval scrollDownFast, fastInterval
+    else if @coordinates.top > windowHeight - slowThreshold
+      @scrollInterval = setInterval scrollDown, slowInterval
