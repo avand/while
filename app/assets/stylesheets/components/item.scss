@@ -1,16 +1,6 @@
 $checkbox-size: 24px;
 $border-radius: .4em;
 
-.item [contenteditable] {
-  cursor: text;
-  -webkit-user-select: text;
-  user-select: text;
-
-  &:focus {
-    outline: 0;
-  }
-}
-
 .item-buttons {
   margin-top: .6em;
 }

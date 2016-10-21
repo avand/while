@@ -1,28 +1,28 @@
-<div id="item-<%= item.id -%>"
-     class="item"
+<div id="item-<%= item.id || "new-template" -%>"
+     class="item <%= "hide" if item.new_record? -%>"
      data-href="<%= items_path(item) -%>"
      data-state="default"
      data-hashid="<%= item.hashid -%>">
-  <div class="item-checkbox left pointer">
+  <div class="item-checkbox left <%= item.new_record? ? "disabled" : "pointer" -%>">
     <i class="fa fa-fw fa-square-o"></i>
   </div>
 
   <div class="item-controls right">
-    <span class="item-control item-drag-control no-underline">
+    <span class="item-control item-drag-control no-underline <%= item.new_record? ? "disabled" : "pointer" -%>">
       <i class="fa fa-fw fa-arrows"></i>
     </span>
 
-    <span class="item-control item-edit-control no-underline">
+    <span class="item-control item-edit-control no-underline pointer">
       <i class="fa fa-fw fa-pencil"></i>
     </span>
 
-    <span class="item-delete-control item-control no-underline">
+    <span class="item-delete-control item-control no-underline <%= item.new_record? ? "disabled" : "pointer" -%>">
       <i class="fa fa-fw fa-trash"></i>
     </span>
   </div>
 
   <div class="item-content">
-    <%= form_for item do |f| %>
+    <%= form_for item, html: { class: "item-form", id: nil } do |f| %>
       <%= f.hidden_field :name %>
 
       <div class="item-name">
@@ -30,7 +30,9 @@
       </div>
 
       <div class="item-buttons hide">
-        <button type="submit" class="button button-small button-primary">Save</button>
+        <button type="submit" class="button button-small button-primary">
+          <%= item.new_record? ? "Create" : "Save" %>
+        </button>
         <a href="#" class="button button-small button-link item-edit-cancel-control">Cancel</a>
       </div>
     <% end %>
@@ -38,12 +40,14 @@
     <%= progress_bar item %>
   </div>
 
-  <div class="item-delete-confirmation full-bleed absolute hide">
-    <div class="item-delete-confirmation-buttons align-right">
-      <span class="item-delete-cancel-control
-                   button button-small button-link">Cancel</span>
-      <span class="item-delete-confirm-control
-                   button button-small button-danger">Delete</span>
+  <% if item.persisted? %>
+    <div class="item-delete-confirmation full-bleed absolute hide">
+      <div class="item-delete-confirmation-buttons align-right">
+        <span class="item-delete-cancel-control
+                     button button-small button-link">Cancel</span>
+        <span class="item-delete-confirm-control
+                     button button-small button-danger">Delete</span>
+      </div>
     </div>
-  </div>
+  <% end %>
 </div>

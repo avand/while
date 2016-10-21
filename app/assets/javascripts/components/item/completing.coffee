@@ -1,8 +1,6 @@
-document.addEventListener "turbolinks:load", ->
+While.Item.Completing =
 
-  $(".item-checkbox").click (event) ->
-    event.stopPropagation()
-
+  toggleComplete: (event) ->
     itemCheckbox = $(this)
     itemCheckboxIcon = itemCheckbox.find("i")
 

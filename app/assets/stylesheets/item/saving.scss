@@ -1,0 +1,9 @@
+.item [contenteditable] {
+  cursor: text;
+  -webkit-user-select: text;
+  user-select: text;
+
+  &:focus {
+    outline: 0;
+  }
+}

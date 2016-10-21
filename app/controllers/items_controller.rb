@@ -37,9 +37,18 @@ class ItemsController < ApplicationController
 
     if @item.save
       current_user.log_action "created item #{@item.id}"
-      redirect_to items_path(@item.parent, anchor: "item-#{@item.id}")
+
+      if request.xhr?
+        render partial: @item
+      else
+        redirect_to items_path(@item.parent, anchor: "item-#{@item.id}")
+      end
     else
-      render :new
+      if request.xhr?
+        render partial: current_user.items.build
+      else
+        render :new
+      end
     end
   end
 
@@ -56,7 +65,11 @@ class ItemsController < ApplicationController
         redirect_to items_path(@item.parent, anchor: "item-#{@item.id}")
       end
     else
-      render :edit
+      if request.xhr?
+        render partial: @item
+      else
+        render :edit
+      end
     end
   end
 

@@ -5,6 +5,7 @@
 <% if @items.present? %>
   <div class="items">
     <%= render @items %>
+    <%= render current_user.items.build %>
   </div>
 <% end %>
 

@@ -21,5 +21,8 @@
 While.history = new While.History()
 
 document.addEventListener("turbolinks:load", function() {
+  While.Item.Events.bind();
+  While.Items.Events.bind();
+
   FastClick.attach(document.body);
 });

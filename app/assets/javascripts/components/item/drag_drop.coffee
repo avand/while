@@ -1,4 +1,4 @@
-class While.DragDrop
+class While.Item.DragDrop
 
   constructor: (event) ->
     @item = $(event.target).parents(".item")
@@ -193,7 +193,7 @@ class While.DragDrop
         While.Items.checkForEmpty()
 
   reorderItem: (item) ->
-    orderedItemHashids = $(".item").map ->
+    orderedItemHashids = $(".item:visible").map ->
       $(this).data("hashid")
 
     $.ajax
