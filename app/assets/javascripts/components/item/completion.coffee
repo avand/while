@@ -12,7 +12,7 @@ document.addEventListener "turbolinks:load", ->
     itemName = item.find(".item-name")
 
     $.ajax
-      url: "/items/#{item.data("item-hashid")}/complete"
+      url: "/items/#{item.data("hashid")}/complete"
       data: { completed_at: new Date() }
       method: "PATCH"
       beforeSend: ->
