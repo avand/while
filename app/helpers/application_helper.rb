@@ -8,6 +8,9 @@ module ApplicationHelper
       options[:style] = "background-color: ##{color.lighten_by(10).hex}"
     end
 
+    options[:class] = "#{controller_name.dasherize}-controller "
+    options[:class] += "#{action_name.dasherize}-action"
+
     content_tag :body, options do
       yield
     end
