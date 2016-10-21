@@ -46,7 +46,7 @@
             class: "underline", data: { "no-turbolinks" => true }
           } %>
         <% else %>
-          <a href="/about" class="underline">Learn more</a>
+          <%= link_to_unless_current "Learn more", about_path, class: "underline" %>
 
           &middot;
 
