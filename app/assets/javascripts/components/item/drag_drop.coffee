@@ -126,6 +126,7 @@ class While.Item.DragDrop
     @item.off ".drag-drop"
     $(document).off ".drag-drop"
     @enableTextSelection()
+    clearInterval(@scrollInterval)
 
     dropTarget = @getCurrentDropTarget()
 
@@ -212,7 +213,6 @@ class While.Item.DragDrop
     fastInterval = 1
 
     clearInterval(@scrollInterval)
-    @scrollInterval = null
 
     scrollUp = () => $window.scrollTop($window.scrollTop() - 1)
     scrollUpFast = () => $window.scrollTop($window.scrollTop() - 2)
