@@ -39,22 +39,11 @@
   </div>
 
   <div class="item-delete-confirmation full-bleed absolute hide">
-    <div class="item-delete-confirmation-buttons right">
+    <div class="item-delete-confirmation-buttons align-right">
       <span class="item-delete-cancel-control
                    button button-small button-link">Cancel</span>
       <span class="item-delete-confirm-control
                    button button-small button-danger">Delete</span>
-    </div>
-
-    <div class="item-delete-confirmation-message">
-      <% descendants_count = item.descendants.not_deleted.not_completed.count %>
-
-      <% if descendants_count.zero? %>
-        Are you sure you want to delete this item?
-      <% else %>
-        Are you sure you want to delete this item and the
-        <%= pluralize descendants_count, "item" %> it contains?
-      <% end %>
     </div>
   </div>
 </div>
