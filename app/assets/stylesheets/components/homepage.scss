@@ -1,0 +1,68 @@
+.users-controller.new-action {
+
+  $transition-duration: 300ms;
+
+  .install-prompt::after { z-index: 5; }
+  .install-prompt::before { z-index: 4; }
+  .install-prompt { z-index: 3; }
+  .install-overlay { z-index: 2; }
+
+  .install-prompt {
+    bottom: 20px;
+    width: 260px;
+    left: 50%;
+    margin-left: -130px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    font-size: 0.8em;
+    padding: 1em;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: $vanilla-color;
+    transition: all $transition-duration;
+
+    &.collapsed {
+      transform: translateY(25px);
+      opacity: 0;
+    }
+
+    &::after,
+    &::before {
+      content: "";
+      height: 0;
+      width: 0;
+      border-width: 10px;
+      border-style: solid;
+      position: fixed;
+      left: 50%;
+      margin-left: -10px;
+    }
+
+    &::after {
+      border-color: $vanilla-color transparent transparent;
+      bottom: 1px;
+    }
+
+    &::before {
+      border-color: rgba(0, 0, 0, 0.2) transparent transparent;
+      bottom: 0;
+    }
+
+    h2 {
+      margin: 0 0 .2em;
+    }
+
+    img {
+      width: 40px;
+    }
+  }
+
+  .install-prompt-close-control {
+    opacity: 0.2;
+    font-size: 1.1em;
+  }
+
+  .install-overlay {
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: all $transition-duration;
+  }
+}

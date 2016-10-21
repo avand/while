@@ -28,3 +28,12 @@
   from { opacity: 0.15; }
   to { opacity: 0.3; }
 }
+
+.bob {
+  animation: bob 1s alternate infinite;
+}
+
+@keyframes bob {
+  from { transform: translateY(0); }
+  from { transform: translateY(5px); }
+}
