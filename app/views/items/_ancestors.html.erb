@@ -6,7 +6,7 @@
                 border-color: rgba(0, 0, 0, <%= ((@ancestors.length - 1) * 0.02) - (i * 0.02) %>)">
       <div class="ancestor-content">
         <%= link_to_unless_current ancestor[0], ancestor[1], {
-          class: "block underline-on-hover"
+          class: "block underline no-underline-on-hover"
         } %>
       </div>
     </div>
