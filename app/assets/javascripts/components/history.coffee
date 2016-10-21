@@ -7,11 +7,8 @@ class While.History
     @content = @container.find(".completed-items-content")
     @heading = @container.find(".completed-items-heading")
 
-    @show(localStorage.getItem(cacheKey))
-
     $get path, (html) =>
       @show(html)
-      localStorage.setItem(cacheKey, html)
 
     @heading.click =>
       @heading.find("i").toggleClass("hide")
