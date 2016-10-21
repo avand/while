@@ -20,6 +20,8 @@ Rails.application.routes.draw do
 
   post "/feedback" => "feedback#create", as: "give_feedback"
 
+  get "/about" => "pages#about", as: "about"
+
   root "users#new"
 
   # Serve websocket cable requests in-process

@@ -1,0 +1,19 @@
+<%= content_for :content do %>
+  <div class="align-center" style="margin-bottom: 25px;">
+    <%= link_to root_path do %>
+      <div style="height: 150px">
+        <%= image_tag "logo-transparent.png", size: "200", class: "align-center" %>
+      </div>
+    <% end %>
+
+    <h1 style="font-weight: 600; font-size: 22px">
+      While
+    </h1>
+  </div>
+
+  <div style="max-width: 500px; margin: 0 auto;">
+    <%= yield %>
+  </div>
+<% end %>
+
+<%= render template: "layouts/application" %>
