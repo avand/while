@@ -2,12 +2,13 @@
   <%= render "ancestors" %>
 <% end %>
 
-<% if @items.present? %>
-  <div class="items">
+<div class="items">
+  <% if @items.present? %>
     <%= render @items %>
-    <%= render current_user.items.build %>
-  </div>
-<% end %>
+  <% end %>
+
+  <%= render current_user.items.build %>
+</div>
 
 <div class="no-items align-center <%= "hide" if @items.present? %>"
      style="margin: 1.5em 0 5em; font-size: .75em; color: rgba(0, 0, 0, 0.35);">

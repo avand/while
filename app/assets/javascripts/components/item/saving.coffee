@@ -58,6 +58,8 @@ While.Item.Saving =
     else
       While.Item.Saving.reset item
 
+    While.Items.checkForEmpty()
+
   reset: (item) ->
     itemName = item.find(".item-name").removeAttr("contenteditable")
 

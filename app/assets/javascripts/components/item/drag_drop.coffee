@@ -111,12 +111,12 @@ class While.Item.DragDrop
   activateAncestorDropTarget: (ancestor) ->
     if ancestor.hasClass("parent")
       @placeholder.prependTo(".items")
-      $(".no-items").addClass("hide")
       @item.removeClass("item-drop")
     else
       @item.addClass("item-drop")
       @placeholder.appendTo(ancestor.find(".ancestor-content"))
-      While.Items.checkForEmpty()
+
+    While.Items.checkForEmpty()
 
   activateNoItemsDropTarget: (noItems) ->
     @item.removeClass("item-drop")
