@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
 
     session[:current_user_id] = user.id
 
-    redirect_to items_path, notice: "Welcome, #{user.name}."
+    redirect_to items_path
   end
 
   def destroy
