@@ -49,9 +49,3 @@
   font-size: 1.2em;
   padding: .4em 1em;
 }
-
-.button:active,
-.hover-enabled .button:hover { text-decoration: underline; }
-.button.button-link:active,
-.hover-enabled .button-link:hover,
-.hover-enabled .button-disabled:hover { text-decoration: none; }
