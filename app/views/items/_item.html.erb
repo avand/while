@@ -24,6 +24,7 @@
   <div class="item-content">
     <%= form_for item, html: { class: "item-form", id: nil } do |f| %>
       <%= f.hidden_field :name %>
+      <%= f.hidden_field :parent_id %>
 
       <div class="item-name">
         <%= item.name %>

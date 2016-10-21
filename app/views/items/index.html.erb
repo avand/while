@@ -7,7 +7,7 @@
     <%= render @items %>
   <% end %>
 
-  <%= render current_user.items.build %>
+  <%= render current_user.items.build(parent: @parent) %>
 </div>
 
 <div class="no-items align-center <%= "hide" if @items.present? %>"
