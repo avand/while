@@ -33,10 +33,6 @@ $border-radius: .4em;
   position: relative;
 }
 
-.item:not(.item-editing) {
-  -webkit-user-select: none;
-}
-
 .item.item-active {
   border-color: rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.225) rgba(0, 0, 0, 0.25) !important;
   background-color: rgba(255, 255, 255, 1) !important;
