@@ -49,7 +49,7 @@ $border-radius: .4em;
   height: $checkbox-size;
   width: $checkbox-size;
   line-height: $checkbox-size;
-  padding: $item-padding $item-padding ($item-padding - 3px);
+  padding: $item-padding ($item-padding - 5px) ($item-padding - 3px) $item-padding;
   display: block;
 }
 
@@ -63,18 +63,19 @@ $border-radius: .4em;
 
 .item-content {
   display: block;
-  margin-left: $checkbox-size + ($item-padding * 2);
-  margin-right: 80px;
+  margin-left: $checkbox-size + ($item-padding * 2) - 5px;
+  margin-right: 108px;
   padding: $item-padding 0;
 }
 
 .item-name {
   font-weight: 500;
+  font-size: 0.95em;
   display: block;
 }
 
 .item-controls {
-  padding: ($item-padding + 3px) ($item-padding - 4px) 0;
+  padding: $item-padding - 6px;
   font-size: 0;
   line-height: 12px;
 }
@@ -82,15 +83,20 @@ $border-radius: .4em;
 .item-control {
   text-align: center;
   display: inline-block;
+  padding: 4px;
+  width: 32px;
+  height: 32px;
+
+  i {
+    font-size: 1.2rem;
+    position: relative;
+    top: 2px;
+  }
 }
 
-.item-drag-control {
-  padding: 0 2px;
-}
-
-.item-edit-control i { font-size: 1rem; }
-.item-drag-control i { font-size: 0.95rem; }
-.item-delete-control i { font-size: 1rem; }
+.item-edit-control i { font-size: 1.2rem; top: 3px; }
+.item-delete-control i { font-size: 1.2rem; top: 3px; }
+.item-drag-control i { font-size: 1.1rem; top: 4px; }
 
 
 .item-control { opacity: 0.2; }
