@@ -15,10 +15,9 @@
     <span class="item-delete-control item-control no-underline <%= item.new_record? ? "disabled" : "pointer" -%>">
       <i class="fa fa-fw fa-trash"></i>
     </span>
+  </div>
 
-    <span class="item-control item-drag-control no-underline <%= item.new_record? ? "disabled" : "pointer" -%>">
-      <i class="fa fa-fw fa-arrows"></i>
-    </span>
+  <div class="item-drag-target absolute no-underline <%= "disabled" if item.new_record? -%>">
   </div>
 
   <div class="item-content">

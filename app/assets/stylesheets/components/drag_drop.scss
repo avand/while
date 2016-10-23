@@ -57,3 +57,19 @@ $transition-duration: 180ms;
     margin-top: 5px;
   }
 }
+
+.item-drag-target {
+  background-image: image-url("drag-target.png");
+  background-size: 10px (10px/(42/69));
+  background-repeat: no-repeat;
+  background-position: center 16px;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 30px;
+  cursor: -webkit-grab;
+}
+
+.item-drag .item-drag-target {
+  cursor: -webkit-grabbing;
+}

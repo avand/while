@@ -14,7 +14,7 @@ While.Item.Events =
     container.find(".item-delete-confirm-control").click \
       While.Item.Deleting.confirmDelete
 
-    container.find(".item-drag-control:not(.disabled)")
+    container.find(".item-drag-target:not(.disabled)")
       .on "mousedown touchstart", (event) ->
         event.preventDefault()
 
