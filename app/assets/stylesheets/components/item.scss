@@ -19,7 +19,7 @@ $border-radius: .4em;
   overflow: auto;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.125) rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: white;
   position: relative;
 }
 
@@ -30,11 +30,6 @@ $border-radius: .4em;
 .item.item-active {
   border-color: rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.225) rgba(0, 0, 0, 0.25) !important;
   background-color: rgba(255, 255, 255, 1) !important;
-}
-
-.hover-enabled .item:hover {
-  border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.175) rgba(0, 0, 0, 0.2);
-  background-color: rgba(255, 255, 255, 0.95);
 }
 
 .item-placeholder {
