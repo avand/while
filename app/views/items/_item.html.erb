@@ -3,8 +3,9 @@
      data-href="<%= items_path(item) -%>"
      data-state="default"
      data-hashid="<%= item.hashid -%>">
-  <div class="item-checkbox left <%= item.new_record? ? "disabled" : "pointer" -%>">
-    <i class="fa fa-fw fa-square-o"></i>
+  <div class="item-checkbox left <%= item.new_record? ? "disabled" : "pointer" -%>"
+       style="color: <%= item.color -%>;">
+    <i class="fa fa-fw fa-circle-thin"></i>
   </div>
 
   <div class="item-controls right">
@@ -16,9 +17,14 @@
       <i class="fa fa-fw fa-trash"></i>
     </span>
 
-    <span class="item-control item-drag-control no-underline <%= item.new_record? ? "disabled" : "pointer" -%>">
+    <span class="hide item-control item-drag-control no-underline <%= item.new_record? ? "disabled" : "pointer" -%>">
       <i class="fa fa-fw fa-arrows"></i>
     </span>
+  </div>
+
+  <div class="item-drag-control absolute"
+       style="top: 0; right: 0; width: 30px; bottom: 0;">
+    &nbsp;
   </div>
 
   <div class="item-content">

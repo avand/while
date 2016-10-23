@@ -18,8 +18,8 @@ module ItemsHelper
 
     if color = (item.color || item.root.color)
       color = Color::RGB.by_hex color
-      background_styles << "background-color: ##{color.lighten_by(40).hex};"
-      foreground_styles << "background-color: ##{color.darken_by(80).hex};"
+      # background_styles << "background-color: #ccc;"
+      foreground_styles << "background-color: ##{color.hex};"
     end
 
     content_tag :div, class: background_classes.join(" "),

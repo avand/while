@@ -1,7 +1,7 @@
 @mixin content-box() {
   max-width: 600px;
   margin: 0 auto;
-  padding-left: 4%;
-  padding-right: 4%;
+  padding-left: 3%;
+  padding-right: 3%;
   box-sizing: content-box;
 }

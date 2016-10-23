@@ -5,9 +5,21 @@
          style="background-color: rgba(0, 0, 0, <%= ((@ancestors.length - 1) * 0.05) - (i * 0.05) %>);
                 border-color: rgba(0, 0, 0, <%= ((@ancestors.length - 1) * 0.02) - (i * 0.02) %>)">
       <div class="ancestor-content">
-        <%= link_to_unless_current ancestor[0], ancestor[1], {
-          class: "block underline no-underline-on-hover"
-        } %>
+        <% if i.zero? %>
+          <%= link_to_unless_current ancestor[0], ancestor[1], {
+            class: "block underline no-underline-on-hover"
+          } %>
+        <% else %>
+          <% if @ancestors.length == (i + 1) %>
+            <%= link_to_unless_current ancestor[0], ancestor[1], {
+              class: "block underline no-underline-on-hover"
+            } %>
+          <% else %>
+            <%= link_to ancestor[1], class: "block no-underline-on-hover" do %>
+              <span class="underline"><%= ancestor[0] -%></span>
+            <% end %>
+          <% end %>
+        <% end %>
       </div>
     </div>
   <% end %>

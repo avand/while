@@ -1,8 +1,13 @@
+.control-bar-container {
+  @include content-box();
+
+}
+
 .control-bar-fixed {
   position: fixed;
   bottom: 20px;
-  left: 50%;
-  margin-left: -50px;
+  left: 0;
+  right: 0;
   z-index: 999;
 
   .button {
@@ -16,8 +21,6 @@
 
 .control-bar-content {
   padding-top: 20px;
-
-  text-align: center;
 
   .button {
     transition: box-shadow 200ms;

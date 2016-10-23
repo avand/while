@@ -7,22 +7,19 @@ $checkbox-padding: 8px;
 }
 
 .completed-items-heading {
-  text-align: center;
   color: rgba(0, 0, 0, 0.4);
   font-weight: 500;
 
-  &::before,
-  &::after, {
+  &::after {
     position: relative;
     content: "";
     display: inline-block;
     border-bottom: 1px dotted rgba(0, 0, 0, 0.1);
     position: relative;
-    bottom: -8px;
-    width: calc(50% - 40px);
+    bottom: -10px;
+    width: calc(100% - 62px);
   }
 
-  &::before { float: left; }
   &::after  { float: right; }
 
   &:hover {
