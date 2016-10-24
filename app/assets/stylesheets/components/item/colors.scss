@@ -1,0 +1,35 @@
+.item-colors {
+  margin: 8px 0 12px;
+  height: 14px;
+  display: none;
+}
+
+.item-editing .item-colors {
+  display: inherit;
+}
+
+.item-color {
+  display: inline-block;
+  height: 14px;
+  width: 14px;
+  border-radius: 100%;
+  margin-right: 4px;
+}
+
+.item-color::after {
+  content: "";
+  height: 18px;
+  width: 18px;
+  border-radius: 100%;
+  border-width: 2px;
+  border-style: solid;
+  border-color: transparent;
+  display: inline-block;
+  position: relative;
+  top: -4px;
+  left: -4px;
+}
+
+.item-color-selected::after {
+   border-color: #bbb;
+}
