@@ -29,6 +29,13 @@
         <%= item.name %>
       </div>
 
+      <div class="item-colors">
+        <% Item::COLORS.each do |name, hex| %>
+          <span class="item-color <%= "item-color-selected" if item.color == hex -%>"
+                style="background-color: <%= hex -%>"></span>
+        <% end %>
+      </div>
+
       <div class="item-buttons hide">
         <button type="submit" class="button button-small button-primary">
           <%= item.new_record? ? "Create" : "Save" %>
