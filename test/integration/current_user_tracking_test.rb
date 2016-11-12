@@ -16,7 +16,7 @@ class CurrentUserTrackingTest < ActionDispatch::IntegrationTest
     two_weeks_from_now = now + 2.weeks
 
     Timecop.freeze(now) do
-      get "/auth/google"
+      get "/auth/google_oauth2"
       follow_redirect!
       assert_equal now.to_i, users(:avand).reload.last_visited_at.to_i
       assert_equal original_updated_at.to_i, users(:avand).updated_at.to_i
@@ -32,7 +32,7 @@ class CurrentUserTrackingTest < ActionDispatch::IntegrationTest
   test "request_count increments on each authenticated request" do
     users(:avand).update request_count: nil
 
-    get "/auth/google"
+    get "/auth/google_oauth2"
     follow_redirect!
     assert_equal 1, users(:avand).reload.request_count
 
