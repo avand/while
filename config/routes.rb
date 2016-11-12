@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   get "history(/:hashid)" => "items#history", as: "history"
 
-  get "/auth/:provider/callback", to: "sessions#create"
+  get "/auth/google/callback", to: "sessions#create"
   get "/bye" => "sessions#destroy", as: "log_out"
 
   get "/actions" => "actions#index", as: "actions"
