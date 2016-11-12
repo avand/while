@@ -6,7 +6,7 @@ class ApplicationMailer < ActionMailer::Base
     @message = message
 
     name = user.try(:name) || "While Guest"
-    email = user.try(:email) || "guest@getwhile.com"
+    email = user.try(:email) || "guest@whilelist.com"
 
     mail({
       from: "#{name} <#{user.try(:email) || ""}>",

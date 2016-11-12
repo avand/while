@@ -32,7 +32,7 @@ class ItemsControllerTest < ActionController::TestCase
     session[:current_user_id] = users(:avand).id
 
     cookies[:last_viewed_item_hashid] = "a1"
-    request.env["HTTP_REFERER"] = "http://getwhile.com/items/gZ"
+    request.env["HTTP_REFERER"] = "http://www.whilelist.com/items/gZ"
 
     get :index
 
