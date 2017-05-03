@@ -1,5 +1,7 @@
 class User < ApplicationRecord
 
+  include IdentifierObfuscation
+
   ADMIN_EMAILS = ["avand@avandamiri.com"]
 
   has_many :items
