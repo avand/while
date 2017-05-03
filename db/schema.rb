@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160726020821) do
+ActiveRecord::Schema.define(version: 20170503073619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,12 @@ ActiveRecord::Schema.define(version: 20160726020821) do
     t.datetime "occurred_at"
     t.index ["occurred_at"], name: "index_actions_on_occurred_at", using: :btree
     t.index ["user_id"], name: "index_actions_on_user_id", using: :btree
+  end
+
+  create_table "installs", force: :cascade do |t|
+    t.integer "user_id"
+    t.index ["id"], name: "index_installs_on_id", using: :btree
+    t.index ["user_id"], name: "index_installs_on_user_id", using: :btree
   end
 
   create_table "items", force: :cascade do |t|
