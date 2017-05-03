@@ -1,0 +1,44 @@
+.installs-controller.new-action {
+
+  background-color: white;
+
+  footer { display: none; }
+
+  ol { padding-left: 30px; }
+  li { margin: .4em 0; }
+
+  .install-step {
+    margin: .5em 0;
+    min-height: 20px;
+  }
+
+  .install-step-icon {
+    width: 20px;
+    height: 20px;
+    float: right;
+    text-align: center;
+  }
+
+  .install-prompt {
+    bottom: 15px;
+    width: 260px;
+    left: 50%;
+    margin-left: -130px;
+
+    h2 {
+      margin: 0 0 .4em;
+      line-height: 1.2;
+    }
+  }
+
+  .install-arrow {
+    width: 20px;
+  }
+
+  .install-app-icon {
+    width: 100px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
+    margin: 15px 0;
+  }
+}

@@ -11,9 +11,12 @@ class SessionsController < ApplicationController
       image: auth["info"]["image"]
     })
 
-    session[:current_user_id] = user.id
-
-    redirect_to items_path
+    if browser.device.ipad? || browser.device.iphone?
+      redirect_to new_install_path(user, user.install || user.create_install)
+    else
+      session[:current_user_id] = user.id
+      redirect_to items_path
+    end
   end
 
   def destroy

@@ -24,6 +24,9 @@ Rails.application.routes.draw do
 
   post "/bootstrap" => "users#bootstrap", as: "bootstrap"
 
+  get "/install/:user_hashid/:install_hashid" => "installs#new", as: "new_install"
+  post "/install/:user_hashid/:install_hashid" => "installs#create"
+
   root "users#new"
 
   # Serve websocket cable requests in-process

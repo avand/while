@@ -1,5 +1,7 @@
 class Item < ApplicationRecord
 
+  include IdentifierObfuscation
+
   # https://color.hailpixel.com/#EBDAC2,E9E9BE,D0ECC6,C2DEEB,C8C6EC,E6B3E2
   COLORS = [
     ["apricot", "#EBDAC2"],
@@ -31,23 +33,6 @@ class Item < ApplicationRecord
 
   def make_last
     self.order = (siblings.maximum(:order) || -1) + 1
-  end
-
-  def hashid
-    return nil if id.blank?
-    salt = Rails.application.secrets[:hashids_salt]
-    hashids = Hashids.new(salt)
-    hashids.encode(id)
-  end
-
-  def to_param
-    hashid
-  end
-
-  def self.find_by_hashid(hashid)
-    raise ActiveRecord::RecordNotFound if hashid.blank?
-    hashids = Hashids.new(Rails.application.secrets[:hashids_salt])
-    find hashids.decode(hashid).first
   end
 
   def soft_delete(time)
