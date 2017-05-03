@@ -1,0 +1,39 @@
+<div class="install-prompt fixed hide">
+  <h2>Install While</h2>
+
+  <ol>
+    <li class="install-step">
+      Tap Share.
+      <div class="install-step-icon">
+        <%= image_tag "apple-share-icon.png", width: 12, alt: "Apple “Share” icon" %>
+      </div>
+    </li>
+    <li class="install-step">
+      Tap “Add to Home Screen.”
+      <div class="install-step-icon">
+        <%= image_tag "apple-add-to-homescreen-icon.png", width: 16, alt: "Apple “Add to Home Screen” icon" %>
+      </div>
+    </li>
+    <li class="install-step">
+      Tap “Add” and launch While from your home screen.
+    </li>
+  </ol>
+
+  <div class="align-center">
+    <div>
+      <%= image_tag "logo.png", alt: "While app icon", class: "install-app-icon" %>
+    </div>
+
+    <%= image_tag "down-arrow.svg", class: "install-arrow bob", alt: "Down arrow" %>
+  </div>
+</div>
+
+<script>
+  if (window.navigator.standalone) {
+    $.post(window.location.pathname, function() {
+      window.location.reload();
+    });
+  } else {
+    document.querySelector(".install-prompt").classList.remove("hide");
+  }
+</script>

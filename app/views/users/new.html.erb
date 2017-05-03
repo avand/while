@@ -13,65 +13,16 @@
     The todo list for your todo list.
   </p>
 
-  <% if browser.platform.ios? %>
-    <div class="splash splash-ios">
-      <a href="#"
-         class="button button-primary button-large install-control"
-         data-no-turbolinks>
-        Get started!
-      </a>
-
-      <div style="font-size: 0.8em; margin: .8em 0;">
-        Or,
-        <a href="/auth/google_oauth2"
-           class="underline color-dark-green"
-          data-no-turbolinks>launch web app</a>.
-      </div>
-
-      <div class="install-prompt fixed hide collapsed">
-        <div class="install-prompt-close-control pointer right">
-          <i class="fa fa-times-circle"></i>
-        </div>
-
-        <h2>Add to Home Screen</h2>
-
-        <p>
-          Please click the Share icon below to add While to your Home Screen.
-        </p>
-
-        <%= image_tag "down-arrow.svg", class: "bob", alt: "Down arrow" %>
-      </div>
-
-      <div class="install-overlay fixed full-bleed hide transparent">
-      </div>
-    </div>
-  <% else %>
-    <div class="splash splash-default">
-      <a href="/auth/google_oauth2"
-         class="button button-primary button-large"
-         data-no-turbolinks>
-        Get started!
-      </a>
-
-      <div style="font-size: 0.8em; margin: .8em 0;">
-        Or,
-        <a href="/auth/google_oauth2"
-           class="underline color-dark-green"
-          data-no-turbolinks>log in</a>.
-      </div>
-    </div>
-  <% end %>
-
-  <div class="splash splash-standalone hide">
-    <a href="/auth/google_oauth2?suppress_webview_warning=true"
+  <div class="splash splash-default">
+    <a href="/auth/google_oauth2"
        class="button button-primary button-large"
        data-no-turbolinks>
-      Sign up!
+      Get started!
     </a>
 
     <div style="font-size: 0.8em; margin: .8em 0;">
       Or,
-      <a href="/auth/google_oauth2?suppress_webview_warning=true"
+      <a href="/auth/google_oauth2"
          class="underline color-dark-green"
         data-no-turbolinks>log in</a>.
     </div>
