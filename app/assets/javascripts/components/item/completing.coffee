@@ -4,7 +4,7 @@ While.Item.Completing =
     itemCheckbox = $(this)
     itemCheckboxIcon = itemCheckbox.find("i")
 
-    return if itemCheckboxIcon.hasClass("fa-check-square-o")
+    return if itemCheckboxIcon.hasClass("fa-check-circle")
 
     item = itemCheckbox.parents(".item")
     itemName = item.find(".item-name")
@@ -16,8 +16,8 @@ While.Item.Completing =
       beforeSend: ->
         itemName.addClass("strikethrough")
         itemCheckboxIcon
-          .removeClass("fa-square-o")
-          .addClass("fa-check-square-o")
+          .removeClass("fa-circle-thin")
+          .addClass("fa-check-circle")
 
         setTimeout ( ->
           transition item, {
