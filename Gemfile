@@ -10,7 +10,6 @@ gem "coffee-rails", "~> 4.2"
 gem "jquery-rails"
 gem "turbolinks", "~> 5"
 gem "font-awesome-rails"
-gem "postmark-rails", ">= 0.12.0"
 gem "rack-canonical-host", "0.2.2"
 
 gem "ancestry"
