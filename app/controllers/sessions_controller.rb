@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       image: auth["info"]["image"]
     })
 
-    if browser.device.ipad? || browser.device.iphone?
+    if browser.safari? && (browser.device.ipad? || browser.device.iphone?)
       redirect_to new_install_path(user, user.install || user.create_install)
     else
       session[:current_user_id] = user.id
