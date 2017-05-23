@@ -93,7 +93,11 @@ $border-radius: .4em;
 .item-drag-control i { font-size: 1.1rem; top: 4px; }
 
 
-.item-control { opacity: 0.2; }
+.item-control,
+.item-drag-target {
+  opacity: 0.2;
+}
+
 .item-control-active,
 .hover-enabled .item-control:hover { opacity: 0.8; }
 
