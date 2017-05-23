@@ -4,7 +4,6 @@ module ItemsHelper
     total = item.new_record? ? 0 : item.descendants.not_deleted.count
     completed = item.new_record? ? 0 : item.descendants.completed.not_deleted.count
     percent_complete = ((completed / total.to_f) * 100).round rescue 0
-    left = total - completed
 
     background_classes = ["progress-bar"]
     background_classes << "hide" if total.zero?
@@ -13,24 +12,18 @@ module ItemsHelper
     foreground_classes = ["progress-bar-status"]
     foreground_styles = ["width: #{percent_complete}%;"]
 
-    label_classes = ["progress-bar-label"]
-    label_classes << "hide" if total.zero?
-
     if color = (item.color || item.root.color)
       color = Color::RGB.by_hex color
-      background_styles << "background-color: ##{color.lighten_by(40).hex};"
-      foreground_styles << "background-color: ##{color.darken_by(80).hex};"
+      background_styles << "background-color: ##{color.lighten_by(20).hex};"
+      foreground_styles << "background-color: ##{color.hex};"
     end
 
     content_tag :div, class: background_classes.join(" "),
                       style: background_styles.join(" ") do
-      status = content_tag(:div, "", class: foreground_classes.join(" "),
-                                     style: foreground_styles.join(" "))
-      label = content_tag(:div, class: label_classes.join(" ")) do
-        "<span>#{completed}</span>/<span>#{total}</span>".html_safe
-      end
-
-      status + label
+      content_tag(:div, "", {
+        class: foreground_classes.join(" "),
+        style: foreground_styles.join(" ")
+      })
     end
   end
 

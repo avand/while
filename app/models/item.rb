@@ -3,11 +3,11 @@ class Item < ApplicationRecord
   include IdentifierObfuscation
 
   COLORS = [
-    ["banana", "#FCD127"],
-    ["clementine", "#FFA921"],
-    ["cherry", "#E85155"],
-    ["grape", "#C239C4"],
-    ["blueberry", "#19AAE3"]
+    "#FCD127", # banana
+    "#FFA921", # clementine
+    "#E85155", # cherry
+    "#C239C4", # grape
+    "#19AAE3"  # blueberry
   ]
 
   has_ancestry
@@ -20,6 +20,7 @@ class Item < ApplicationRecord
   belongs_to :user
 
   before_create :make_last
+  before_create :assign_color, if: :root?
 
   def completed?
     completed_at.present?
@@ -36,6 +37,21 @@ class Item < ApplicationRecord
   def soft_delete(time)
     update deleted_at: time
     descendants.not_deleted.update deleted_at: time
+  end
+
+  def assign_color
+    index = 0
+
+    if user.present?
+      last_colored_item = user.items.roots.where(color: COLORS).last
+
+      if last_colored_item.present?
+        index = COLORS.index(last_colored_item.color) + 1
+        index = 0 unless index < COLORS.size
+      end
+    end
+
+    self.color = COLORS[index]
   end
 
 end

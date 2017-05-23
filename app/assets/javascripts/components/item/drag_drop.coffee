@@ -175,25 +175,16 @@ class While.Item.DragDrop
       beforeSend: -> parent.addClass("pulse-while-pending")
       success: (newProgressBar) ->
         newProgressBar = $(newProgressBar)
-        newLabel = newProgressBar.find(".progress-bar-label")
 
         width = newProgressBar.css("width")
         statusWidth = newProgressBar.find(".progress-bar-status").css("width")
-        labelHTML = newLabel.html()
 
         progressBar = parent.find(".progress-bar")
         status = progressBar.find(".progress-bar-status")
-        label = progressBar.find(".progress-bar-label")
 
         parent.removeClass("pulse-while-pending")
         progressBar.removeClass("hide").css("width", width)
         status.css("width", statusWidth)
-        label.html(labelHTML)
-
-        if newLabel.hasClass("hide")
-          label.addClass("hide")
-        else
-          label.removeClass("hide")
 
         While.Items.toggleNoItems()
 

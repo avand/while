@@ -51,4 +51,28 @@ class ItemTest < ActiveSupport::TestCase
     assert_equal previously_deleted_at.to_i, previously_deleted_child.reload.deleted_at.to_i
   end
 
+  test "assign_color defaults to the first color" do
+    assert_equal Item::COLORS.first, Item.create.color
+  end
+
+  test "assign_color ignores items that don’t belong to the same user" do
+    users(:avand).items.create(color: Item::COLORS.first)
+    assert_equal Item::COLORS.first, users(:jessica).items.create.color
+  end
+
+  test "assign_color ignores items without valid color" do
+    first_item = users(:avand).items.create
+    second_item = users(:avand).items.create
+
+    first_item.update color: nil
+    second_item.update color: nil
+
+    assert_equal Item::COLORS.first, users(:avand).items.create.color
+  end
+
+  test "assign_color goes back to the first color once it runs out" do
+    Item::COLORS.size.times { users(:avand).items.create }    
+    assert_equal Item::COLORS.first, users(:avand).items.create.color
+  end
+
 end
