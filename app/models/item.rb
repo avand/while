@@ -2,14 +2,12 @@ class Item < ApplicationRecord
 
   include IdentifierObfuscation
 
-  # https://color.hailpixel.com/#EBDAC2,E9E9BE,D0ECC6,C2DEEB,C8C6EC,E6B3E2
   COLORS = [
-    ["apricot", "#EBDAC2"],
-    ["banana", "#E9E9BE"],
-    ["kiwi", "#D0ECC6"],
-    ["blueberry", "#C2DEEB"],
-    ["plum", "#C8C6EC"],
-    ["rasberry", "#E6B3E2"]
+    ["banana", "#FCD127"],
+    ["clementine", "#FFA921"],
+    ["cherry", "#E85155"],
+    ["grape", "#C239C4"],
+    ["blueberry", "#19AAE3"]
   ]
 
   has_ancestry

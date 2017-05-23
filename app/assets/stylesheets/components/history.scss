@@ -58,7 +58,7 @@ $checkbox-padding: 8px;
 .completed-item-content {
   display: block;
   margin-left: $checkbox-size + ($checkbox-padding * 2);
-  padding: ($checkbox-padding - 1px) 0 ($checkbox-padding - 4px);
+  padding: ($checkbox-padding - 4px) 0 ($checkbox-padding - 4px);
 }
 
 .completed-item-descendants-count {

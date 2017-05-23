@@ -17,8 +17,7 @@ $border-radius: .4em;
 .item {
   cursor: pointer;
   overflow: auto;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.125) rgba(0, 0, 0, 0.15);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
   background-color: white;
   position: relative;
 }
@@ -94,7 +93,11 @@ $border-radius: .4em;
 .item-drag-control i { font-size: 1.1rem; top: 4px; }
 
 
-.item-control { opacity: 0.2; }
+.item-control,
+.item-drag-target {
+  opacity: 0.2;
+}
+
 .item-control-active,
 .hover-enabled .item-control:hover { opacity: 0.8; }
 
