@@ -23,15 +23,6 @@ class ItemsController < ApplicationController
     render layout: false
   end
 
-  def new
-    @item = build_item
-  end
-
-  def edit
-    @item = get_item
-    @parents = get_parents(@item)
-  end
-
   def create
     @item = build_item
 

@@ -21,10 +21,9 @@
   </p>
 
   <div>
-    <% path = new_item_path(item: { parent_id: @parent.try(:id) }) %>
-    <%= link_to path, class: "button button-primary button-large new-item-button" do %>
+    <a href="#" class="button button-primary button-large new-item-button">
       Add item
-    <% end %>
+    </a>
   </div>
 
   <div style="font-size: 0.8em; margin-top: .8em;">
@@ -39,10 +38,9 @@
 <div class="control-bar-container <%= "hide" if @parent.nil? && @items.blank? -%>">
   <div class="control-bar">
     <div class="control-bar-content">
-      <% path = new_item_path(item: { parent_id: @parent.try(:id) }) %>
-      <%= link_to path, class: "button button-primary new-item-button" do %>
+      <a href="#" class="button button-primary new-item-button">
         Add item
-      <% end %>
+      </a>
     </div>
   </div>
 </div>

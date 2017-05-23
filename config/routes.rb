@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
 
-  get "items/new" => "items#new", as: "new_item"
-  get "items/:hashid/edit" => "items#edit", as: "edit_item"
   get "items(/:hashid)" => "items#index", as: "items"
   post "items" => "items#create"
   patch "items(/:hashid)/adopt" => "items#adopt", as: "adopt_item"
