@@ -1,30 +1,28 @@
 While.Item.Completing =
 
   toggleComplete: (event) ->
-    itemCheckbox = $(this)
-    itemCheckboxIcon = itemCheckbox.find("i")
-
-    return if itemCheckboxIcon.hasClass("fa-check-circle")
-
-    item = itemCheckbox.parents(".item")
+    item = $(this).parents(".item")
     itemName = item.find(".item-name")
+    itemWasCompleted = item.hasClass("item-completed")
 
     $.ajax
       url: "/items/#{item.data("hashid")}/complete"
-      data: { completed_at: new Date() }
+      data: {
+        completed_at: if itemWasCompleted then null else new Date()
+      }
       method: "PATCH"
       beforeSend: ->
-        itemName.addClass("strikethrough")
-        itemCheckboxIcon
-          .removeClass("fa-circle-thin")
-          .addClass("fa-check-circle")
+        item.addClass("pulse-while-pending")
 
-        setTimeout ( ->
+        if !itemWasCompleted
+          item.addClass("item-completed")
+      success: (html) ->
+        if !itemWasCompleted
           transition item, {
             transform: "translateY(100px)"
             opacity: 0
             zIndex: 9999
-          }, duration: 500, (el) ->
+          }, duration: 700, (el) ->
             el.css("height", el.height() + 4)
 
             transition el, {
@@ -32,7 +30,6 @@ While.Item.Completing =
               "padding": "0px"
               "margin": "0px"
               "border-width": "0px"
-            }, duration: 200, (el) -> el.remove()
-        ), 150
-      success: (html) ->
-        While.history.show(html)
+            }, duration: 200, (el) ->
+              el.remove()
+              While.history.show(html)

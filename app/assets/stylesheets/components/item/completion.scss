@@ -1,0 +1,19 @@
+.item .item-checkbox .fa-check-circle { display: none; }
+.item .item-checkbox .fa-circle-thin { display: inherit; }
+.item.item-completed .item-checkbox .fa-check-circle { display: inherit; }
+.item.item-completed .item-checkbox .fa-circle-thin { display: none; }
+
+.item.item-completed .item-drag-target { display: none; }
+
+.item.item-completed {
+  opacity: 0.8;
+
+  .item-controls {
+    padding-right: 8px;
+  }
+
+  .item-checkbox {
+    color: $green-color;
+    opacity: 1.0;
+  }
+}

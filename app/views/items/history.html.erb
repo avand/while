@@ -1,7 +1,7 @@
 <% @history.each do |date, items| %>
-  <div class="completed-items-date-heading">
     <%= date.strftime("%A, %B %e") %>
+  <div class="history-date-heading align-center">
   </div>
 
-  <%= render partial: "completed_item", collection: items, as: :item %>
+  <%= render partial: "item", collection: items, as: :item %>
 <% end %>
