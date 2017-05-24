@@ -1,6 +1,10 @@
 <% @history.each do |date, items| %>
-    <%= date.strftime("%A, %B %e") %>
   <div class="history-date-heading align-center">
+    <% if date.year == Time.now.year %>
+      <%= date.strftime("%A, %B %e") %>
+    <% else %>
+      <%= date.strftime("%A, %B %e, %Y") %>
+    <% end %>
   </div>
 
   <%= render partial: "item", collection: items, as: :item %>
