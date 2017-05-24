@@ -19,6 +19,10 @@ body {
   color: rgb(76, 72, 68);
   background-color: white;
   padding-bottom: 100px;
+
+  &.items-controller.index-action {
+    background-color: rgb(250, 250, 250);
+  }
 }
 
 header {
