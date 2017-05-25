@@ -78,8 +78,8 @@ class ItemsControllerTest < ActionController::TestCase
       completed_at: "2016-07-25T00:00:00.000Z"
     }
 
-    assert_select ".completed-items-date-heading", "Monday, July 25"
-    assert_select ".completed-item-name", items(:apples).name
+    assert_select ".history-date-heading", "Monday, July 25, 2016"
+    assert_select ".item-completed .item-name", items(:apples).name
   end
 
 end

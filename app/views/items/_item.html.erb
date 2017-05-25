@@ -1,9 +1,12 @@
 <div id="item-<%= item.id || "new-template" -%>"
-     class="item <%= "hide" if item.new_record? -%>"
+     class="item
+            <%= "hide" if item.new_record? -%>
+            <%= "item-completed" if item.completed? -%>"
      data-href="<%= items_path(item) -%>"
      data-state="default"
      data-hashid="<%= item.hashid -%>">
   <div class="item-checkbox left <%= item.new_record? ? "disabled" : "pointer" -%>">
+    <i class="fa fa-fw fa-check-circle"></i>
     <i class="fa fa-fw fa-circle-thin"></i>
   </div>
 
@@ -17,7 +20,7 @@
     </span>
   </div>
 
-  <div class="item-drag-target absolute no-underline <%= "disabled" if item.new_record? -%>">
+  <div class="item-drag-target absolute <%= "disabled" if item.new_record? -%>">
   </div>
 
   <div class="item-content">
