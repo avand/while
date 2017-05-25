@@ -24,6 +24,7 @@ $border-radius: .4em;
     rgba(0, 0, 0, 0.1);
   background-color: white;
   position: relative;
+  transition: border-color 600ms, background-color 600ms;
 }
 
 .item:not(.item-editing) {

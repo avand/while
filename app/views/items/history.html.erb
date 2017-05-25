@@ -1,5 +1,5 @@
 <% @history.each do |date, items| %>
-  <div class="history-date-heading align-center">
+  <div class="history-date-heading">
     <% if date.year == Time.now.year %>
       <%= date.strftime("%A, %B %e") %>
     <% else %>

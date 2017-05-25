@@ -15,11 +15,13 @@ While.Item.Completing =
         item.addClass("pulse-while-pending")
 
         if !itemWasCompleted
-          item.addClass("item-completed")
+          item.addClass("item-completing")
       success: (html) ->
         if !itemWasCompleted
+          item.removeClass("item-completing").addClass("item-completed")
+
           transition item, {
-            transform: "translateY(100px)"
+            transform: "translateY(160px)"
             opacity: 0
             zIndex: 9999
           }, duration: 700, (el) ->
