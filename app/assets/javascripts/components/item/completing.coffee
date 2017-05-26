@@ -17,14 +17,19 @@ While.Item.Completing =
         if !itemWasCompleted
           item.addClass("item-completing")
       success: (html) ->
+        item.removeClass("pulse-while-pending")
         if !itemWasCompleted
-          item.removeClass("item-completing").addClass("item-completed")
+          topOfItem = item.offset().top
+          topOfCompletedItems = $(".completed-items").offset().top
+          offset = Math.floor(topOfCompletedItems - topOfItem)
 
           transition item, {
-            transform: "translateY(160px)"
-            opacity: 0
-            zIndex: 9999
-          }, duration: 700, (el) ->
+            "transform": "translateY(#{offset}px)"
+            "z-index": "9999"
+            "opacity": "0"
+          }, duration: 1000, (el) ->
+            While.history.show(html)
+
             el.css("height", el.height() + 4)
 
             transition el, {
@@ -34,4 +39,3 @@ While.Item.Completing =
               "border-width": "0px"
             }, duration: 200, (el) ->
               el.remove()
-              While.history.show(html)

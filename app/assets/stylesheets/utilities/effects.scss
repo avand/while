@@ -21,12 +21,12 @@
 }
 
 .pulse-while-pending {
-  animation: pulse-while-pending 600ms alternate infinite;
+  animation: pulse-while-pending 700ms 300ms alternate infinite;
 }
 
 @keyframes pulse-while-pending {
-  from { opacity: 0.15; }
-  to { opacity: 0.3; }
+  from { opacity: inherit; }
+  to { opacity: 0.6; }
 }
 
 .bob {
