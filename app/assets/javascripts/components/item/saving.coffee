@@ -47,7 +47,6 @@ While.Item.Saving =
     target.addClass("item-control-active")
     item.find(".item-buttons").removeClass("hide")
     item.addClass("item-editing")
-    While.Items.toggleControlBar()
 
   cancel: (event) ->
     event.preventDefault()

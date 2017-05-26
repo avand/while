@@ -28,7 +28,6 @@ While.Items =
     newItem.attr("id", "item-new").removeClass("hide")
     newItem.find(".item-edit-control").click()
     While.Items.toggleNoItems()
-    While.Items.toggleControlBar()
 
   Events:
 

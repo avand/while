@@ -32,8 +32,6 @@ class While.Item.DragDrop
       .on "mousemove.drag-drop touchmove.drag-drop", (event) => @drag(event)
       .on "mouseup.drag-drop touchend.drag-drop", (event) => @finish(event)
 
-    While.Items.toggleControlBar()
-
   findDropTargets: ->
     @dropTargets = []
 
@@ -157,8 +155,6 @@ class While.Item.DragDrop
 
       if @item.data("original-index") != @item.index()
         @reorderItem(@item)
-
-    While.Items.toggleControlBar()
 
   getCoordinatesFromEvent: (event) ->
     if event.type.match(/^touch/)
