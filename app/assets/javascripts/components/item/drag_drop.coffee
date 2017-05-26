@@ -37,7 +37,7 @@ class While.Item.DragDrop
   findDropTargets: ->
     @dropTargets = []
 
-    $(".item, .ancestor:not(:last-child), .no-items").each (i, el) =>
+    $(".items .item, .ancestor:not(:last-child), .no-items").each (i, el) =>
       el = $(el)
 
       if el.attr("id") != @item.attr("id")
