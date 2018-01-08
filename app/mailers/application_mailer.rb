@@ -5,8 +5,8 @@ class ApplicationMailer < ActionMailer::Base
   def feedback(user, message)
     @message = message
 
-    name = user.try(:name) || "While Guest"
-    email = user.try(:email) || "guest@whilelist.com"
+    name = user.name
+    email = user.email
 
     mail({
       from: "#{name} <#{email}>",
